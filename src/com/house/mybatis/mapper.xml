@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="house">
+<!-- MembersDAO -->
+<!-- 로그인 -->
+<select id="login" parameterType="membersVO" resultType="String">
+SELECT ID FROM MEMBERS WHERE ID = #{id} AND PW = #{pw}
+</select>
+<!-- 아이디 찾기 -->
+<select id="findId" parameterType="membersVO" resultType="String">
+SELECT ID FROM MEMBERS WHERE NAME = #{name} AND PHONE = #{phone} 
+</select>
+<!-- 회원정보 조회 -->
+<select id="showInfo" parameterType="String" resultType="membersVO">
+SELECT * FROM MEMBERS WHERE ID = #{id}
+</select>
+<!-- 회원정보 수정 -->
+<update id="editInfo" parameterType="membersVO">
+UPDATE MEMBERS SET NAME = #{name}, EMAIL = #{email}, ADDR = #{addr}, ADDR_DETAIL = #{addrDetail}, PHONE = #{phone} WHERE ID = #{id}
+</update>
+<!-- 프로필 이미지 변경 -->
+<update id="changeProfileImg">
+UPDATE MEMBERS SET PROFILE_IMG = #{profileImg} WHERE ID = #{id}
+</update>
+<!-- 비밀번호 변경 -->
+<update id="changepw" parameterType="membersVO">
+UPDATE MEMBERS SET PW = #{pw} WHERE ID = #{id}
+</update>
+<!--  회원가입 -->
+<insert id="signup" parameterType="membersVO">
+INSERT INTO MEMBERS (ID, PW, NAME, EMAIL, ADDR, ADDR_DETAIL, PHONE) VALUES 
+(#{id}, #{pw}, #{name}, #{email}, #{addr}, #{addrDetail}, #{phone})
+</insert>
+<!-- 회원 탈퇴 -->
+<delete id="withdraw" parameterType="String">
+DELETE FROM MEMBERS WHERE ID = #{id}
+</delete>
+<!-- PartnerDAO -->
+<!-- 판매자 신청 -->
+<insert id="registerPartner" parameterType="partnerVO">
+INSERT INTO PARTNER (PARTNER_NUM, ID, COMPANY_NAME, COMPANY_OWNER_NAME, COMPANY_ADDR, COMPANY_ADDR_DETAIL, COMPANY_PHONE, COMPANY_EMAIL, CRN, SHIPPING) VALUES 
+(PARTNER_SEQ.NEXTVAL, #{id}, #{companyName}, #{companyOwnerName}, #{companyAddr}, #{companyAddrDetail}, #{companyPhone}, #{companyEmail}, #{crn}, #{shipping})
+</insert>
+<!-- KnowhowDAO -->
+<!-- 노하우 전체 조회 -->
+<select id="showAllKnowhow" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW
+</select>
+<!-- 노하우 조회 -->
+<select id="showKnowhow" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW WHERE CATEGORY = #{category}
+</select>
+</mapper>
