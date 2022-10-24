@@ -73,7 +73,7 @@
 						<option value="10">가구소품</option>
 						<option value="11">현관</option>
 						<option value="12">외관기타</option>
-					</select> <select class="form-control" name="size">
+					</select> <select class="form-control" name="sizes">
 						<option selected disabled>평수</option>
 						<option value="0">10평 미만</option>
 						<option value="1">10평대</option>
@@ -96,20 +96,20 @@
 			</div>
 		</div>
 		<div class="row">
+			<c:forEach items="${list }" var="vo">
 			<div class="col-sm-3">
 				<div class="profile row mt-4 mb-2">
 					<div class="col-sm-2">
-						<img style="border-radius: 40px" src="../imgs/knowhow/sample.png"
+						<img style="border-radius: 40px" src="${pageContext.request.contextPath}/img/profileImg/${profileImg }"
 							width="40px" height="40px">
 					</div>
-					<div class="col-sm-10">
-						<span><b>김고민집</b></span><br> <span><small>취미부자의
-								보물상자</small></span>
+					<div class="col-sm-10 align-self-center">
+						<span><b>${vo.id }</b></span>
 					</div>
 				</div>
 				<div class="thumbnail mb-2">
 					<a href="pictureDetail.jsp?idx=1"> <img
-						style="border-radius: 5px" src="../imgs/knowhow/sample.png"
+						style="border-radius: 5px" src="${pageContext.request.contextPath}/img/profileImg/${profileImg }"
 						width="100%" height="100%">
 					</a>
 				</div>
@@ -124,7 +124,7 @@
 						<a href="#"><i class="far fa-comment"></i></a> 4
 					</div>
 				</div>
-				<div class="content mb-2">간만에 대청소도 하고 침구도 바꾸고 힘들었지만 행복 그잡채🤓🍀
+				<div class="content mb-2">${vo.content }
 				</div>
 				<div class="comments mb-4 row">
 					<div class="col-sm-2">
@@ -137,6 +137,7 @@
 					</div>
 				</div>
 			</div>
+			</c:forEach>
 		</div>
 		<ul class="pagination justify-content-center pb-2">
 			<li class="page-item"><a class="page-link" href="#">이전</a></li>

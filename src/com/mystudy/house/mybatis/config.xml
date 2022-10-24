@@ -11,6 +11,9 @@
 		<typeAlias alias="membersVO" type="com.mystudy.house.model.vo.MembersVO"/>
 		<typeAlias alias="partnerVO" type="com.mystudy.house.model.vo.PartnerVO"/>
 		<typeAlias alias="knowhowVO" type="com.mystudy.house.model.vo.KnowhowVO"/>	
+		<typeAlias alias="knowlikeVO" type="com.mystudy.house.model.vo.KnowlikeVO"/>
+		<typeAlias alias="knowscrapVO" type="com.mystudy.house.model.vo.KnowscrapVO"/>		
+		<typeAlias alias="pictureVO" type="com.mystudy.house.model.vo.PictureVO"/>				
 	</typeAliases>
   <environments default="development">
     <environment id="development">

@@ -12,9 +12,11 @@ import com.mystudy.house.model.command.CommunityCommand;
 import com.mystudy.house.model.command.GoIdFindCommand;
 import com.mystudy.house.model.command.GoInfoConfirmCommand;
 import com.mystudy.house.model.command.GoInfoEditCommand;
+import com.mystudy.house.model.command.GoKnowhowEditCommand;
 import com.mystudy.house.model.command.GoKnowhowWriteCommand;
 import com.mystudy.house.model.command.GoLoginCommand;
 import com.mystudy.house.model.command.GoPartnerRegisterCommand;
+import com.mystudy.house.model.command.GoPictureWriteCommand;
 import com.mystudy.house.model.command.GoPwChangeCommand;
 import com.mystudy.house.model.command.GoPwResetCommand;
 import com.mystudy.house.model.command.GoSignupCommand;
@@ -23,7 +25,11 @@ import com.mystudy.house.model.command.IdFindCommand;
 import com.mystudy.house.model.command.InfoConfirmCommand;
 import com.mystudy.house.model.command.InfoEditCommand;
 import com.mystudy.house.model.command.KnowhowCommand;
+import com.mystudy.house.model.command.KnowhowDeleteCommand;
 import com.mystudy.house.model.command.KnowhowDetailCommand;
+import com.mystudy.house.model.command.KnowhowEditCommand;
+import com.mystudy.house.model.command.KnowhowLikeCommand;
+import com.mystudy.house.model.command.KnowhowScrapCommand;
 import com.mystudy.house.model.command.KnowhowWriteCommand;
 import com.mystudy.house.model.command.LoginCommand;
 import com.mystudy.house.model.command.LogoutCommand;
@@ -97,11 +103,23 @@ public class FrontControllerCommand extends HttpServlet {
 			command = new GoKnowhowWriteCommand();
 		} else if(com.equals("/knowhowDetail.do")) {
 			command = new KnowhowDetailCommand();
+		} else if(com.equals("/knowhowLike.do")) {
+			command = new KnowhowLikeCommand();
+		} else if(com.equals("/knowhowScrap.do")) {
+			command = new KnowhowScrapCommand();
+		} else if(com.equals("/knowhowDelete.do")) {
+			command = new KnowhowDeleteCommand();
+		} else if(com.equals("/knowhowEdit.do")) {
+			command = new KnowhowEditCommand();
+		} else if(com.equals("/goKnowhowEdit.do")) {
+			command = new GoKnowhowEditCommand();	
 		// Picture
 		} else if(com.equals("/picture.do")) {
 			command = new PictureCommand();
 		} else if(com.equals("/pictureWrite.do")) {
 			command = new PictureWriteCommand();
+		} else if(com.equals("/goPictureWrite.do")) {
+			command = new GoPictureWriteCommand();
 		}
 		String path = command.exec(request, response);
 		request.getRequestDispatcher(path).forward(request, response);

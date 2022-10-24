@@ -36,6 +36,8 @@ public class ProfileImgChangeCommand implements Command {
 		
 		MembersDAO.changeProfileImg(vo);
 		
+		session.setAttribute("profileImg", mr.getFilesystemName("file"));
+		
 		return "infoEdit.do";
 	}
 

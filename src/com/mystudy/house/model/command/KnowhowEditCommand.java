@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.mystudy.house.model.dao.KnowhowDAO;
 import com.mystudy.house.model.vo.KnowhowVO;
 
-public class KnowhowDetailCommand implements Command {
+public class KnowhowEditCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -20,13 +20,10 @@ public class KnowhowDetailCommand implements Command {
 		List<String> menu = Arrays.asList("시공정보","수납","꾸미기팁","청소","DIY&리폼","이거어때","생활정보","건축&주택","상업공간","지식백과");
 		request.setAttribute("menu", menu);
 		
-		KnowhowDAO.addKnowhowViews(idx);
 		KnowhowVO vo = KnowhowDAO.showKnowhowDetail(idx);
-		
 		request.setAttribute("vo", vo);
-		request.setAttribute("idx", idx);
 		
-		return "/WEB-INF/community/knowhow/knowhowDetail.jsp";
+		return "/WEB-INF/community/knowhow/knowhowEdit.jsp";
 	}
 
 }

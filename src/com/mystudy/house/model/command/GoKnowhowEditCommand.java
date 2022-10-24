@@ -5,26 +5,26 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.mystudy.house.model.dao.KnowhowDAO;
 import com.mystudy.house.model.vo.KnowhowVO;
 
-public class GoKnowhowWriteCommand implements Command {
+public class GoKnowhowEditCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		String idx = request.getParameter("idx");
 		
 		KnowhowVO vo = new KnowhowVO();
+		
+		vo.setKnowhowIdx(idx);
 		vo.setCategory(request.getParameter("category"));
 		vo.setContent(request.getParameter("content"));
-		vo.setId((String) session.getAttribute("id"));
 		vo.setSubject(request.getParameter("subject"));
 		
-		KnowhowDAO.writeKnowhow(vo);
+		KnowhowDAO.editKnowhow(vo);
 		
-		return "knowhow.do";
+		return "knowhowDetail.do?idx=" + idx;
 	}
 
 }

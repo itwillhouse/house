@@ -34,10 +34,10 @@
 	</c:if>
 	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
 	<div class="container-fluid mt-3 mb-1">
-		<div class="mb-4"><a href="#">노하우</a> > <a href="#">꾸미기팁</a></div>
+		<div class="mb-4"><a href="knowhow.do">노하우</a> > <a href="knowhow.do?category=${vo.category }">${menu[vo.category] }</a></div>
 		<c:if test="${id == vo.id }">
 		<div class="mb-4">
-			<button class="btn" id="btn" onclick="location.href='writeKnowhow.jsp'">수정</button>
+			<button class="btn" id="btn" onclick="location.href='knowhowEdit.do?idx=${idx}'">수정</button>
 			<button class="btn" id="btn" data-toggle="modal" data-target="#myModal">삭제</button>
 			<!-- The Modal -->
 			<div class="modal" id="myModal">
@@ -55,7 +55,7 @@
       				<!-- Modal footer -->
       					<div class="modal-footer">
         					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
-        					<button type="button" class="btn btn-primary" onclick="location.href='deleteKnowhow.jsp?idx=${idx}'" data-dismiss="modal">삭제</button>
+        					<button type="button" class="btn btn-primary" onclick="location.href='knowhowDelete.do?idx=${idx}'" data-dismiss="modal">삭제</button>
       					</div>
     				</div>
   				</div>
@@ -65,7 +65,7 @@
 		<h3>${vo.subject }</h3>
 		<div class="profile row mt-4 mb-2">
     		<div class="col-sm-1" style="text-align: right">
-    			<img style="border-radius: 40px" src="../imgs/166592706060596621.png" width="40px" height="40px">
+    			<img style="border-radius: 40px" src="${pageContext.request.contextPath}/img/profileImg/${vo.profileImg}" width="40px" height="40px">
     		</div>
     		<div class="col-sm-11">
     			<span><b>${vo.id }</b></span><br>
@@ -76,13 +76,13 @@
 			<span>${vo.content }</span>
 		</div>
 		<div>
-		<div style="float:left; color: gray;">좋아요 - 스크랩 - 댓글 - 조회수 ${vo.views }</div>
+		<div style="float:left; color: gray;">좋아요 ${vo.likeCnt } 스크랩 ${vo.scrapCnt} 댓글 ${vo.c1Cnt + vo.c2Cnt} 조회수 ${vo.views }</div>
 		<c:if test="${id != vo.id }">
 				<div style="float:right;">
-		<button type="button" class="btn btn-outline-secondary btn-sm mb-2" onclick="location.href='knowhowLike.jsp?idx=${idx}'">
+		<button type="button" class="btn btn-outline-secondary btn-sm mb-2" onclick="location.href='knowhowLike.do?idx=${idx}'">
     		좋아요
   		</button>
-		<button type="button" class="btn btn-outline-secondary btn-sm mb-2" onclick="location.href='scrapKnowhow.jsp?idx=${idx}'">
+		<button type="button" class="btn btn-outline-secondary btn-sm mb-2" onclick="location.href='knowhowScrap.do?idx=${idx}'">
 			스크랩
 		</button>
 		</div>
@@ -90,7 +90,7 @@
 		</div>
 		<div style="clear:both">
 			<hr>
-			<div><b>댓글 5</b></div>
+			<div><b>댓글 ${vo.c1Cnt + vo.c2Cnt}</b></div>
 			<form class="mt-3" action="/action_page.php">
   				<div class="row">
     				<div class="col-sm-11"><input type="text" class="form-control" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다 :)" id="comment">
@@ -107,8 +107,7 @@
     					<span><b>mh24</b></span><br>
     					<span><i>@mh24</i> 단조로울 수 있는 인테리어에 블루 한방울 색을 입혀주니 청량하고 생기있어 보이는 공간이 된것 같아요</span><br>
     					<span>5일 전</span>&nbsp;&nbsp;
-    					<a href="#">♡</a> 1&nbsp;&nbsp;
-    					<a href="#">답글 달기</a>
+    					<a>답글 달기</a>
     				</div>  	
     			</div>
     			<div class="comment row mb-4">
@@ -119,8 +118,7 @@
     					<span><b>mh24</b></span><br>
     					<span>단조로울 수 있는 인테리어에 블루 한방울 색을 입혀주니 청량하고 생기있어 보이는 공간이 된것 같아요</span><br>
     					<span>5일 전</span>&nbsp;&nbsp;
-    					<a href="#">♡</a> 좋아요&nbsp;&nbsp;
-    					<a href="#">답글 달기</a>
+    					<a>답글 달기</a>
     				</div>  	
     			</div>
 			</div>

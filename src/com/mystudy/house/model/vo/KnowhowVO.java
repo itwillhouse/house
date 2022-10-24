@@ -5,7 +5,7 @@ public class KnowhowVO {
 	// 노하우글조회수, 노하우글썸네일경로, 노하우글카테고리
 	private String knowhowIdx, id, subject, content, regdate;
 	private String views, thumbnail, category;
-	private String scrapCnt;
+	private String scrapCnt, c1Cnt, c2Cnt, likeCnt, profileImg;
 
 	public String getKnowhowIdx() {
 		return knowhowIdx;
@@ -79,4 +79,36 @@ public class KnowhowVO {
 		this.scrapCnt = scrapCnt;
 	}
 
+	public String getC1Cnt() {
+		return c1Cnt;
+	}
+
+	public void setC1Cnt(String c1Cnt) {
+		this.c1Cnt = c1Cnt;
+	}
+
+	public String getC2Cnt() {
+		return c2Cnt;
+	}
+
+	public void setC2Cnt(String c2Cnt) {
+		this.c2Cnt = c2Cnt;
+	}
+
+	public String getLikeCnt() {
+		return likeCnt;
+	}
+
+	public void setLikeCnt(String likeCnt) {
+		this.likeCnt = likeCnt;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
+	
 }

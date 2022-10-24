@@ -57,12 +57,47 @@ SELECT * FROM VW_KNOWHOW WHERE CATEGORY = #{category}
 INSERT INTO KNOWHOW
 (KNOWHOW_IDX, ID, SUBJECT, CONTENT, CATEGORY )
 VALUES (KNOWHOW_SEQ.NEXTVAL, #{id}, #{subject}, #{content}, #{category})
-<!-- 노하우 상세 조회 -->
 </insert>
+<!-- 노하우 수정 -->
+<update id="editKnowhow" parameterType="knowhowVO">
+UPDATE KNOWHOW SET CATEGORY = #{category}, CONTENT = #{content}, SUBJECT=#{subject} WHERE KNOWHOW_IDX = #{knowhowIdx}
+</update>
+<!-- 노하우 상세 조회 -->
 <select id="showKnowhowDetail" parameterType="String" resultType="knowhowVO">
-
+SELECT * FROM VW_KNOWHOW_DETAIL WHERE KNOWHOW_IDX = #{idx}
 </select>
+<!-- 노하우 조회수 증가 -->
 <update id="addKnowhowViews" parameterType="String">
 UPDATE KNOWHOW SET VIEWS = (SELECT VIEWS + 1 FROM KNOWHOW WHERE KNOWHOW_IDX = #{idx}) WHERE KNOWHOW_IDX = #{idx}
 </update>
+<!-- 노하우 좋아요 여부 확인 -->
+<select id="confirmknowlike" parameterType="knowlikeVO" resultType="String">
+SELECT LIKE_NUM FROM KNOWLIKE WHERE KNOWHOW_IDX = #{knowhowIdx} AND ID = #{id}
+</select>
+<!-- 노하우 좋아요 -->
+<insert id="likeKnowhow" parameterType="knowlikeVO">
+INSERT INTO KNOWLIKE (LIKE_NUM, KNOWHOW_IDX, ID) VALUES (KNOWLIKE_SEQ.NEXTVAL, #{knowhowIdx}, #{id})
+</insert>
+<!-- 노하우 스크랩 여부 확인 -->
+<select id="confirmknowscrap" parameterType="knowscrapVO" resultType="String">
+SELECT SCRAP_NUM FROM KNOWSCRAP WHERE KNOWHOW_IDX = #{knowhowIdx} AND ID = #{id}
+</select>
+<!-- 노하우 스크랩 -->
+<insert id="scrapKnowhow" parameterType="knowscrapVO">
+INSERT INTO KNOWSCRAP (SCRAP_NUM, KNOWHOW_IDX, ID) VALUES (KNOWSCRAP_SEQ.NEXTVAL, #{knowhowIdx}, #{id})
+</insert>
+<!-- 노하우 삭제 -->
+<delete id="deleteKnowhow" parameterType="String">
+DELETE FROM KNOWHOW WHERE KNOWHOW_IDX = #{idx}
+</delete>
+<!-- PictureDAO -->
+<!-- 사진글 작성 -->
+<insert id="writePicture" parameterType="pictureVO">
+INSERT INTO PICTURE (PICTURE_IDX, ID, CONTENT, RESIDENCE, SPACE, SIZES, STYLE) VALUES 
+(PICTURE_SEQ.NEXTVAL, #{id}, #{content}, #{residence}, #{space}, #{sizes}, #{style})
+</insert>
+<!--  사진글 조회 -->
+<select id="showPicture" resultType="pictureVO">
+SELECT * FROM PICTURE
+</select>
 </mapper>
