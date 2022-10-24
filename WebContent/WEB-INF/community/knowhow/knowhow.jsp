@@ -24,21 +24,6 @@
   			color: black;
   		}
 	</style>
-	<script>
-		function changeOrder(value) {
-			switch(value) {
-			case '1':
-				// AJAX 사용
-				break;
-			case '2':
-				break;
-			case '3':
-				break;
-			case '4':
-				break;
-			}
-		}
-	</script>
 </head>
 <body>
 	<div class="container">
@@ -53,21 +38,13 @@
 			<div class="pt-4">
 				<h5 class="mb-0"><b>테마별 노하우</b></h5>
 			</div>
-			<div class="d-flex flex-row-reverse">
-				<select onchange="changeOrder(this.value)" class="form-control border-0 p-0" style="width: 150px" id="order" name="order">
-        			<option value="1">최근인기순</option>
-        			<option value="2">역대인기순</option>
-        			<option value="3" selected>최신순</option>
-        			<option value="4">과거순</option>
-      			</select>
-			</div>
 			<div class="pb-3 pt-2">
 				<c:if test="${empty category }">
 					<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do'">전체</button>
 				</c:if>
 				<c:if test="${not empty category }">
 					<button type="button" class="btn btn-light" onclick="location.href='knowhow.do'">전체</button>
-				</c:if>					
+				</c:if>
 				<c:forEach items="${menu }" var="m" varStatus="status">
 					<c:if test="${category == status.index }">
 						<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do?category=${status.index }'">${m }</button>
@@ -87,12 +64,10 @@
 			<div class="row pb-4">
 				<c:forEach items="${list }" var="vo">
 					<div class="col-sm-3 pt-3">
-    				<div class="thumbnail pb-2">			
-    					<img class="card-img-top" style="border-radius: 10px" src="../imgs/knowhow/sample2.png" width="260px" height="180px">
-    					<div class="card-img-overlay text-right">
-      						<a href="#"><i class="p-2 far fa-bookmark fa-lg" style="color: white"></i></a>
-      						<!-- 북마크 완료: <i class="p-2 fas fa-bookmark fa-lg" style="color: white"></i> -->
-    					</div>
+    				<div class="thumbnail pb-2">
+    					<a href="knowhowDetail.do?idx=${vo.knowhowIdx }">			
+    						<img style="border-radius: 10px" src="${pageContext.request.contextPath}/img/knowhowThumbnail/${vo.thumbnail }" width="260px" height="180px">
+    					</a>
     				</div>
     				<div class="title"><b>${vo.subject }</b></div>
     				<div class="info">
@@ -103,11 +78,11 @@
 				</c:forEach>
     		</div>
     		<ul class="pagination justify-content-center pb-2">
-   		 		<li class="page-item"><a class="page-link" href="#">이전</a></li>
-    			<li class="page-item active"><a class="page-link" href="#">1</a></li>
-    			<li class="page-item"><a class="page-link" href="#">2</a></li>
-    			<li class="page-item"><a class="page-link" href="#">3</a></li>
-    			<li class="page-item"><a class="page-link" href="#">다음</a></li>
+   		 		<li class="page-item"><a class="page-link">이전</a></li>
+    			<li class="page-item active"><a class="page-link">1</a></li>
+    			<li class="page-item"><a class="page-link">2</a></li>
+    			<li class="page-item"><a class="page-link">3</a></li>
+    			<li class="page-item"><a class="page-link">다음</a></li>
   			</ul>
   			</c:if>
     	</div>
