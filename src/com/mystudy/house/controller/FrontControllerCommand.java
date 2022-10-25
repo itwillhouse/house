@@ -25,6 +25,10 @@ import com.mystudy.house.model.command.IdFindCommand;
 import com.mystudy.house.model.command.InfoConfirmCommand;
 import com.mystudy.house.model.command.InfoEditCommand;
 import com.mystudy.house.model.command.KnowhowCommand;
+import com.mystudy.house.model.command.KnowhowComment2DeleteCommand;
+import com.mystudy.house.model.command.KnowhowComment2WriteCommand;
+import com.mystudy.house.model.command.KnowhowCommentDeleteCommand;
+import com.mystudy.house.model.command.KnowhowCommentWriteCommand;
 import com.mystudy.house.model.command.KnowhowDeleteCommand;
 import com.mystudy.house.model.command.KnowhowDetailCommand;
 import com.mystudy.house.model.command.KnowhowEditCommand;
@@ -113,6 +117,14 @@ public class FrontControllerCommand extends HttpServlet {
 			command = new KnowhowEditCommand();
 		} else if(com.equals("/goKnowhowEdit.do")) {
 			command = new GoKnowhowEditCommand();	
+		} else if(com.equals("/knowhowCommentWrite.do")) {
+			command = new KnowhowCommentWriteCommand();
+		} else if(com.equals("/knowhowComment2Write.do")) {
+			command = new KnowhowComment2WriteCommand();			
+		} else if(com.equals("/knowhowCommentDelete.do")) {
+			command = new KnowhowCommentDeleteCommand();	
+		} else if(com.equals("/knowhowComment2Delete.do")) {
+			command = new KnowhowComment2DeleteCommand();	
 		// Picture
 		} else if(com.equals("/picture.do")) {
 			command = new PictureCommand();

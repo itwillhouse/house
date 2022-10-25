@@ -44,13 +44,81 @@ INSERT INTO PARTNER (PARTNER_NUM, ID, COMPANY_NAME, COMPANY_OWNER_NAME, COMPANY_
 (PARTNER_SEQ.NEXTVAL, #{id}, #{companyName}, #{companyOwnerName}, #{companyAddr}, #{companyAddrDetail}, #{companyPhone}, #{companyEmail}, #{crn}, #{shipping})
 </insert>
 <!-- KnowhowDAO -->
-<!-- 노하우 전체 조회 -->
-<select id="showAllKnowhow" resultType="knowhowVO">
-SELECT * FROM VW_KNOWHOW
+<!-- 전체 게시글 개수 구하기 -->
+<select id="getTotalKnowhowCount" resultType="int">
+SELECT COUNT(*) AS CNT FROM VW_KNOWHOW
 </select>
-<!-- 노하우 조회 -->
-<select id="showKnowhow" parameterType="String" resultType="knowhowVO">
-SELECT * FROM VW_KNOWHOW WHERE CATEGORY = #{category}
+<!-- 카테고리별 전체 게시글 개수 구하기 -->
+<select id="getTotalKnowhowCountbyCategory" parameterType="String" resultType="int">
+SELECT COUNT(*) AS CNT FROM VW_KNOWHOW WHERE CATEGORY = #{category}
+</select>
+<!-- 노하우 전체 조회: 최근인기순 -->
+<select id="showAllKnowhow1" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW
+ORDER BY CURRENT_LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 전체 조회: 역대인기순 -->
+<select id="showAllKnowhow2" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+ORDER BY LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 전체 조회: 최신순 -->
+<select id="showAllKnowhow3" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+ORDER BY REGDATE DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 전체 조회: 과거순 -->
+<select id="showAllKnowhow4" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+ORDER BY REGDATE) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 최근인기순 -->
+<select id="showKnowhow1" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY CURRENT_LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 역대인기순 -->
+<select id="showKnowhow2" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 최신순 -->
+<select id="showKnowhow3" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY REGDATE DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 과거순 -->
+<select id="showKnowhow4" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY REGDATE) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
 </select>
 <!-- 노하우 작성 -->
 <insert id="writeKnowhow" parameterType="knowhowVO">
@@ -89,6 +157,33 @@ INSERT INTO KNOWSCRAP (SCRAP_NUM, KNOWHOW_IDX, ID) VALUES (KNOWSCRAP_SEQ.NEXTVAL
 <!-- 노하우 삭제 -->
 <delete id="deleteKnowhow" parameterType="String">
 DELETE FROM KNOWHOW WHERE KNOWHOW_IDX = #{idx}
+</delete>
+<!-- 노하우 댓글 조회 -->
+<select id="showKnowhowComments" parameterType="String" resultType="knowcommentVO">
+SELECT * FROM VW_KNOWCOMMENT WHERE KNOWHOW_IDX = #{idx}
+</select>
+<!-- 노하우 대댓글 조회 -->
+<select id="showKnowhowReply" parameterType="String" resultType="knowcommentVO">
+SELECT * FROM VW_KNOWCOMMENT2 WHERE KNOWHOW_IDX IN (
+SELECT KNOWCOM_IDX FROM KNOWCOMMENT WHERE KNOWHOW_IDX = #{idx})
+</select>
+<!-- 노하우 댓글 작성 -->
+<insert id="writeKnowhowComment" parameterType="knowcommentVO">
+INSERT INTO KNOWCOMMENT (KNOWCOM_IDX, KNOWHOW_IDX, CONTENT, ID)
+ VALUES (KNOWCOMMENT_SEQ.NEXTVAL, #{knowhowIdx}, #{content}, #{id})
+</insert>
+<!-- 노하우 대댓글 작성 -->
+<insert id="writeKnowhowComment2" parameterType="knowcommentVO">
+INSERT INTO KNOWCOMMENT2 (COM_IDX, KNOWCOM_IDX, COMMENTS, ID)
+ VALUES (KNOWCOMMENT2_SEQ.NEXTVAL, #{knowhowIdx}, #{content}, #{id})
+</insert>
+<!-- 노하우 대댓글 삭제 -->
+<delete id="deleteKnowhowComment2" parameterType="String">
+DELETE FROM KNOWCOMMENT2 WHERE COM_IDX = #{idx}
+</delete>
+<!-- 노하우 댓글 삭제 -->
+<delete id="deleteKnowhowComment">
+DELETE FROM KNOWCOMMENT WHERE KNOWCOM_IDX = #{idx}
 </delete>
 <!-- PictureDAO -->
 <!-- 사진글 작성 -->

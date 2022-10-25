@@ -8,16 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mystudy.house.model.dao.KnowhowDAO;
 
-public class KnowhowDeleteCommand implements Command {
+public class KnowhowCommentDeleteCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idx = request.getParameter("idx");
-		String cPage = request.getParameter("cPage");
+		// 댓글 삭제
 		
-		KnowhowDAO.deleteKnowhow(idx);
+		String idx = request.getParameter("idx"); // 글번호
+		String comIdx = request.getParameter("comIdx"); // 댓글번호
 		
-		return "knowhow.do&cPage=" + cPage;
+		KnowhowDAO.deleteKnowhowComment(comIdx);
+		
+		return "knowhowDetail.do?idx=" + idx;
 	}
 
 }

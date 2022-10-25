@@ -6,6 +6,15 @@ public class KnowhowVO {
 	private String knowhowIdx, id, subject, content, regdate;
 	private String views, thumbnail, category;
 	private String scrapCnt, c1Cnt, c2Cnt, likeCnt, profileImg;
+	private String currentLikeCnt;
+
+	public String getCurrentLikeCnt() {
+		return currentLikeCnt;
+	}
+
+	public void setCurrentLikeCnt(String currentLikeCnt) {
+		this.currentLikeCnt = currentLikeCnt;
+	}
 
 	public String getKnowhowIdx() {
 		return knowhowIdx;

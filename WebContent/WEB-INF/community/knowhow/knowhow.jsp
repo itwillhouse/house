@@ -24,6 +24,13 @@
   			color: black;
   		}
 	</style>
+	<script>
+		$(document).ready(function(){
+			$("#order").change(function() {
+				location.href="knowhow.do?&cPage=<%= request.getParameter("cPage") %>&category=<%= request.getParameter("category") %>&order=" + this.value;
+			})
+		});
+	</script>
 </head>
 <body>
 	<div class="container">
@@ -38,21 +45,52 @@
 			<div class="pt-4">
 				<h5 class="mb-0"><b>테마별 노하우</b></h5>
 			</div>
+			<div class="d-flex flex-row-reverse">
+				<select class="form-control border-0 p-0" style="width: 150px" id="order" name="order">
+        			<c:if test="${order == 1 }">
+        				<option value="1" selected>최근인기순</option>
+        			</c:if>
+        			<c:if test="${order != 1 }">
+        				<option value="1">최근인기순</option>
+        			</c:if>
+        			<c:if test="${order == 2 }">
+        				<option value="2" selected>역대인기순</option>
+        			</c:if>
+        			<c:if test="${order != 2 }">
+        				<option value="2">역대인기순</option>
+        			</c:if>
+        			<c:if test="${order == 3 || empty order }">
+        				<option value="3" selected>최신순</option>
+        			</c:if>
+        			<c:if test="${order != 3 }">
+        				<option value="3">최신순</option>
+        			</c:if>
+        			<c:if test="${order == 4 }">
+        				<option value="4" selected>과거순</option>
+        			</c:if> 
+        			<c:if test="${order != 4 }">
+        				<option value="4">과거순</option>
+        			</c:if>	
+      			</select>
+			</div>
 			<div class="pb-3 pt-2">
 				<c:if test="${empty category }">
-					<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do'">전체</button>
+					<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do?order=${order }'">전체</button>
+					<c:forEach items="${menu }" var="m" varStatus="status">
+						<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
+				</c:forEach>
 				</c:if>
 				<c:if test="${not empty category }">
-					<button type="button" class="btn btn-light" onclick="location.href='knowhow.do'">전체</button>
-				</c:if>
-				<c:forEach items="${menu }" var="m" varStatus="status">
+					<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?order=${order }'">전체</button>
+					<c:forEach items="${menu }" var="m" varStatus="status">
 					<c:if test="${category == status.index }">
-						<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do?category=${status.index }'">${m }</button>
+						<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
 					</c:if>
 					<c:if test="${category != status.index }">
-						<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?category=${status.index }'">${m }</button>
+						<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
 					</c:if>
 				</c:forEach>
+				</c:if>
 			</div>
 			<!-- 사진에 북마크 아이콘: https://www.w3schools.com/bootstrap4/bootstrap_cards.asp -->
 			<c:if test="${empty list }">
@@ -65,7 +103,7 @@
 				<c:forEach items="${list }" var="vo">
 					<div class="col-sm-3 pt-3">
     				<div class="thumbnail pb-2">
-    					<a href="knowhowDetail.do?idx=${vo.knowhowIdx }">			
+    					<a href="knowhowDetail.do?idx=${vo.knowhowIdx }&cPage=${pvo.nowPage}">			
     						<img style="border-radius: 10px" src="${pageContext.request.contextPath}/img/knowhowThumbnail/${vo.thumbnail }" width="260px" height="180px">
     					</a>
     				</div>
@@ -78,11 +116,38 @@
 				</c:forEach>
     		</div>
     		<ul class="pagination justify-content-center pb-2">
-   		 		<li class="page-item"><a class="page-link">이전</a></li>
-    			<li class="page-item active"><a class="page-link">1</a></li>
-    			<li class="page-item"><a class="page-link">2</a></li>
-    			<li class="page-item"><a class="page-link">3</a></li>
-    			<li class="page-item"><a class="page-link">다음</a></li>
+    			<!-- 이전 -->
+   		 		<li class="page-item">
+   		 			<c:if test="${pvo.beginPage == 1 }">
+   		 				<a class="page-link disabled">이전</a>
+   		 			</c:if>
+   		 			<c:if test="${pvo.beginPage != 1 }">
+   		 				<a href="knowhow.do?cPage=${pvo.beginPage - 1 }&category=${category }&order=${order }" class="page-link">이전</a>
+					</c:if>	
+   		 			
+   		 		</li>
+   		 		<!-- 페이지 번호 -->
+   		 		<c:forEach var="pageNo" begin="${pvo.beginPage }" end="${pvo.endPage }">
+					<c:if test="${pageNo == pvo.nowPage }">	
+						<li class="page-item active">
+    						<a class="page-link">${pageNo }</a>
+    					</li>
+					</c:if>
+					<c:if test="${pageNo != pvo.nowPage }">
+						<li class="page-item">
+    						<a href="knowhow.do?cPage=${pageNo }&category=${category }&order=${order }" class="page-link">${pageNo }</a>
+    					</li>
+					</c:if>
+					</c:forEach>
+    			<!-- 다음 -->
+    			<li class="page-item">
+    				<c:if test="${pvo.endPage < pvo.totalPage }">
+						<a href="knowhow.do?cPage=${pvo.endPage + 1 }&category=${category }&order=${order }" class="page-link">다음</a>
+					</c:if>
+					<c:if test="${pvo.endPage >= pvo.totalPage }">
+						<a class="page-link disabled">다음</a>
+					</c:if>
+    			</li>
   			</ul>
   			</c:if>
     	</div>
