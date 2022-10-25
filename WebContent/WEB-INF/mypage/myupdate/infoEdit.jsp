@@ -93,7 +93,7 @@ function changeValue(obj){
     			<label for="profileImg"><b>프로필 이미지</b></label><br>
     			<input type="file" id="file" name="file" style="display:none" onchange="form.submit()">   			
     			<button id="btn-upload" class="btn btn-link">
-    				<img src="${pageContext.request.contextPath}/img/profileImg/${profileImg }" width="150px" height="150px" style="background-color: lightgray">
+    				<img src="${pageContext.request.contextPath}/img/profileImg/${user.profileImg }" width="150px" height="150px" style="background-color: lightgray">
     			</button>    			
     		</div>
         </form>

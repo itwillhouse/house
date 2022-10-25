@@ -110,5 +110,15 @@ public class KnowhowVO {
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
 	}
+
+	@Override
+	public String toString() {
+		return "KnowhowVO [knowhowIdx=" + knowhowIdx + ", id=" + id + ", subject=" + subject + ", content=" + content
+				+ ", regdate=" + regdate + ", views=" + views + ", thumbnail=" + thumbnail + ", category=" + category
+				+ ", scrapCnt=" + scrapCnt + ", c1Cnt=" + c1Cnt + ", c2Cnt=" + c2Cnt + ", likeCnt=" + likeCnt
+				+ ", profileImg=" + profileImg + "]";
+	}
+	
+	
 	
 }

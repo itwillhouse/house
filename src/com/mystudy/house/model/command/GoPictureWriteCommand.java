@@ -17,7 +17,7 @@ public class GoPictureWriteCommand implements Command {
 		HttpSession session = request.getSession();
 				
 		PictureVO vo = new PictureVO();
-		vo.setContent(request.getParameter("content"));
+		vo.setContent(request.getParameter("editordata"));
 		vo.setId((String) session.getAttribute("id"));
 		vo.setResidence(request.getParameter("residence"));
 		vo.setSizes(request.getParameter("sizes"));

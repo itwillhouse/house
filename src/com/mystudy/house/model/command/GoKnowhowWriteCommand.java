@@ -18,7 +18,7 @@ public class GoKnowhowWriteCommand implements Command {
 		
 		KnowhowVO vo = new KnowhowVO();
 		vo.setCategory(request.getParameter("category"));
-		vo.setContent(request.getParameter("content"));
+		vo.setContent(request.getParameter("editordata"));
 		vo.setId((String) session.getAttribute("id"));
 		vo.setSubject(request.getParameter("subject"));
 		

@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%@ include file="/WEB-INF/common/style.jspf"%>
+<!-- include summernote css/js -->
+<link href="${pageContext.request.contextPath}/summernote/summernote-bs4.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/summernote/summernote-bs4.js"></script>
   <style>
   .community {
   	color: #35C5F0;
@@ -21,7 +24,52 @@
   .home, .picture, .qna {
   color: black;
   }
+  .note-image-url, .note-form-label {
+  display: none;
+  }
   </style>
+  <script>
+  $(document).ready(function() {
+	  $('#summernote').summernote({
+		  height: 300,                 // set editor height
+		  minHeight: null,             // set minimum height of editor
+		  maxHeight: null,             // set maximum height of editor
+		  focus: true,                  // set focus to editable area after initializing summernote
+		  toolbar: [
+			    // [groupName, [list of button]]
+			    ['insert',['picture']]
+			  ],
+			callbacks: {
+			    onImageUpload: function(files, editor, welEditable) {
+			    	sendFile(files[0], this);
+		            }
+			  },
+			  onMediaDelete : function($target, editor, $editable) {
+			         alert($target.context.dataset.filename);         
+			         $target.remove();
+			    }
+	  });
+	});
+  
+  /* summernote에서 이미지 업로드시 실행할 함수 */
+	function sendFile(file, editor) {
+      // 파일 전송을 위한 폼생성
+		data = new FormData();
+	    data.append("uploadFile", file);
+	    $.ajax({ // ajax를 통해 파일 업로드 처리
+	        data : data,
+	        type : "POST",
+	        url : "",
+	        cache : false,
+	        contentType : false,
+	        processData : false,
+	        success : function(data) { // 처리가 성공할 경우
+              // 에디터에 이미지 출력
+	        	$(editor).summernote('editor.insertImage', data.url);
+	        }
+	    });
+	}
+  </script>
 </head>
 <body>
 <div class="container">
@@ -44,8 +92,8 @@
   <div>
   <form action="goKnowhowWrite.do" method="post" >
     <div class="form-group form-inline mt-3">
-    <label for="sel1">카테고리(필수):&nbsp;&nbsp;&nbsp;</label>
-      <select class="form-control" name="category">
+    <label for="category">카테고리(필수):&nbsp;&nbsp;&nbsp;</label>
+      <select class="form-control" name="category" id="category">
         <option selected disabled>선택해주세요</option>
         <option value="0">시공정보</option>
         <option value="1">수납</option>
@@ -60,15 +108,12 @@
       </select>   
     </div>
 	<div class="form-group row">
-      <div class="col-sm-1"><label for="subject">제목:</label></div>
+      <div class="col-sm-1 align-self-center"><label for="subject">제목:</label></div>
       <div class="col-sm-11"><input type="text" class="form-control" id="subject" placeholder="제목을 입력하세요" name="subject"></div>
     </div>
     <div class="form-group">
       <label for="content">내용:&nbsp;</label>
-  <textarea class="form-control" rows="20" id="content" name="content"></textarea>
-    </div>
-    <div class="form-group">
-      <input type="file" class="form-control-file border" name="file">
+  <textarea class="form-control" id="summernote" name="editordata"></textarea>
     </div>
     <button type="submit" class="btn mt-2 mb-4" id="btn">올리기</button>
   </form>

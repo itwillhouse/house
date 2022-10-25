@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%@ include file="/WEB-INF/common/style.jspf"%>
+<link href="${pageContext.request.contextPath}/summernote/summernote-bs4.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/summernote/summernote-bs4.js"></script>
   <style>
   .community {
   	color: #35C5F0;
@@ -22,6 +24,20 @@
   color: black;
   }
   </style>
+  <script>
+  $(document).ready(function() {
+	  $('#summernote').summernote({
+		  height: 300,                 // set editor height
+		  minHeight: null,             // set minimum height of editor
+		  maxHeight: null,             // set maximum height of editor
+		  focus: true,                  // set focus to editable area after initializing summernote
+		  toolbar: [
+			    // [groupName, [list of button]]
+			  ]
+	  });
+	  
+	});
+  </script>
 </head>
 <body>
   <div class="container">
@@ -83,7 +99,7 @@
         <option value="11">현관</option>
         <option value="12">외관기타</option>
       </select>  
-    <textarea class="form-control mb-4" rows="8" name="content" id="content">사진에 대해 설명해주세요</textarea>
+    <textarea class="form-control mb-4" rows="8" id="summernote" name="editordata">사진에 대해 설명해주세요</textarea>
     </div>
     </div>
     <div class="mb-4">
