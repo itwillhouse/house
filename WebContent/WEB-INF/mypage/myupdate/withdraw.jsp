@@ -64,6 +64,7 @@ font-weight: bold;
 			</form>
 		</div>
 	</div>
+	<%@ include file="/WEB-INF/common/footer.jspf" %>
 </div>
 </body>
 </html>

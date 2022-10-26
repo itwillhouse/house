@@ -107,7 +107,7 @@
     </div>
   </form>
 </div>
-
+<%@ include file="/WEB-INF/common/footer.jspf" %>
 </div>
 </body>
 </html>

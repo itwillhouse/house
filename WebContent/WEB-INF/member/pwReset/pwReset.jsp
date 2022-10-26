@@ -31,7 +31,7 @@
 <body>
 	<div class="container">
 		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
-		<div class="container-fluid">
+		<div>
 			<h3 class="text-center pt-4 pb-3">비밀번호 재설정</h3>
 			<form class="pb-3" method="post">
 				<input type="hidden" id="id" name="id" value="${id }">
@@ -48,6 +48,7 @@
     			</div>	  
           	</form>
 		</div>
+		<%@ include file="/WEB-INF/common/footer.jspf" %>
 	</div>
 </body>
 </html>

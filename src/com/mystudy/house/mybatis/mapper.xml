@@ -132,7 +132,7 @@ UPDATE KNOWHOW SET CATEGORY = #{category}, CONTENT = #{content}, SUBJECT=#{subje
 </update>
 <!-- 노하우 상세 조회 -->
 <select id="showKnowhowDetail" parameterType="String" resultType="knowhowVO">
-SELECT * FROM VW_KNOWHOW_DETAIL WHERE KNOWHOW_IDX = #{idx}
+SELECT * FROM VW_KNOWHOW WHERE KNOWHOW_IDX = #{idx}
 </select>
 <!-- 노하우 조회수 증가 -->
 <update id="addKnowhowViews" parameterType="String">
@@ -187,15 +187,15 @@ DELETE FROM KNOWCOMMENT WHERE KNOWCOM_IDX = #{idx}
 </delete>
 <!-- 노하우 제목 검색 -->
 <select id="searchKnowhowbySubject" parameterType="String" resultType="knowhowVO">
-SELECT * FROM VW_KNOWHOW_DETAIL WHERE SUBJECT LIKE #{subject}
+SELECT * FROM VW_KNOWHOW WHERE SUBJECT LIKE #{subject}
 </select>
 <!-- 노하우 내용 검색 -->
 <select id="searchKnowhowbyContent" parameterType="String" resultType="knowhowVO">
-SELECT * FROM VW_KNOWHOW_DETAIL WHERE CONTENT LIKE #{content}
+SELECT * FROM VW_KNOWHOW WHERE CONTENT LIKE #{content}
 </select>
 <!-- 노하우 작성자 검색 -->
 <select id="searchKnowhowbyId" parameterType="String" resultType="knowhowVO">
-SELECT * FROM VW_KNOWHOW_DETAIL WHERE ID = #{id}
+SELECT * FROM VW_KNOWHOW WHERE ID = #{id}
 </select>
 <!-- PictureDAO -->
 <!-- 사진글 작성 -->

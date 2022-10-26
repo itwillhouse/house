@@ -30,9 +30,9 @@ window.onload = function() {
     <div class="row d-flex align-items-center h-100">
         <div class="col">
         	<div class="text-center pt-5 pb-4">
-        		<a class="text-decoration-none text-dark" href="community.do">
-        			<h3 id="titleFont">모두의집</h3>
-        		</a>
+        		<button class="btn btn-link" onclick="location.href='community.do'">
+        			<h3 class="text-decoration-none text-dark" id="titleFont">모두의집</h3>
+        		</button>
         	</div>
         	<div class="text-center pb-5">
         		<h2><b>입점신청</b></h2>

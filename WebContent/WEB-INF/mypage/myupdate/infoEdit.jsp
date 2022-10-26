@@ -63,7 +63,7 @@ function changeValue(obj){
 	<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
 	<%@ include file="/WEB-INF/common/mypageMenu.jspf" %>
 	<%@ include file="/WEB-INF/common/myupdateMenu.jspf" %>
-	<div class="container-fluid">
+	<div>
 		<h3 class="text-center pt-4 pb-3">회원 정보 수정</h3>
 		<form class="pb-3" method="post" name="frm">
            	<div class="form-group text-center">
@@ -97,10 +97,11 @@ function changeValue(obj){
     			</button>    			
     		</div>
         </form>
-        <div class="text-center pt-3">
+        <div class="text-center pt-3 pb-3">
     		<button type="button" onclick="clickBtn(frm)" class="btn w-25" id="btn">회원 정보 수정</button>
     	</div>	
 	</div>
+	<%@ include file="/WEB-INF/common/footer.jspf" %>
 </div>
 </body>
 </html>

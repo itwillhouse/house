@@ -21,7 +21,7 @@
 <body>
 	<div class="container">
 		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
-		<div class="container-fluid">
+		<div>
 			<h3 class="text-center pt-4 pb-3">아이디 찾기</h3>
 			<form class="pb-3" action="goIdFind.do" method="post">
             	<div class="form-group text-center">
@@ -37,6 +37,7 @@
     			</div>	  
           	</form>
 		</div>
+		<%@ include file="/WEB-INF/common/footer.jspf" %>
 	</div>
 </body>
 </html>
