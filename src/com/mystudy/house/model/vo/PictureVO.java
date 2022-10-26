@@ -2,6 +2,71 @@ package com.mystudy.house.model.vo;
 
 public class PictureVO {
 	private String pictureIdx, id, content, regdate, views, thumbnail, residence, space, sizes, style;
+	private String scrapCnt, c1Cnt, c2Cnt, likeCnt, profileImg, lastestCoProfileimg, lastestCoId, lastestCoContent;
+	
+	public String getScrapCnt() {
+		return scrapCnt;
+	}
+
+	public void setScrapCnt(String scrapCnt) {
+		this.scrapCnt = scrapCnt;
+	}
+
+	public String getC1Cnt() {
+		return c1Cnt;
+	}
+
+	public void setC1Cnt(String c1Cnt) {
+		this.c1Cnt = c1Cnt;
+	}
+
+	public String getC2Cnt() {
+		return c2Cnt;
+	}
+
+	public void setC2Cnt(String c2Cnt) {
+		this.c2Cnt = c2Cnt;
+	}
+
+	public String getLikeCnt() {
+		return likeCnt;
+	}
+
+	public void setLikeCnt(String likeCnt) {
+		this.likeCnt = likeCnt;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
+
+	public String getLastestCoProfileimg() {
+		return lastestCoProfileimg;
+	}
+
+	public void setLastestCoProfileimg(String lastestCoProfileimg) {
+		this.lastestCoProfileimg = lastestCoProfileimg;
+	}
+
+	public String getLastestCoId() {
+		return lastestCoId;
+	}
+
+	public void setLastestCoId(String lastestCoId) {
+		this.lastestCoId = lastestCoId;
+	}
+
+	public String getLastestCoContent() {
+		return lastestCoContent;
+	}
+
+	public void setLastestCoContent(String lastestCoContent) {
+		this.lastestCoContent = lastestCoContent;
+	}
 
 	public String getPictureIdx() {
 		return pictureIdx;

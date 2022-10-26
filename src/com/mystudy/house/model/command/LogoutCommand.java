@@ -14,7 +14,18 @@ public class LogoutCommand implements Command {
 		HttpSession session = request.getSession();
 		session.setAttribute("id", null);
 		
-		return "/WEB-INF/community/community.jsp";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='community.do' method='post'>");
+		out.println("</form></html>");
+		out.println("<script>alert('로그아웃 되었습니다');frm.submit();</script>");
+		out.close();
+		
+		return null;
+		
+		// return "/WEB-INF/community/community.jsp";
 	}
 
 }

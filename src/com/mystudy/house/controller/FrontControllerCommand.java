@@ -34,15 +34,19 @@ import com.mystudy.house.model.command.KnowhowDetailCommand;
 import com.mystudy.house.model.command.KnowhowEditCommand;
 import com.mystudy.house.model.command.KnowhowLikeCommand;
 import com.mystudy.house.model.command.KnowhowScrapCommand;
+import com.mystudy.house.model.command.KnowhowSearchCommand;
 import com.mystudy.house.model.command.KnowhowWriteCommand;
 import com.mystudy.house.model.command.LoginCommand;
 import com.mystudy.house.model.command.LogoutCommand;
 import com.mystudy.house.model.command.PartnerRegisterCommand;
 import com.mystudy.house.model.command.PictureCommand;
+import com.mystudy.house.model.command.PictureDetailCommand;
 import com.mystudy.house.model.command.PictureWriteCommand;
+import com.mystudy.house.model.command.PrivacyPolicyCommand;
 import com.mystudy.house.model.command.ProfileImgChangeCommand;
 import com.mystudy.house.model.command.PwChangeCommand;
 import com.mystudy.house.model.command.SignupCommand;
+import com.mystudy.house.model.command.UsePolicyCommand;
 import com.mystudy.house.model.command.WithdrawCommand;
 
 @WebServlet("*.do")
@@ -77,6 +81,10 @@ public class FrontControllerCommand extends HttpServlet {
 			command = new GoPwResetCommand();
 		} else if(com.equals("/signup.do")) {	
 			command = new SignupCommand();
+		} else if(com.equals("/usePolicy.do")) {	
+			command = new UsePolicyCommand();			
+		} else if(com.equals("/privacyPolicy.do")) {	
+			command = new PrivacyPolicyCommand();			
 		} else if(com.equals("/goSignup.do")) {	
 			command = new GoSignupCommand();
 		} else if(com.equals("/partnerRegister.do")) {
@@ -125,6 +133,8 @@ public class FrontControllerCommand extends HttpServlet {
 			command = new KnowhowCommentDeleteCommand();	
 		} else if(com.equals("/knowhowComment2Delete.do")) {
 			command = new KnowhowComment2DeleteCommand();	
+		} else if(com.equals("/knowhowSearch.do")) {
+			command = new KnowhowSearchCommand();	
 		// Picture
 		} else if(com.equals("/picture.do")) {
 			command = new PictureCommand();
@@ -132,9 +142,14 @@ public class FrontControllerCommand extends HttpServlet {
 			command = new PictureWriteCommand();
 		} else if(com.equals("/goPictureWrite.do")) {
 			command = new GoPictureWriteCommand();
+		} else if(com.equals("/pictureDetail.do")) {
+			command = new PictureDetailCommand();
 		}
 		String path = command.exec(request, response);
-		request.getRequestDispatcher(path).forward(request, response);
+		try {
+			request.getRequestDispatcher(path).forward(request, response);
+		} catch(Exception e) {
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

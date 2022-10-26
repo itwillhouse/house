@@ -15,7 +15,7 @@ public class GoKnowhowWriteCommand implements Command {
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+
 		KnowhowVO vo = new KnowhowVO();
 		vo.setCategory(request.getParameter("category"));
 		vo.setContent(request.getParameter("editordata"));
@@ -24,7 +24,17 @@ public class GoKnowhowWriteCommand implements Command {
 		
 		KnowhowDAO.writeKnowhow(vo);
 		
-		return "knowhow.do";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='knowhow.do' method='post'>");
+	    out.println("</form></html>");
+	    out.println("<script>alert('노하우글을 작성하였습니다');frm.submit();</script>");
+	    out.close();
+	    
+		return null;
+
 	}
 
 }

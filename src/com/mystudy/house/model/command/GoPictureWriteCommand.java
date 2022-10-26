@@ -15,10 +15,15 @@ public class GoPictureWriteCommand implements Command {
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-				
+		
+		String id = (String) session.getAttribute("id");
+		if(id == null) {
+			return "login.do";
+		}
+		
 		PictureVO vo = new PictureVO();
 		vo.setContent(request.getParameter("editordata"));
-		vo.setId((String) session.getAttribute("id"));
+		vo.setId(id);
 		vo.setResidence(request.getParameter("residence"));
 		vo.setSizes(request.getParameter("sizes"));
 		vo.setSpace(request.getParameter("space"));
@@ -26,7 +31,16 @@ public class GoPictureWriteCommand implements Command {
 		
 		PictureDAO.writePicture(vo);
 		
-		return "picture.do";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='picture.do' method='post'>");
+		out.println("</form></html>");
+		out.println("<script>alert('사진글을 작성하였습니다');frm.submit();</script>");
+		out.close();
+				       
+		return null;
 	}
 
 }

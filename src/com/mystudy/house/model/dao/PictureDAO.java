@@ -17,6 +17,14 @@ public class PictureDAO {
 		return list;
 	}
 	
+	// 사진글 상세 조회
+	public static PictureVO showPictureDetail(String idx) {
+		SqlSession ss = DBService.getFactory().openSession();
+		PictureVO vo = ss.selectOne("house.showPictureDetail", idx);
+		ss.close();
+		return vo;
+	}
+	
 	// 사진글 작성
 	public static void writePicture(PictureVO vo) {
 		SqlSession ss = DBService.getFactory().openSession(true);

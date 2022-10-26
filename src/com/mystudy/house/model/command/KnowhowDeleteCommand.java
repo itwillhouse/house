@@ -17,7 +17,17 @@ public class KnowhowDeleteCommand implements Command {
 		
 		KnowhowDAO.deleteKnowhow(idx);
 		
-		return "knowhow.do&cPage=" + cPage;
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='knowhow.do' method='post'>");
+		out.println("<input type='hidden' name='cPage' value=" + cPage + ">");
+		out.println("</form></html>");
+		out.println("<script>alert('노하우글이 삭제되었습니다');frm.submit();</script>");
+		out.close();
+
+		return null;
 	}
 
 }

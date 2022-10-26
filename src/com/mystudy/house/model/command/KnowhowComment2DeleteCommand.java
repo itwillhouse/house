@@ -19,7 +19,17 @@ public class KnowhowComment2DeleteCommand implements Command {
 		
 		KnowhowDAO.deleteKnowhowComment2(comIdx);
 		
-		return "knowhowDetail.do?idx=" + idx;
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='knowhowDetail.do' method='post'>");
+		out.println("<input type='hidden' name='idx' value=" + idx + ">");
+		out.println("</form></html>");
+		out.println("<script>alert('대댓글이 삭제되었습니다');frm.submit();</script>");
+		out.close();
+
+		return null;
 	}
 
 }

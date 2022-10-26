@@ -28,10 +28,15 @@ public class GoLoginCommand implements Command {
 		if(user != null) {
 			session.setAttribute("id", user.getId());
 			session.setAttribute("profileImg", user.getProfileImg());
-			return "/WEB-INF/community/community.jsp";
+			return "community.do";
 		} else {
-			request.setAttribute("msg", "로그인 실패하였습니다");
-			return "/WEB-INF/common/alert.jsp";
+			java.io.PrintWriter out = response.getWriter();
+			out.println("<html><form name='frm' action='login.do' method='post'>");
+			out.println("</form></html>");
+			out.println("<script>alert('로그인 실패하였습니다');frm.submit();</script>");
+			out.close();
+			
+			return null;
 		}
 	}
 

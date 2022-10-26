@@ -75,7 +75,7 @@
 <div class="container">
 <%@ include file="/WEB-INF/common/memberMenu.jspf" %>
 <%@ include file="/WEB-INF/common/communityMenu.jspf" %>
-<div class="container-fluid mt-3 mb-1">
+<div class="mt-3 mb-1">
 <button type="button" class="btn  mt-2" id="btn" data-toggle="collapse" data-target="#demo">노하우 작성 가이드</button>
   <div id="demo" class="collapse border">
     <ul class="mt-3 pr-2">
@@ -119,6 +119,7 @@
   </form>
   </div>
 </div>
+<%@ include file="/WEB-INF/common/footer.jspf" %>
 </div>
 </body>
 </html>

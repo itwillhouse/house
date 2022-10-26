@@ -21,14 +21,18 @@ public class GoIdFindCommand implements Command {
 		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-
-		if(id == null) {
-			request.setAttribute("msg", "해당하는 아이디가 없습니다");
-		} else {
-			request.setAttribute("msg", "찾은 아이디: " + id);
-		}
 		
-		return "/WEB-INF/common/alert.jsp";
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='idFind.do' method='post'>");
+		out.println("</form></html>");
+		if(id == null) {
+			out.println("<script>alert('해당하는 아이디가 없습니다');frm.submit();</script>");
+		} else {
+			out.println("<script>alert('찾은 아이디: " + id +"');frm.submit();</script>");
+		}
+		out.close();
+
+		return null;
 	}
 
 }

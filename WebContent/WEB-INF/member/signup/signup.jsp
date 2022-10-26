@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>오늘의집 - 회원가입</title>
+	<title>회원가입</title>
 	<%@ include file="/WEB-INF/common/style.jspf"%>
 	<style>
 		html, body {
@@ -45,9 +45,9 @@
 </head>
 <body>
 <div class="pl-3 pt-3">
-	<a class="text-decoration-none text-dark" href="community.do">
-		<h4 id="titleFont">모두의집</h4>
-	</a>
+	<button class="btn btn-link" onclick="location.href='community.do'">
+    	<h4 class="text-decoration-none text-dark" id="titleFont">모두의집</h4>
+    </button>
 </div>
 <div class="container h-100">
     <div class="row d-flex align-items-center h-100">
@@ -97,11 +97,11 @@
     				</div>
     				<div class="form-check text-center pb-2">
         				<input type="checkbox" class="form-check-input" name="terms" value="use" required>
-        				<a class="text-dark" href="#"><u>이용약관</u></a>
+        				<a style="text-decoration: underline;" class="text-dark" href="javacsript:void(0);" onclick="window.open('usePolicy.do')">이용약관</a>
     				</div>
     				<div class="form-check text-center pb-2">			
         				<input type="checkbox" class="form-check-input" name="terms" value="info" required>
-        				<a class="text-dark" href="#"><u>개인정보수집 및 이용동의</u></a>
+        				<a style="text-decoration: underline;" class="text-dark" href="javacsript:void(0);" onclick="window.open('privacyPolicy.do')">개인정보수집 및 이용동의</a>
     				</div>
     				</div>
     			</div>
@@ -111,7 +111,7 @@
           	</form>
           	<div class="text-center pb-1">
           		이미 아이디가 있으신가요? 
-          		<a class="text-dark" href="login.do"><u>로그인</u></a>
+          		<a style="text-decoration: underline;" class="text-dark" href="login.do">로그인</a>
           	</div>
         </div>
     </div>

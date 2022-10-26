@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>오늘의집 - 로그인</title>
+	<title>로그인</title>
 	<%@ include file="/WEB-INF/common/style.jspf"%>
 	<style>
 		html, body {
@@ -19,10 +19,10 @@
 <div class="container h-100">
     <div class="row d-flex align-items-center h-100">
         <div class="col">
-        	<div class="text-center pb-4">
-        		<a class="text-decoration-none text-dark" href="community.do">
-        			<h3 id="titleFont">모두의집</h3>
-        		</a>
+        	<div class="text-center pb-2">
+        			<button class="btn btn-link" onclick="location.href='community.do'">
+        				<h3 class="text-decoration-none text-dark" id="titleFont">모두의집</h3>
+        			</button>
         	</div>
             <form class="pb-3" action="goLogin.do" method="post">
 				<div class="form-group pb-2">

@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>오늘의집 - 비밀번호 재설정</title>
+	<title>비밀번호 재설정</title>
 	<%@ include file="/WEB-INF/common/style.jspf"%>
   	<style>
   		.community, .store {

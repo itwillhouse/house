@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>오늘의집 - 아이디 찾기</title>
+	<title>아이디 찾기</title>
 	<%@ include file="/WEB-INF/common/style.jspf"%>
   	<style>
   		.community, .store {

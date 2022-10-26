@@ -17,6 +17,7 @@ public class KnowhowScrapCommand implements Command {
 		HttpSession session = request.getSession();
 		
 		String idx = request.getParameter("idx");
+		
 		String id = (String) session.getAttribute("id");
 		if(id == null) {
 			return "login.do";
@@ -27,13 +28,22 @@ public class KnowhowScrapCommand implements Command {
 		vo.setKnowhowIdx(idx);
 		
 		int result = KnowhowDAO.scrapKnowhow(vo);
+		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='knowhowDetail.do' method='post'>");
+		out.println("<input type='hidden' name='idx' value=" + idx + ">");
+		out.println("</form></html>");
 		if(result > 0) {
-			return "knowhowDetail.do?idx=" + idx;
+			out.println("<script>alert('노하우글 스크랩이 완료되었습니다');frm.submit();</script>");
 		} else {
-			request.setAttribute("msg", "이미 스크랩 한 글입니다");
-			return "/WEB-INF/common/alert.jsp";
+			out.println("<script>alert('이미 스크랩한 노하우글입니다');frm.submit();</script>");
 		}
-
+		out.close();
+		
+		return null;
 	}
 
 }

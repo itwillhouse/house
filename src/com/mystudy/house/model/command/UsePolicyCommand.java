@@ -6,11 +6,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SignupCommand implements Command {
+public class UsePolicyCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		return "/WEB-INF/member/signup/signup.jsp";
+		return "/WEB-INF/member/signup/usePolicy.jsp";
 	}
 
 }

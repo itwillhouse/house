@@ -194,5 +194,29 @@ public class KnowhowDAO {
 		ss.delete("house.deleteKnowhowComment2", comIdx);
 		ss.close();
 	}
+	
+	// 노하우 제목 검색
+	public static List<KnowhowVO> searchKnowhowbySubject(String subject) {
+		SqlSession ss = DBService.getFactory().openSession();
+		List<KnowhowVO> list = ss.selectList("house.searchKnowhowbySubject", subject);
+		ss.close();
+		return list;
+	}
+	
+	// 노하우 내용 검색
+	public static List<KnowhowVO> searchKnowhowbyContent(String content) {
+		SqlSession ss = DBService.getFactory().openSession();
+		List<KnowhowVO> list = ss.selectList("house.searchKnowhowbyContent", content);
+		ss.close();
+		return list;
+	}
+	
+	// 노하우 작성자 검색
+	public static List<KnowhowVO> searchKnowhowbyId(String id) {
+		SqlSession ss = DBService.getFactory().openSession();
+		List<KnowhowVO> list = ss.selectList("house.searchKnowhowbyId", id);
+		ss.close();
+		return list;
+	}
 
 }

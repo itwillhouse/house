@@ -26,7 +26,16 @@ public class GoInfoEditCommand implements Command {
 		
 		MembersDAO.editInfo(vo);
 		
-		return "infoEdit.do";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='infoEdit.do' method='post'>");
+		out.println("</form></html>");
+		out.println("<script>alert('정보가 수정되었습니다');frm.submit();</script>");
+		out.close();
+				       
+		return null;
 	}
 
 }

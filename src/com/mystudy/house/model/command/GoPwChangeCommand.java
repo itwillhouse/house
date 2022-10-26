@@ -22,7 +22,16 @@ public class GoPwChangeCommand implements Command {
 		
 		MembersDAO.changepw(vo);
 		
-		return "/WEB-INF/mypage/myupdate/pwChange.jsp";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='pwChange.do' method='post'>");
+		out.println("</form></html>");
+		out.println("<script>alert('비밀번호를 변경했습니다');frm.submit();</script>");
+		out.close();
+				       
+		return null;
 	}
 
 }

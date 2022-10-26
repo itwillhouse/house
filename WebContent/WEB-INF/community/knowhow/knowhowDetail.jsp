@@ -33,7 +33,7 @@
 		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
 	</c:if>
 	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
-	<div class="container-fluid">
+	<div class="pb-4">
 		<div class="pt-4"><a href="knowhow.do&cPage=${cPage}">노하우</a> > <a href="knowhow.do?category=${vo.category }&cPage=${cPage}">${menu[vo.category] }</a></div>
 		<c:if test="${id == vo.id }">
 		<div class="pt-3 pb-2">
@@ -153,6 +153,7 @@
 			</div>
 		</div>
 	</div>
+	<%@ include file="/WEB-INF/common/footer.jspf" %>
 </div>
 </body>
 </html>

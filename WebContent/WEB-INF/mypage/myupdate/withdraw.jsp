@@ -30,7 +30,7 @@ font-weight: bold;
 	<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
 	<%@ include file="/WEB-INF/common/mypageMenu.jspf" %>
 	<%@ include file="/WEB-INF/common/myupdateMenu.jspf" %>
-	<div class="container-fluid">
+	<div>
 		<h3 class="text-center pt-4 pb-3">회원탈퇴 신청</h3>
 		<div>
 			<div class="pb-3">

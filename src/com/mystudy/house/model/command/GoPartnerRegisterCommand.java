@@ -32,12 +32,19 @@ public class GoPartnerRegisterCommand implements Command {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
+		java.io.PrintWriter out = response.getWriter();
 		if(result > 0) {
-			request.setAttribute("msg", "판매자 신청이 완료되었습니다");
-			return "/WEB-INF/common/alert.jsp";
+			out.println("<html><form name='frm' action='community.do' method='post'>");
+			out.println("</form></html>");
+			out.println("<script>alert('판매자 신청이 완료되었습니다');frm.submit();</script>");
 		} else {
-			return "/WEB-INF/member/partnerRegister.jsp";
+			out.println("<html><form name='frm' action='partnerRegister.do' method='post'>");
+			out.println("</form></html>");
+			out.println("<script>alert('판매자 신청 실패했습니다');frm.submit();</script>");
 		}
+		out.close();
+
+		return null;
 	}
 
 }

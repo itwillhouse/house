@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>오늘의집 - 사진</title>
+<title>사진</title>
 <%@ include file="/WEB-INF/common/style.jspf"%>
 <style>
 .community {
@@ -25,8 +25,23 @@
 .home, .knowhow, .qna {
 	color: black;
 }
+.input-group {
+	margin:0 auto;	
+	width: 40%;
+}
+  		
+#searchBtn {
+	background-color: #35C5F0;
+	color: white;
+}
 </style>
 <script>
+$(document).ready(function(){
+	$("#searchBtn").click(function() {
+		location.href = "pictureSearch.do?text=" + $("#searchText").val() + "&opt=" + $("#searchOpt").val();
+	})
+});
+
 	function submit(frm) {
 		frm.submit();
 	}
@@ -41,7 +56,21 @@
 			<%@ include file="/WEB-INF/common/memberMenu.jspf"%>
 		</c:if>
 		<%@ include file="/WEB-INF/common/communityMenu.jspf"%>
-		<div class="container-fluid">
+		<div>
+			<div class="pt-5 pb-5 text-center bg-light">
+				<h5 class="mb-0"><b>테마별 사진</b></h5>
+				<div class="mt-3 input-group">
+					<select class="form-control p-0" id="searchOpt" name="searchOpt">
+						<option value="1" selected>제목</option>
+						<option value="2">내용</option>
+						<option value="3">작성자</option>
+					</select> 
+					<input id="searchText" type="text" class="form-control p-0" style="width: 150px" placeholder="검색어를 입력하세요">
+					<div class="input-group-append">
+						<button class="btn" id="searchBtn" type="button">검색</button>
+					</div>
+				</div>
+			</div>
 			<div class="form-inline pt-3">
 				<form action="picture.jsp" onchange="submit(this.form)">
 					<select class="form-control" name="orders">
@@ -98,54 +127,54 @@
 		<div class="row">
 			<c:forEach items="${list }" var="vo">
 			<div class="col-sm-3">
-				<div class="profile row mt-4 mb-2">
+				<div class="profile row pt-4 pb-2">
 					<div class="col-sm-2">
-						<img style="border-radius: 40px" src="${pageContext.request.contextPath}/img/profileImg/${profileImg }"
+						<img style="border-radius: 40px" src="${pageContext.request.contextPath}/img/profileImg/${vo.profileImg }"
 							width="40px" height="40px">
 					</div>
 					<div class="col-sm-10 align-self-center">
 						<span><b>${vo.id }</b></span>
 					</div>
 				</div>
-				<div class="thumbnail mb-2">
-					<a href="pictureDetail.jsp?idx=1"> <img
-						style="border-radius: 5px" src="${pageContext.request.contextPath}/img/profileImg/${profileImg }"
-						width="100%" height="100%">
+				<div class="thumbnail pb-2">
+					<a href="pictureDetail.do?idx=${vo.pictureIdx }"> <img
+						style="border-radius: 5px" src="${pageContext.request.contextPath}/img/knowhowThumbnail/${vo.thumbnail }"
+						width="255px" height="255px">
 					</a>
 				</div>
-				<div class="likes row mb-2">
+				<div class="likes row pb-2 text-center">
 					<div class="col-sm-4">
-						<a href="#"><i class="far fa-heart"></i></a> 5
+						<i class="far fa-heart"></i> ${vo.likeCnt }
 					</div>
 					<div class="col-sm-4">
-						<a href="#"><i class="far fa-bookmark"></i></a> 2
+						<i class="far fa-bookmark"></i> ${vo.scrapCnt }
 					</div>
 					<div class="col-sm-4">
-						<a href="#"><i class="far fa-comment"></i></a> 4
+						<i class="far fa-comment"></i> ${vo.c1Cnt + vo.c2Cnt }
 					</div>
 				</div>
-				<div class="content mb-2">${vo.content }
+				<div class="content">${vo.content }
 				</div>
-				<div class="comments mb-4 row">
+				<div class="comments pb-3 row">
 					<div class="col-sm-2">
-						<img style="border-radius: 30px" src="../imgs/knowhow/sample.png"
+						<img style="border-radius: 30px" src="${pageContext.request.contextPath}/img/profileImg/${vo.lastestCoProfileimg }"
 							width="30px" height="30px">
 					</div>
 					<div class="col-sm-10">
-						<span><b>mh24</b></span> <span>단조로울 수 있는 인테리어에 블루 한방울 색을
-							입혀주니 청량하고 생기있어 보이는 공간이 된것 같아요</span>
+						<span><b>${vo.lastestCoId }</b></span> <span>${vo.lastestCoContent }</span>
 					</div>
 				</div>
 			</div>
 			</c:forEach>
 		</div>
-		<ul class="pagination justify-content-center pb-2">
+		<ul class="pagination justify-content-center pt-3 pb-2">
 			<li class="page-item"><a class="page-link" href="#">이전</a></li>
 			<li class="page-item active"><a class="page-link" href="#">1</a></li>
 			<li class="page-item"><a class="page-link" href="#">2</a></li>
 			<li class="page-item"><a class="page-link" href="#">3</a></li>
 			<li class="page-item"><a class="page-link" href="#">다음</a></li>
 		</ul>
+		<%@ include file="/WEB-INF/common/footer.jspf" %>
 	</div>
 </body>
 </html>

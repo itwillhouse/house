@@ -28,8 +28,13 @@ public class GoInfoConfirmCommand implements Command {
 			request.setAttribute("id", id);
 			return "/WEB-INF/member/pwReset/pwReset.jsp";
 		} else {
-			request.setAttribute("msg", "해당하는 회원이 없습니다");
-			return "/WEB-INF/common/alert.jsp";
+			java.io.PrintWriter out = response.getWriter();
+			out.println("<html><form name='frm' action='infoConfirm.do' method='post'>");
+			out.println("</form></html>");
+			out.println("<script>alert('해당하는 회원이 없습니다');frm.submit();</script>");
+			out.close();
+			
+			return null;
 		}
 	}
 

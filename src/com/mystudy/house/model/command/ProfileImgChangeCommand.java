@@ -35,10 +35,21 @@ public class ProfileImgChangeCommand implements Command {
 		vo.setProfileImg(mr.getFilesystemName("file"));
 		
 		MembersDAO.changeProfileImg(vo);
-		
+
 		session.setAttribute("profileImg", mr.getFilesystemName("file"));
 		
-		return "infoEdit.do";
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='infoEdit.do' method='post'>");
+		out.println("</form></html>");
+		out.println("<script>alert('프로필 이미지가 변경되었습니다');frm.submit();</script>");
+		out.close();
+		
+		return null;
+		
+		// return "infoEdit.do";
 	}
 
 }

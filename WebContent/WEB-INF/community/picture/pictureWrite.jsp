@@ -43,7 +43,7 @@
   <div class="container">
 <%@ include file="/WEB-INF/common/memberMenu.jspf" %>
 <%@ include file="/WEB-INF/common/communityMenu.jspf"%>
-<div class="container-fluid mt-3 mb-1">
+<div class="mt-3 mb-1">
   <form action="goPictureWrite.do" method="post">
     <div class="form-group form-inline">
       <select class="form-control mr-2" id="sizes" name="sizes">

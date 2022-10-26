@@ -19,12 +19,24 @@ public class GoWithdrawCommand implements Command {
 			
 		int result = MembersDAO.withdraw(id);
 		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
 		if(result > 0) {
 			session.setAttribute("id", null);
-			return "/WEB-INF/community/community.jsp";
+
+			out.println("<html><form name='frm' action='community.do' method='post'>");
+			out.println("</form></html>");
+			out.println("<script>alert('탈퇴가 완료되었습니다');frm.submit();</script>");
 		} else {
-			return "/WEB-INF/mypage/myupdate/withdraw.jsp";
+			out.println("<html><form name='frm' action='withdraw.do' method='post'>");
+			out.println("</form></html>");
+			out.println("<script>alert('탈퇴 실패하였습니다');frm.submit();</script>");
 		}
+		out.close();
+		
+		return null;
 	}
 
 }

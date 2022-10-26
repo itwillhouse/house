@@ -16,17 +16,34 @@ public class KnowhowCommentWriteCommand implements Command {
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
+		String id = (String) session.getAttribute("id");
+		if(id == null) {
+			return "login.do";
+		}
+		
 		String idx = request.getParameter("idx");
 		System.out.println(idx);
 
 		KnowcommentVO vo = new KnowcommentVO();
-		vo.setId((String) session.getAttribute("id"));
+		vo.setId(id);
 		vo.setContent(request.getParameter("comment"));
 		vo.setKnowhowIdx(idx);
 		
 		KnowhowDAO.writeKnowhowComment(vo);
 		
-		return "knowhowDetail.do?idx=" + idx;
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		java.io.PrintWriter out = response.getWriter();
+		out.println("<html><form name='frm' action='knowhowDetail.do' method='post'>");
+		out.println("<input type='hidden' name='idx' value=" + idx + ">");
+		out.println("</form></html>");
+		out.println("<script>alert('댓글이 등록되었습니다');frm.submit();</script>");
+		out.close();
+
+		return null;
+		
+		// return "knowhowDetail.do?idx=" + idx;
 	}
 
 }

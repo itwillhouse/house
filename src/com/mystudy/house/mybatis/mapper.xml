@@ -185,14 +185,30 @@ DELETE FROM KNOWCOMMENT2 WHERE COM_IDX = #{idx}
 <delete id="deleteKnowhowComment">
 DELETE FROM KNOWCOMMENT WHERE KNOWCOM_IDX = #{idx}
 </delete>
+<!-- 노하우 제목 검색 -->
+<select id="searchKnowhowbySubject" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW_DETAIL WHERE SUBJECT LIKE #{subject}
+</select>
+<!-- 노하우 내용 검색 -->
+<select id="searchKnowhowbyContent" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW_DETAIL WHERE CONTENT LIKE #{content}
+</select>
+<!-- 노하우 작성자 검색 -->
+<select id="searchKnowhowbyId" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW_DETAIL WHERE ID = #{id}
+</select>
 <!-- PictureDAO -->
 <!-- 사진글 작성 -->
 <insert id="writePicture" parameterType="pictureVO">
 INSERT INTO PICTURE (PICTURE_IDX, ID, CONTENT, RESIDENCE, SPACE, SIZES, STYLE) VALUES 
 (PICTURE_SEQ.NEXTVAL, #{id}, #{content}, #{residence}, #{space}, #{sizes}, #{style})
 </insert>
-<!--  사진글 조회 -->
+<!-- 사진글 조회 -->
 <select id="showPicture" resultType="pictureVO">
-SELECT * FROM PICTURE
+SELECT PICTURE_IDX, ID, CONTENT, REGDATE, VIEWS, THUMBNAIL, RESIDENCE, SPACE, SIZES, STYLE, SCRAP_CNT, C1_CNT, C2_CNT, LIKE_CNT, PROFILE_IMG, LASTEST_CO_PROFILEIMG, LASTEST_CO_ID, LASTEST_CO_CONTENT FROM VW_PICTURE
+</select>
+<!-- 사진글 상세 조회 -->
+<select id="showPictureDetail" parameterType="String" resultType="pictureVO">
+SELECT PICTURE_IDX, ID, CONTENT, REGDATE, VIEWS, THUMBNAIL, RESIDENCE, SPACE, SIZES, STYLE, SCRAP_CNT, C1_CNT, C2_CNT, LIKE_CNT, PROFILE_IMG, LASTEST_CO_PROFILEIMG, LASTEST_CO_ID, LASTEST_CO_CONTENT FROM VW_PICTURE WHERE PICTURE_IDX = #{idx}
 </select>
 </mapper>

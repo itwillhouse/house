@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>오늘의집 - 노하우</title>
+	<title>노하우</title>
 	<%@ include file="/WEB-INF/common/style.jspf"%>
   	<style>
   		.community {
@@ -23,11 +23,35 @@
   		.picture, .home, .qna {
   			color: black;
   		}
+  		
+  		.input-group {
+  			margin:0 auto;	
+  			width: 40%;
+  		}
+  		
+  		#searchBtn {
+  			background-color: #35C5F0;
+			color: white;
+  		}
 	</style>
 	<script>
 		$(document).ready(function(){
 			$("#order").change(function() {
-				location.href="knowhow.do?&cPage=<%= request.getParameter("cPage") %>&category=<%= request.getParameter("category") %>&order=" + this.value;
+				let cPage = <%= request.getParameter("cPage") %>;
+				let category = <%= request.getParameter("category") %>
+				if(cPage == null && category == null) {
+					location.href="knowhow.do?order=" + this.value;
+				} else if(cPage != null) {
+					location.href="knowhow.do?cPage=" + cPage + "&order=" + this.value;
+				} else if(category != null) {
+					location.href="knowhow.do?category=" + category + "&order=" + this.value;
+				} else {
+					location.href="knowhow.do?cPage=" + cPage + "&category=" + category + "&order=" + this.value;
+				}
+			})
+			
+			$("#searchBtn").click(function() {
+				location.href = "knowhowSearch.do?text=" + $("#searchText").val() + "&opt=" + $("#searchOpt").val();
 			})
 		});
 	</script>
@@ -41,11 +65,22 @@
 		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
 	</c:if>
 	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
-		<div class="container-fluid">
-			<div class="pt-4">
+		<div>
+			<div class="pt-5 pb-5 text-center bg-light">
 				<h5 class="mb-0"><b>테마별 노하우</b></h5>
+				<div class="mt-3 input-group">
+					<select class="form-control p-0" id="searchOpt" name="searchOpt">
+						<option value="1" selected>제목</option>
+						<option value="2">내용</option>
+						<option value="3">작성자</option>
+					</select> 
+					<input id="searchText" type="text" class="form-control p-0" style="width: 150px" placeholder="검색어를 입력하세요">
+					<div class="input-group-append">
+						<button class="btn" id="searchBtn" type="button">검색</button>
+					</div>
+				</div>
 			</div>
-			<div class="d-flex flex-row-reverse">
+			<div class="d-flex flex-row-reverse pb-1 pt-1">
 				<select class="form-control border-0 p-0" style="width: 150px" id="order" name="order">
         			<c:if test="${order == 1 }">
         				<option value="1" selected>최근인기순</option>
@@ -95,6 +130,7 @@
 			<!-- 사진에 북마크 아이콘: https://www.w3schools.com/bootstrap4/bootstrap_cards.asp -->
 			<c:if test="${empty list }">
 			<div class="text-center p-4">
+				<img class="pb-2" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" width="100px">
      			<h5>앗! 찾으시는 결과가 없네요.</h5>
      		</div>	
 			</c:if>
@@ -122,7 +158,12 @@
    		 				<a class="page-link disabled">이전</a>
    		 			</c:if>
    		 			<c:if test="${pvo.beginPage != 1 }">
-   		 				<a href="knowhow.do?cPage=${pvo.beginPage - 1 }&category=${category }&order=${order }" class="page-link">이전</a>
+   		 				<c:if test="${empty category }">
+							<a href="knowhow.do?cPage=${pvo.beginPage - 1 }&order=${order }" class="page-link">이전</a>
+						</c:if>
+						<c:if test="${not empty category }">
+							<a href="knowhow.do?cPage=${pvo.beginPage - 1 }&category=${category }&order=${order }" class="page-link">이전</a>
+						</c:if>	
 					</c:if>	
    		 			
    		 		</li>
@@ -135,14 +176,24 @@
 					</c:if>
 					<c:if test="${pageNo != pvo.nowPage }">
 						<li class="page-item">
-    						<a href="knowhow.do?cPage=${pageNo }&category=${category }&order=${order }" class="page-link">${pageNo }</a>
+							<c:if test="${empty category }">
+								<a href="knowhow.do?cPage=${pageNo }&order=${order }" class="page-link">${pageNo }</a>
+							</c:if>
+							<c:if test="${not empty category }">
+								<a href="knowhow.do?cPage=${pageNo }&category=${category }&order=${order }" class="page-link">${pageNo }</a>
+							</c:if>		
     					</li>
 					</c:if>
 					</c:forEach>
     			<!-- 다음 -->
     			<li class="page-item">
     				<c:if test="${pvo.endPage < pvo.totalPage }">
-						<a href="knowhow.do?cPage=${pvo.endPage + 1 }&category=${category }&order=${order }" class="page-link">다음</a>
+    						<c:if test="${empty category }">
+								<a href="knowhow.do?cPage=${pvo.endPage + 1 }&order=${order }" class="page-link">다음</a>
+							</c:if>
+							<c:if test="${not empty category }">
+								<a href="knowhow.do?cPage=${pvo.endPage + 1 }&category=${category }&order=${order }" class="page-link">다음</a>
+							</c:if>	
 					</c:if>
 					<c:if test="${pvo.endPage >= pvo.totalPage }">
 						<a class="page-link disabled">다음</a>
@@ -151,6 +202,7 @@
   			</ul>
   			</c:if>
     	</div>
+    	<%@ include file="/WEB-INF/common/footer.jspf" %>
 	</div>
 </body>
 </html>
