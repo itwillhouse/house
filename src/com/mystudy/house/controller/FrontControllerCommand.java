@@ -40,11 +40,19 @@ import com.mystudy.house.model.command.LoginCommand;
 import com.mystudy.house.model.command.LogoutCommand;
 import com.mystudy.house.model.command.PartnerRegisterCommand;
 import com.mystudy.house.model.command.PictureCommand;
+import com.mystudy.house.model.command.PictureComment2DeleteCommand;
+import com.mystudy.house.model.command.PictureComment2WriteCommand;
+import com.mystudy.house.model.command.PictureCommentDeleteCommand;
+import com.mystudy.house.model.command.PictureCommentWriteCommand;
+import com.mystudy.house.model.command.PictureDeleteCommand;
 import com.mystudy.house.model.command.PictureDetailCommand;
+import com.mystudy.house.model.command.PictureLikeCommand;
+import com.mystudy.house.model.command.PictureScrapCommand;
 import com.mystudy.house.model.command.PictureWriteCommand;
 import com.mystudy.house.model.command.PrivacyPolicyCommand;
 import com.mystudy.house.model.command.ProfileImgChangeCommand;
 import com.mystudy.house.model.command.PwChangeCommand;
+import com.mystudy.house.model.command.RequestCommand;
 import com.mystudy.house.model.command.SignupCommand;
 import com.mystudy.house.model.command.UsePolicyCommand;
 import com.mystudy.house.model.command.WithdrawCommand;
@@ -144,6 +152,29 @@ public class FrontControllerCommand extends HttpServlet {
 			command = new GoPictureWriteCommand();
 		} else if(com.equals("/pictureDetail.do")) {
 			command = new PictureDetailCommand();
+		} else if(com.equals("/pictureLike.do")) {
+			command = new PictureLikeCommand();
+		} else if(com.equals("/pictureScrap.do")) {
+			command = new PictureScrapCommand();
+		} else if(com.equals("/pictureDelete.do")) {
+			command = new PictureDeleteCommand();
+		} else if(com.equals("/pictureEdit.do")) {
+			//
+		} else if(com.equals("/goPictureEdit.do")) {
+			//
+		} else if(com.equals("/pictureCommentWrite.do")) {
+			command = new PictureCommentWriteCommand();
+		} else if(com.equals("/pictureComment2Write.do")) {
+			command = new PictureComment2WriteCommand();			
+		} else if(com.equals("/pictureCommentDelete.do")) {
+			command = new PictureCommentDeleteCommand();	
+		} else if(com.equals("/pictureComment2Delete.do")) {
+			command = new PictureComment2DeleteCommand();	
+		} else if(com.equals("/pictureSearch.do")) {
+			//
+		// Request
+		} else if(com.equals("/request.do")) {
+			command = new RequestCommand();
 		}
 		String path = command.exec(request, response);
 		try {

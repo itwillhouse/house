@@ -14,7 +14,17 @@
 		<typeAlias alias="knowlikeVO" type="com.mystudy.house.model.vo.KnowlikeVO"/>
 		<typeAlias alias="knowscrapVO" type="com.mystudy.house.model.vo.KnowscrapVO"/>	
 		<typeAlias alias="knowcommentVO" type="com.mystudy.house.model.vo.KnowcommentVO"/>				
-		<typeAlias alias="pictureVO" type="com.mystudy.house.model.vo.PictureVO"/>				
+		<typeAlias alias="pictureVO" type="com.mystudy.house.model.vo.PictureVO"/>	
+		<typeAlias alias="piclikeVO" type="com.mystudy.house.model.vo.PiclikeVO"/>	
+		<typeAlias alias="picscrapVO" type="com.mystudy.house.model.vo.PicscrapVO"/>	
+		<typeAlias alias="piccommentVO" type="com.mystudy.house.model.vo.PiccommentVO"/>		
+		<typeAlias alias="HouseVO" type="com.mystudy.house.model.vo.HouseVO"/> 
+	 	<typeAlias alias="RequestVO" type="com.mystudy.house.model.vo.RequestVO"/> 
+	 	<typeAlias alias="ReviewsVO" type="com.mystudy.house.model.vo.ReviewsVO"/> 
+	 	<typeAlias alias="ProductInquiryVO" type="com.mystudy.house.model.vo.ProductInquiryVO"/> 
+	 	<typeAlias alias="GogakVO" type="com.mystudy.house.model.vo.GogakVO"/> 
+	 	<typeAlias alias="Gogak_CommentVO" type="com.mystudy.house.model.vo.Gogak_CommentVO"/> 
+	 	<typeAlias alias="Request_comVO" type="com.mystudy.house.model.vo.Request_comVO"/> 	 	
 	</typeAliases>
   <environments default="development">
     <environment id="development">

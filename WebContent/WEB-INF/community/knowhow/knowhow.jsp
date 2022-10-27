@@ -36,6 +36,9 @@
 	</style>
 	<script>
 		$(document).ready(function(){
+			/*********************************
+			여기 수정
+			**********************************/
 			$("#order").change(function() {
 				let cPage = <%= request.getParameter("cPage") %>;
 				let category = <%= request.getParameter("category") %>
@@ -48,7 +51,7 @@
 				} else {
 					location.href="knowhow.do?cPage=" + cPage + "&category=" + category + "&order=" + this.value;
 				}
-			})
+			});
 			
 			$("#searchBtn").click(function() {
 				location.href = "knowhowSearch.do?text=" + $("#searchText").val() + "&opt=" + $("#searchOpt").val();
@@ -112,17 +115,20 @@
 				<c:if test="${empty category }">
 					<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do?order=${order }'">전체</button>
 					<c:forEach items="${menu }" var="m" varStatus="status">
-						<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
+						<button type="button" class="btn btn-light"
+						onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
 				</c:forEach>
 				</c:if>
 				<c:if test="${not empty category }">
 					<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?order=${order }'">전체</button>
 					<c:forEach items="${menu }" var="m" varStatus="status">
 					<c:if test="${category == status.index }">
-						<button type="button" class="btn" id="btn" onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
+						<button type="button" class="btn" id="btn"
+						onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
 					</c:if>
 					<c:if test="${category != status.index }">
-						<button type="button" class="btn btn-light" onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
+						<button type="button" class="btn btn-light"
+						onclick="location.href='knowhow.do?category=${status.index }&order=${order }'">${m }</button>
 					</c:if>
 				</c:forEach>
 				</c:if>

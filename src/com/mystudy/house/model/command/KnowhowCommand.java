@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mystudy.house.common.Paging;
+import com.mystudy.house.common.PagingCommunity;
 import com.mystudy.house.model.dao.KnowhowDAO;
 import com.mystudy.house.model.vo.KnowhowVO;
 
@@ -29,7 +29,7 @@ public class KnowhowCommand implements Command {
 		request.setAttribute("menu", menu);
 
 		// 페이징 처리
-		Paging p = new Paging();
+		PagingCommunity p = new PagingCommunity();
 
 		// 1. 전체 게시물 수량 구하기
 		if(category == null || "".equals(category)) {

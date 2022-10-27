@@ -34,7 +34,7 @@
 	</c:if>
 	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
 	<div class="pb-4">
-		<div class="pt-4"><a href="knowhow.do&cPage=${cPage}">노하우</a> > <a href="knowhow.do?category=${vo.category }&cPage=${cPage}">${menu[vo.category] }</a></div>
+		<div class="pt-4"><a href="knowhow.do">노하우</a> > <a href="knowhow.do?category=${vo.category }">${menu[vo.category] }</a></div>
 		<c:if test="${id == vo.id }">
 		<div class="pt-3 pb-2">
 			<button class="btn" id="btn" onclick="location.href='knowhowEdit.do?idx=${idx}'">수정</button>
@@ -55,7 +55,7 @@
       				<!-- Modal footer -->
       					<div class="modal-footer">
         					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
-        					<button type="button" class="btn btn-primary" onclick="location.href='knowhowDelete.do?idx=${idx}&cPage=${cPage}'" data-dismiss="modal">삭제</button>
+        					<button type="button" class="btn btn-primary" onclick="location.href='knowhowDelete.do?idx=${idx}'" data-dismiss="modal">삭제</button>
       					</div>
     				</div>
   				</div>

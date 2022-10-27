@@ -6,23 +6,25 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mystudy.house.model.dao.KnowhowDAO;
+import com.mystudy.house.model.dao.PictureDAO;
 
-public class KnowhowDeleteCommand implements Command {
+public class PictureCommentDeleteCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idx = request.getParameter("idx");
+		String idx = request.getParameter("idx"); // 글번호
+		String comIdx = request.getParameter("comIdx"); // 댓글번호
 		
-		KnowhowDAO.deleteKnowhow(idx);
+		PictureDAO.deletePictureComment(comIdx);
 		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
 		java.io.PrintWriter out = response.getWriter();
-		out.println("<html><form name='frm' action='knowhow.do' method='post'>");
+		out.println("<html><form name='frm' action='pictureDetail.do' method='post'>");
+		out.println("<input type='hidden' name='idx' value=" + idx + ">");
 		out.println("</form></html>");
-		out.println("<script>alert('노하우글이 삭제되었습니다');frm.submit();</script>");
+		out.println("<script>alert('댓글이 삭제되었습니다');frm.submit();</script>");
 		out.close();
 
 		return null;

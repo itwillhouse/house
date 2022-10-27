@@ -11,7 +11,7 @@
 			<a class="knowhow nav-link" href="knowhow.do">노하우</a>
 		</li>
 		<li class="nav-item">
-			<a class="qna nav-link">질문과답변</a>
+			<a class="qna nav-link" href="request.do">질문과답변</a>
 		</li>
 	</ul>
 </nav>

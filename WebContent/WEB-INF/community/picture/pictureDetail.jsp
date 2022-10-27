@@ -50,7 +50,7 @@
     				<div class="modal-content">
       				<!-- Modal Header -->
       					<div class="modal-header">
-        					<h4 class="modal-title">노하우글 삭제</h4>
+        					<h4 class="modal-title">사진글 삭제</h4>
         					<button type="button" class="close" data-dismiss="modal">&times;</button>
       					</div>
       				<!-- Modal body -->
@@ -60,7 +60,7 @@
       				<!-- Modal footer -->
       					<div class="modal-footer">
         					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
-        					<button type="button" class="btn btn-primary" onclick="location.href='pictureDelete.do?idx=${idx}&cPage=${cPage}'" data-dismiss="modal">삭제</button>
+        					<button type="button" class="btn btn-primary" onclick="location.href='pictureDelete.do?idx=${idx}'" data-dismiss="modal">삭제</button>
       					</div>
     				</div>
   				</div>
@@ -83,16 +83,79 @@
 			<div style="float:left; color: gray;">좋아요 ${vo.likeCnt } 스크랩 ${vo.scrapCnt} 댓글 ${vo.c1Cnt + vo.c2Cnt} 조회수 ${vo.views }</div>
 			<c:if test="${id != vo.id }">
 				<div style="float:right;" class="pb-2">
-					<button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="location.href='knowhowLike.do?idx=${idx}'">
+					<button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="location.href='pictureLike.do?idx=${idx}'">
     					좋아요
   					</button>
-					<button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="location.href='knowhowScrap.do?idx=${idx}'">
+					<button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="location.href='pictureScrap.do?idx=${idx}'">
 						스크랩
 					</button>
 				</div>
 			</c:if>
 		</div>
-		<!-- 댓글 -->
+				<div style="clear:both">
+			<hr>
+			<div><b>댓글 ${vo.c1Cnt + vo.c2Cnt}</b></div>
+			<form class="pt-3" action="pictureCommentWrite.do" method="post">
+  				<div class="row">
+    				<div class="col-sm-11">
+    					<input type="text" class="form-control" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다 :)" id="comment" name="comment">
+  						<input type="hidden" name="idx" value="${idx }">
+  					</div>
+  					<div class="col-sm-1"><button type="submit" class="btn" id="btn">입력</button></div>
+  				</div>
+			</form>
+			<div class="comments">
+				<c:forEach items="${list }" var="com" varStatus="status">
+				<div class="comment row pt-4">
+    				<div class="col-sm-1">
+    					<img style="border-radius: 30px" src="${pageContext.request.contextPath}/img/profileImg/${com.profileImg}" width="30px" height="30px">
+    				</div>
+    				<div class="col-sm-11">
+    					<span><b>${com.id }</b></span><br>
+    					<span>${com.content }</span><br>
+    					<span>${com.regdate }</span>&nbsp;&nbsp;
+    					<c:if test="${com.id == id }">
+    									<a style="color: #35C5F0" href="pictureCommentDelete.do?comIdx=${com.piccomIdx }&idx=${idx}"><i class="fas fa-eraser"></i></a>&nbsp;&nbsp;
+    									</c:if>
+    					<a style="color: #35C5F0" data-toggle="collapse" data-target="#com${status.index }"><i class="far fa-comment-dots"></i></a>
+    					<div id="com${status.index }" class="collapse">
+    						<form class="pb-3 pt-3" method="post" action="pictureComment2Write.do">
+  								<div class="row">
+    								<div class="col-sm-10">
+    									<input type="text" class="form-control" placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다 :)" id="comments" name="comments">
+  										<input type="hidden" name="piccomIdx" value="${com.piccomIdx }">
+  										<input type="hidden" name="idx" value="${idx }">
+  									</div>
+  									<div class="col-sm-2">
+  										<button type="submit" class="btn" id="btn">입력</button>
+  									</div>
+  								</div>
+							</form>
+    					</div>
+    					
+    						<c:forEach items="${list2 }" var="com2">
+    							<c:if test="${com2.pictureIdx == com.piccomIdx }">
+    								<div class="row bg-light pb-2 pt-3 mt-2">
+    								<div class="col-sm-1">
+    									<img style="border-radius: 30px" src="${pageContext.request.contextPath}/img/profileImg/${com2.profileImg}" width="30px" height="30px">
+    								</div>
+    								<div class="col-sm-11 pb-2">
+    									<span><b>${com2.id }</b></span><br>
+    									<span>${com2.content }</span><br>
+    									<span>${com2.regdate }</span>&nbsp;&nbsp;
+    									<c:if test="${com2.id == id }">
+    									<a style="color: #35C5F0" href="pictureComment2Delete.do?comIdx=${com2.piccomIdx }&idx=${idx}"><i class="fas fa-eraser"></i></a>
+    									</c:if>
+    								</div>
+    								</div>
+    							</c:if>
+    						</c:forEach>
+    						
+    				</div>
+    			</div>
+				</c:forEach>
+			</div>
+		</div>
 	</div>
 	<%@ include file="/WEB-INF/common/footer.jspf" %>
 </div>
