@@ -35,6 +35,10 @@
 	</style>
 	<script>
 		$(document).ready(function(){
+			$(".content br").remove();
+			$(".content img").unwrap();
+			$(".content img").remove();
+			
 			$("#searchBtn").click(function() {
 				location.href = "knowhowSearch.do?text=" + $("#searchText").val() + "&opt=" + $("#searchOpt").val();
 			})
@@ -92,7 +96,7 @@
     								<h5 class="text-dark"><b>${vo.subject }</b></h5>
     							</button>
 							</div>
-							<div>
+							<div class="content">
 								${vo.content }
 							</div>
 							<div>
@@ -105,7 +109,7 @@
 							</div>
 						</div>
 						<div class="col-sm-2 d-flex align-items-center">
-							<img style="border-radius: 10px" src="${pageContext.request.contextPath}/img/knowhowThumbnail/${vo.thumbnail }" width="100%">
+							<img style="border-radius: 10px; object-fit: cover;" src="${vo.thumbnail }" width="158px" height="158px">
 						</div>
 					</div>
 					<hr>

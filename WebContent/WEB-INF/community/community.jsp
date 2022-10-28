@@ -38,6 +38,7 @@
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
   border: none;
   border-radius: 0;
+  width: 300px;
 }
 .carousel-inner {
   padding: 1em;
@@ -91,8 +92,8 @@
 		<div class="text-center">
 			<img height="500px" 
 			src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FOrjcq%2FbtrPJFLsuta%2FXPpeftoSCCiHNzjP1xK1ZK%2Fimg.png">
-			<img height="500px" width="260px" 
-			src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fz1aqE%2FbtrPIFr8Xlo%2FKUzhfSz4dLp8IKDr0EEfTK%2Fimg.png">
+			<img height="500px" width="270px" 
+			src="https://image.ohou.se/i/bucketplace-v2-development/uploads/exhibitions/descriptions/163426184071526323.gif">
 		</div>
 		<div class="pt-5">
 			<h5><b>카테고리별 상품 찾기</b></h5>

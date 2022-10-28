@@ -35,6 +35,10 @@
 	</style>
 	<script>
 		$(document).ready(function(){
+			$(".content br").remove();
+			$(".content img").unwrap();
+			$(".content img").remove();
+			
 			$("#searchBtn").click(function() {
 				location.href = "pictureSearch.do?text=" + $("#searchText").val() + "&opt=" + $("#searchOpt").val();
 			})
@@ -84,11 +88,7 @@
 								<button onclick="location.href='picture.do?residence=${vo.sizes }'" type="button" id="btn" class="btn btn-sm">${sizesMenu[vo.sizes] }</button>
 								<button onclick="location.href='picture.do?residence=${vo.style }'" type="button" id="btn" class="btn btn-sm">${styleMenu[vo.style] }</button>
 							</div>
-							<div>
-								<button class="btn btn-link p-0" onclick="location.href='pictureDetail.do?idx=${vo.pictureIdx }'">
-    								<h5 class="text-dark"><b>${vo.content }</b></h5>
-    							</button>
-							</div>
+							<div class="content">${vo.content}</div>
 							<div>
 								<small>
 									${vo.id }&nbsp;&nbsp;|&nbsp;
@@ -99,7 +99,9 @@
 							</div>
 						</div>
 						<div class="col-sm-2 d-flex align-items-center">
-							<img style="border-radius: 10px" src="${pageContext.request.contextPath}/img/knowhowThumbnail/${vo.thumbnail }" width="100%">
+							<button class="btn btn-link p-0" onclick="location.href='pictureDetail.do?idx=${vo.pictureIdx }'">
+								<img style="border-radius: 10px; object-fit: cover;" src="${vo.thumbnail }" width="158px" height="158px">
+    						</button>
 						</div>
 					</div>
 					<hr>

@@ -156,14 +156,16 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<c:if test="${empty list }">
+		<div>
 			<div class="text-center p-4">
 				<img class="pt-2 pb-2" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/assets/163703569663018673.png" width="100px">
      			<h5>앗! 찾으시는 결과가 없네요.</h5>
-     		</div>	
+     		</div>
+     	</div>	
 		</c:if>
 		<c:if test="${not empty list }">
-		<c:forEach items="${list }" var="vo">
 		<div class="row">
+		<c:forEach items="${list }" var="vo">
 			<div class="col-sm-3" style="display:block">
 				<div class="profile row pt-4 pb-2">
 					<div class="col-sm-2">
@@ -205,8 +207,8 @@ $(document).ready(function(){
 				</div>
 				</c:if>		
 			</div>
-		</div>
 		</c:forEach>
+		</div>
 		<ul class="pagination justify-content-center pt-3 pb-2">
     			<!-- 이전 -->
    		 		<li class="page-item">
