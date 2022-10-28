@@ -133,11 +133,13 @@ public class KnowhowDAO {
 	public static int scrapKnowhow(KnowscrapVO vo) {
 		SqlSession ss = DBService.getFactory().openSession(true);
 		
-		List<String> list = ss.selectList("house.confirmknowscrap", vo);
+		String scrapNum = ss.selectOne("house.confirmknowscrap", vo);
 		
 		int result = 0;
-		if(list.isEmpty()) {
+		if(scrapNum == null) {
 			result = ss.insert("house.scrapKnowhow", vo);
+		} else {
+			ss.delete("house.deleteKnowhowScrap", scrapNum);
 		}
 		ss.close();
 		return result;

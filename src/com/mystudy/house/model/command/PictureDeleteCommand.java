@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mystudy.house.model.dao.KnowhowDAO;
 import com.mystudy.house.model.dao.PictureDAO;
 
 public class PictureDeleteCommand implements Command {

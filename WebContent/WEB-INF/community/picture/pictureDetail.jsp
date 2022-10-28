@@ -35,10 +35,10 @@
 	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
 	<div class="pb-4">
 		<div class="pt-4">
-			<a href="#">${residenceMenu[vo.residence] }</a>&nbsp;&nbsp;|&nbsp;
-			<a href="#">${spaceMenu[vo.space] }</a>&nbsp;&nbsp;|&nbsp;
-			<a href="#">${sizesMenu[vo.sizes] }</a>&nbsp;&nbsp;|&nbsp;
-			<a href="#">${styleMenu[vo.style] }</a>
+			<a href="picture.do?residence=${vo.residence }">${residenceMenu[vo.residence] }</a>&nbsp;&nbsp;|&nbsp;
+			<a href="picture.do?space=${vo.space }">${spaceMenu[vo.space] }</a>&nbsp;&nbsp;|&nbsp;
+			<a href="picture.do?sizes=${vo.sizes }">${sizesMenu[vo.sizes] }</a>&nbsp;&nbsp;|&nbsp;
+			<a href="picture.do?style=${vo.style }">${styleMenu[vo.style] }</a>
 		</div>
 		<c:if test="${id == vo.id }">
 		<div class="pt-3 pb-2">

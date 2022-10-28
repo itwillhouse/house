@@ -23,6 +23,10 @@
   .home, .knowhow, .qna {
   color: black;
   }
+  
+  img {
+  	width: 100%;
+  }
   </style>
   <script>
   $(document).ready(function() {
@@ -31,12 +35,34 @@
 		  minHeight: null,             // set minimum height of editor
 		  maxHeight: null,             // set maximum height of editor
 		  focus: true,                  // set focus to editable area after initializing summernote
-		  toolbar: [
-			    // [groupName, [list of button]]
-			  ]
+		  toolbar: [['insert',['picture']]],
+			callbacks: { // 콜백을 사용
+	            // 이미지를 업로드할 경우 이벤트를 발생
+			    onImageUpload: function(files, editor, welEditable) {
+				    sendFile(files[0], this);
+				}
+			}
 	  });
-	  
 	});
+  
+  function sendFile(file, editor) {
+		// 파일 전송을 위한 폼생성
+	 	data = new FormData();
+	 	data.append("uploadFile", file);
+	 	$.ajax({ // ajax를 통해 파일 업로드 처리
+	 	 	data : data,
+	 	 	type : "POST",
+	 	 	url : "pictureImageUpload.do",
+	 	 	cache : false,
+	 	 	contentType : false,
+	 	 	processData : false,
+	 	 	success : function(data) { // 처리가 성공할 경우
+	 	 	 	// 에디터에 이미지 출력
+	 			$(editor).summernote('editor.insertImage', data.url);
+	 	 		$("#thumbnail").val(data.url);
+	 		}
+	 	});
+	}
   </script>
 </head>
 <body>
@@ -65,7 +91,7 @@
         <option value="5">상업공간</option>
         <option value="6">기타</option>
       </select>  
-      <select class="form-control" id="style" name="style">
+      <select class="form-control mr-2" id="style" name="style">
         <option selected disabled>스타일</option>
         <option value="0">모던</option>
         <option value="1">북유럽</option>
@@ -76,14 +102,7 @@
         <option value="6">한국아시아</option>
         <option value="7">유니크</option>
       </select>  
-    </div>
-    <div class="row border">
-    <div class="col form-group mt-4 ml-2">
-      <input type="file" class="form-control-file border" name="file">
-      <img class="mt-3" src="../imgs/166592706060596621.png" width="200px">
-    </div>
-    <div class="col">
-    <select class="form-control mt-4 mb-3" id="space" name="space">
+      <select class="form-control" id="space" name="space">
         <option selected disabled>공간(필수)</option>
         <option value="0">원룸</option>
         <option value="1">거실</option>
@@ -99,10 +118,12 @@
         <option value="11">현관</option>
         <option value="12">외관기타</option>
       </select>  
-    <textarea class="form-control mb-4" rows="8" id="summernote" name="editordata">사진에 대해 설명해주세요</textarea>
     </div>
+    <div>
+    <textarea class="form-control mb-4" id="summernote" name="editordata">사진에 대해 설명해주세요</textarea>
     </div>
     <div class="mb-4">
+    <input type="hidden" name="thumbnail" id="thumbnail" value="">
     <button type="submit" class="btn mt-3" id="btn">올리기</button>
     </div>
   </form>

@@ -123,8 +123,8 @@ ORDER BY REGDATE) K
 <!-- 노하우 작성 -->
 <insert id="writeKnowhow" parameterType="knowhowVO">
 INSERT INTO KNOWHOW
-(KNOWHOW_IDX, ID, SUBJECT, CONTENT, CATEGORY )
-VALUES (KNOWHOW_SEQ.NEXTVAL, #{id}, #{subject}, #{content}, #{category})
+(KNOWHOW_IDX, ID, SUBJECT, CONTENT, CATEGORY, THUMBNAIL )
+VALUES (KNOWHOW_SEQ.NEXTVAL, #{id}, #{subject}, #{content}, #{category}, #{thumbnail})
 </insert>
 <!-- 노하우 수정 -->
 <update id="editKnowhow" parameterType="knowhowVO">
@@ -148,12 +148,16 @@ INSERT INTO KNOWLIKE (LIKE_NUM, KNOWHOW_IDX, ID) VALUES (KNOWLIKE_SEQ.NEXTVAL, #
 </insert>
 <!-- 노하우 스크랩 여부 확인 -->
 <select id="confirmknowscrap" parameterType="knowscrapVO" resultType="String">
-SELECT SCRAP_NUM FROM KNOWSCRAP WHERE KNOWHOW_IDX = #{knowhowIdx} AND ID = #{id}
+SELECT SCRAP_NUM FROM MYSCRAP WHERE POST_IDX = #{knowhowIdx} AND ID = #{id} AND POST_TYPE = 1
 </select>
 <!-- 노하우 스크랩 -->
 <insert id="scrapKnowhow" parameterType="knowscrapVO">
-INSERT INTO KNOWSCRAP (SCRAP_NUM, KNOWHOW_IDX, ID) VALUES (KNOWSCRAP_SEQ.NEXTVAL, #{knowhowIdx}, #{id})
+INSERT INTO MYSCRAP (SCRAP_NUM, POST_IDX, ID, POST_TYPE) VALUES (SCRAP_SEQ.NEXTVAL, #{knowhowIdx}, #{id}, 1)
 </insert>
+<!-- 노하우 스크랩 삭제 -->
+<delete id="deleteKnowhowScrap" parameterType="String">
+DELETE FROM MYSCRAP WHERE SCRAP_NUM = #{num}
+</delete>
 <!-- 노하우 삭제 -->
 <delete id="deleteKnowhow" parameterType="String">
 DELETE FROM KNOWHOW WHERE KNOWHOW_IDX = #{idx}
@@ -200,12 +204,53 @@ SELECT * FROM VW_KNOWHOW WHERE ID = #{id}
 <!-- PictureDAO -->
 <!-- 사진글 작성 -->
 <insert id="writePicture" parameterType="pictureVO">
-INSERT INTO PICTURE (PICTURE_IDX, ID, CONTENT, RESIDENCE, SPACE, SIZES, STYLE) VALUES 
-(PICTURE_SEQ.NEXTVAL, #{id}, #{content}, #{residence}, #{space}, #{sizes}, #{style})
+INSERT INTO PICTURE (PICTURE_IDX, ID, CONTENT, RESIDENCE, SPACE, SIZES, STYLE, THUMBNAIL) VALUES 
+(PICTURE_SEQ.NEXTVAL, #{id}, #{content}, #{residence}, #{space}, #{sizes}, #{style}, #{thumbnail})
 </insert>
-<!-- 사진글 조회 -->
-<select id="showPicture" resultType="pictureVO">
-SELECT PICTURE_IDX, ID, CONTENT, REGDATE, VIEWS, THUMBNAIL, RESIDENCE, SPACE, SIZES, STYLE, SCRAP_CNT, C1_CNT, C2_CNT, LIKE_CNT, PROFILE_IMG, LASTEST_CO_PROFILEIMG, LASTEST_CO_ID, LASTEST_CO_CONTENT FROM VW_PICTURE
+<!-- 사진글 조회: 최신순 -->
+<select id="showPicture0" parameterType="map" resultType="int">
+SELECT COUNT(*) FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY REGDATE DESC
+</select>
+<!-- 사진글 조회: 최근 인기순 -->
+<select id="showPicture1" parameterType="map" resultType="int">
+SELECT COUNT(*) FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY CURRENT_LIKE_CNT DESC
+</select>
+<!-- 사진글 조회: 역대 인기순 -->
+<select id="showPicture2" parameterType="map" resultType="int">
+SELECT COUNT(*) FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY LIKE_CNT DESC
+</select>
+<!-- 사진글 페이징 조회: 최신순 -->
+<select id="showPicturePaging0" parameterType="map" resultType="pictureVO">
+SELECT * FROM 
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY REGDATE DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 사진글 페이징 조회: 최근 인기순 -->
+<select id="showPicturePaging1" parameterType="map" resultType="pictureVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM,
+K.* FROM (SELECT * FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY CURRENT_LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 사진글 페이징 조회: 역대 인기순 -->
+<select id="showPicturePaging2" parameterType="map" resultType="pictureVO">
+SELECT * FROM 
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
 </select>
 <!-- 사진글 상세 조회 -->
 <select id="showPictureDetail" parameterType="String" resultType="pictureVO">
@@ -225,17 +270,20 @@ INSERT INTO PICLIKE (LIKE_NUM, PICTURE_IDX, ID) VALUES (PICLIKE_SEQ.NEXTVAL, #{p
 </insert>
 <!-- 사진글 스크랩 여부 확인 -->
 <select id="confirmpicscrap" parameterType="picscrapVO" resultType="String">
-SELECT SCRAP_NUM FROM PICSCRAP WHERE PICTURE_IDX = #{pictureIdx} AND ID = #{id}
+SELECT SCRAP_NUM FROM MYSCRAP WHERE POST_IDX = #{pictureIdx} AND ID = #{id} AND POST_TYPE = 0
 </select>
 <!-- 사진글 스크랩 -->
 <insert id="scrapPicture" parameterType="picscrapVO">
-INSERT INTO PICSCRAP (SCRAP_NUM, PICTURE_IDX, ID) VALUES (PICSCRAP_SEQ.NEXTVAL, #{pictureIdx}, #{id})
+INSERT INTO MYSCRAP (SCRAP_NUM, POST_IDX, ID, POST_TYPE) VALUES (SCRAP_SEQ.NEXTVAL, #{pictureIdx}, #{id}, 0)
 </insert>
+<!-- 사진글 스크랩 삭제 -->
+<delete id="deletePictureScrap" parameterType="String">
+DELETE FROM MYSCRAP WHERE SCRAP_NUM = #{num}
+</delete>
 <!-- 사진글 삭제 -->
 <delete id="deletePicture" parameterType="String">
 DELETE FROM PICTURE WHERE PICTURE_IDX = #{idx}
 </delete>
-
 <!-- 사진글 댓글 조회 -->
 <select id="showPictureComments" parameterType="String" resultType="piccommentVO">
 SELECT * FROM VW_PICCOMMENT WHERE PICTURE_IDX = #{idx}
@@ -263,7 +311,18 @@ DELETE FROM PICCOMMENT2 WHERE COM_IDX = #{idx}
 <delete id="deletePictureComment">
 DELETE FROM PICCOMMENT WHERE PICCOM_IDX = #{idx}
 </delete>
-
+<!-- 사진글 수정 -->
+<update id="editPicture" parameterType="pictureVO">
+UPDATE PICTURE SET CONTENT = #{content}, RESIDENCE = #{residence}, STYLE = #{style}, SPACE = #{space}, SIZES = #{sizes} WHERE PICTURE_IDX = #{pictureIdx}
+</update>
+<!-- 사진글 내용 검색 -->
+<select id="searchPicturebyContent" parameterType="String" resultType="pictureVO">
+SELECT * FROM VW_PICTURE WHERE CONTENT LIKE #{content}
+</select>
+<!-- 사진글 작성자 검색 -->
+<select id="searchPicturebyId" parameterType="String" resultType="pictureVO">
+SELECT * FROM VW_PICTURE WHERE ID = #{id}
+</select>
 <!-- 태우님 SQL -->
 
 	<!-- 게시글 입력 -->

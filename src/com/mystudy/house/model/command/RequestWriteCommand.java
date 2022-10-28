@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class PictureWriteCommand implements Command {
+public class RequestWriteCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -18,7 +18,7 @@ public class PictureWriteCommand implements Command {
 		if(id == null) {
 			return "/WEB-INF/member/login.jsp";
 		} else {
-			return "/WEB-INF/community/picture/pictureWrite.jsp";
+			return "/request_write.jsp";
 		}	
 	}
 

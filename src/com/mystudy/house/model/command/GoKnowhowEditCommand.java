@@ -19,7 +19,7 @@ public class GoKnowhowEditCommand implements Command {
 		
 		vo.setKnowhowIdx(idx);
 		vo.setCategory(request.getParameter("category"));
-		vo.setContent(request.getParameter("content"));
+		vo.setContent(request.getParameter("editordata"));
 		vo.setSubject(request.getParameter("subject"));
 		
 		KnowhowDAO.editKnowhow(vo);
@@ -35,8 +35,6 @@ public class GoKnowhowEditCommand implements Command {
 		out.close();
 
 		return null;
-		
-		//return "knowhowDetail.do?idx=" + idx;
 	}
 
 }

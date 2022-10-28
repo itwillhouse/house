@@ -16,10 +16,15 @@ public class PictureComment2WriteCommand implements Command {
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
+		String id = (String) session.getAttribute("id");
+		if(id == null) {
+			return "login.do";
+		}
+		
 		String idx = request.getParameter("idx");
 		
 		PiccommentVO vo = new PiccommentVO();
-		vo.setId((String) session.getAttribute("id")); // 작성아이디
+		vo.setId(id); // 작성아이디
 		vo.setContent(request.getParameter("comments")); // 내용
 		vo.setPictureIdx(request.getParameter("piccomIdx")); // 댓글번호
 		

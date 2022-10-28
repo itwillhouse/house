@@ -36,9 +36,6 @@
 	</style>
 	<script>
 		$(document).ready(function(){
-			/*********************************
-			여기 수정
-			**********************************/
 			$("#order").change(function() {
 				let cPage = <%= request.getParameter("cPage") %>;
 				let category = <%= request.getParameter("category") %>
@@ -146,7 +143,7 @@
 					<div class="col-sm-3 pt-3">
     				<div class="thumbnail pb-2">
     					<a href="knowhowDetail.do?idx=${vo.knowhowIdx }&cPage=${pvo.nowPage}">			
-    						<img style="border-radius: 10px" src="${pageContext.request.contextPath}/img/knowhowThumbnail/${vo.thumbnail }" width="260px" height="180px">
+    						<img style="border-radius: 10px; object-fit: cover;" src="${vo.thumbnail }" width="260px" height="180px">
     					</a>
     				</div>
     				<div class="title"><b>${vo.subject }</b></div>

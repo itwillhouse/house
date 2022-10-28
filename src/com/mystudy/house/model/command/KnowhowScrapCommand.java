@@ -39,7 +39,7 @@ public class KnowhowScrapCommand implements Command {
 		if(result > 0) {
 			out.println("<script>alert('노하우글 스크랩이 완료되었습니다');frm.submit();</script>");
 		} else {
-			out.println("<script>alert('이미 스크랩한 노하우글입니다');frm.submit();</script>");
+			out.println("<script>alert('노하우글 스크랩이 취소되었습니다');frm.submit();</script>");
 		}
 		out.close();
 		

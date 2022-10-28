@@ -14,26 +14,23 @@ public class GoPictureWriteCommand implements Command {
 
 	@Override
 	public String exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		HttpSession session = request.getSession();
 		
-		String id = (String) session.getAttribute("id");
-		if(id == null) {
-			return "login.do";
-		}
-		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+
 		PictureVO vo = new PictureVO();
 		vo.setContent(request.getParameter("editordata"));
-		vo.setId(id);
+		vo.setId((String) session.getAttribute("id"));
 		vo.setResidence(request.getParameter("residence"));
 		vo.setSizes(request.getParameter("sizes"));
 		vo.setSpace(request.getParameter("space"));
 		vo.setStyle(request.getParameter("style"));
-		
+		vo.setThumbnail(request.getParameter("thumbnail"));
+			
 		PictureDAO.writePicture(vo);
-		
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		
+
 		java.io.PrintWriter out = response.getWriter();
 		out.println("<html><form name='frm' action='picture.do' method='post'>");
 		out.println("</form></html>");

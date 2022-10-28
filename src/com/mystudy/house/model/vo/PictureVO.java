@@ -3,7 +3,16 @@ package com.mystudy.house.model.vo;
 public class PictureVO {
 	private String pictureIdx, id, content, regdate, views, thumbnail, residence, space, sizes, style;
 	private String scrapCnt, c1Cnt, c2Cnt, likeCnt, profileImg, lastestCoProfileimg, lastestCoId, lastestCoContent;
-	
+	private String currentLikeCnt;
+
+	public String getCurrentLikeCnt() {
+		return currentLikeCnt;
+	}
+
+	public void setCurrentLikeCnt(String currentLikeCnt) {
+		this.currentLikeCnt = currentLikeCnt;
+	}
+
 	public String getScrapCnt() {
 		return scrapCnt;
 	}

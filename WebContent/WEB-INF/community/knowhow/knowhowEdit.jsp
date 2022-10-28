@@ -28,48 +28,42 @@
   display: none;
   }  
   </style>
-  <script>
-  $(document).ready(function() {
-	  $('#summernote').summernote({
-		  height: 300,                 // set editor height
-		  minHeight: null,             // set minimum height of editor
-		  maxHeight: null,             // set maximum height of editor
-		  focus: true,                  // set focus to editable area after initializing summernote
-		  toolbar: [
-			    // [groupName, [list of button]]
-			    ['insert',['picture']]
-			  ],
-			callbacks: {
-			    onImageUpload: function(files, editor, welEditable) {
-			    	sendFile(files[0], this);
-		            }
-			  },
-			  onMediaDelete : function($target, editor, $editable) {
-			         alert($target.context.dataset.filename);         
-			         $target.remove();
-			    }
-	  });
+<script>
+$(document).ready(function() {
+	$('#summernote').summernote({
+		height: 300,                 // set editor height
+		minHeight: null,             // set minimum height of editor
+		maxHeight: null,             // set maximum height of editor
+		focus: true,                  // set focus to editable area after initializing summernote
+		toolbar: [['insert',['picture']]],
+		callbacks: { // 콜백을 사용
+            // 이미지를 업로드할 경우 이벤트를 발생
+		    onImageUpload: function(files, editor, welEditable) {
+			    sendFile(files[0], this);
+			}
+		}
 	});
-  
-  /* summernote에서 이미지 업로드시 실행할 함수 */
-	function sendFile(file, editor) {
-      // 파일 전송을 위한 폼생성
-		data = new FormData();
-	    data.append("uploadFile", file);
-	    $.ajax({ // ajax를 통해 파일 업로드 처리
-	        data : data,
-	        type : "POST",
-	        url : "",
-	        cache : false,
-	        contentType : false,
-	        processData : false,
-	        success : function(data) { // 처리가 성공할 경우
-              // 에디터에 이미지 출력
-	        	$(editor).summernote('editor.insertImage', data.url);
-	        }
-	    });
-	}
-  </script>
+});
+
+function sendFile(file, editor) {
+	// 파일 전송을 위한 폼생성
+ 	data = new FormData();
+ 	data.append("uploadFile", file);
+ 	$.ajax({ // ajax를 통해 파일 업로드 처리
+ 	 	data : data,
+ 	 	type : "POST",
+ 	 	url : "knowhowImageUpload.do",
+ 	 	cache : false,
+ 	 	contentType : false,
+ 	 	processData : false,
+ 	 	success : function(data) { // 처리가 성공할 경우
+ 	 	 	// 에디터에 이미지 출력
+ 			$(editor).summernote('editor.insertImage', data.url);
+ 	 		$("#thumbnail").val(data.url);
+ 		}
+ 	});
+}
+</script>
 </head>
 <body>
 <div class="container">
@@ -92,8 +86,8 @@
   <div>
   <form action="goKnowhowEdit.do" method="post" >
     <div class="form-group form-inline mt-3">
-    <label for="sel1">카테고리(필수):&nbsp;&nbsp;&nbsp;</label>
-      <select class="form-control" name="category">
+    <label for="cat">카테고리(필수):&nbsp;&nbsp;&nbsp;</label>
+      <select class="form-control" name="category" id="cat">
         <option selected disabled>선택해주세요</option>
         <c:forEach items="${menu }" var="m" varStatus="status">
         <c:if test="${vo.category == status.index }">

@@ -21,6 +21,7 @@ public class GoKnowhowWriteCommand implements Command {
 		vo.setContent(request.getParameter("editordata"));
 		vo.setId((String) session.getAttribute("id"));
 		vo.setSubject(request.getParameter("subject"));
+		vo.setThumbnail(request.getParameter("thumbnail"));
 		
 		KnowhowDAO.writeKnowhow(vo);
 		

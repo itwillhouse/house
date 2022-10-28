@@ -25,6 +25,38 @@
 .picture, .knowhow, .qna {
 	color: black;
 }
+.cards-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.card img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.card {
+  margin: 0 0.5em;
+  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+  border: none;
+  border-radius: 0;
+}
+.carousel-inner {
+  padding: 1em;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #e1e1e1;
+  width: 5vh;
+  height: 5vh;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+@media (min-width: 768px) {
+  .card img {
+  	width: 300px;
+  	height: 300px;
+  }
+}
 </style>
 <script>
     $(document).ready(function(){
@@ -56,20 +88,108 @@
 	</c:if>
 	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
 	<div class="pb-4">
-		<div class="pt-5">
-			<img width="100%" height="400px">
+		<div class="text-center">
+			<img height="500px" 
+			src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FOrjcq%2FbtrPJFLsuta%2FXPpeftoSCCiHNzjP1xK1ZK%2Fimg.png">
+			<img height="500px" width="260px" 
+			src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fz1aqE%2FbtrPIFr8Xlo%2FKUzhfSz4dLp8IKDr0EEfTK%2Fimg.png">
 		</div>
 		<div class="pt-5">
-			<h5>카테고리별 상품 찾기</h5>
+			<h5><b>카테고리별 상품 찾기</b></h5>
+			<%@ include file="/WEB-INF/common/store_category.jspf" %>
 		</div>
 		<div class="pt-5">
-			<h5>인기 사진 TOP 10</h5>
+			<h5><b>인기 사진 TOP 9</b></h5>
+			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  				<div class="carousel-inner">
+    				<div class="carousel-item active">
+      					<div class="cards-wrapper">
+      						<c:forEach items="${picture1 }" var="vo">
+      						<div class="card">
+        						<img style="object-fit: cover;" src="${vo.thumbnail }" class="card-img-top">
+      						</div>
+      						</c:forEach>
+    					</div>
+    				</div>
+    				<div class="carousel-item">
+      					<div class="cards-wrapper">
+      						<c:forEach items="${picture2 }" var="vo">
+      						<div class="card">
+        						<img style="object-fit: cover;" src="${vo.thumbnail }" class="card-img-top">
+      						</div>
+      						</c:forEach>        					
+      					</div>
+    				</div>
+    				<div class="carousel-item">
+      					<div class="cards-wrapper">
+      						<c:forEach items="${picture3 }" var="vo">
+      						<div class="card">
+        						<img style="object-fit: cover;" src="${vo.thumbnail }" class="card-img-top">
+      						</div>
+      						</c:forEach>      					
+      					</div>
+    				</div>
+  				</div>
+  				<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    				<span class="sr-only">이전</span>
+  				</a>
+  				<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+    				<span class="sr-only">다음</span>
+  				</a>
+			</div>
 		</div>
 		<div class="pt-5">
-			<h5>인기 노하우 TOP 10</h5>
-		</div>
-		<div class="pt-5">
-			<h5>인기 질문과답변 TOP 10</h5>
+			<h5><b>인기 노하우 TOP 9</b></h5>
+			<div id="carouselExampleControls2" class="carousel slide" data-ride="carousel">
+  				<div class="carousel-inner">
+    				<div class="carousel-item active">
+      					<div class="cards-wrapper">
+      						<c:forEach items="${knowhow1 }" var="vo">
+      						<div class="card">
+        						<img style="object-fit: cover;" src="${vo.thumbnail }" class="card-img-top">
+        						<div class="card-body">
+          							<p class="card-text">${vo.subject }</p>
+        						</div>
+      						</div>
+      						</c:forEach>
+    					</div>
+    				</div>
+    				<div class="carousel-item">
+      					<div class="cards-wrapper">
+      						<c:forEach items="${knowhow2 }" var="vo">
+      						<div class="card">
+        						<img style="object-fit: cover;" src="${vo.thumbnail }" class="card-img-top">
+        						<div class="card-body">
+          							<p class="card-text">${vo.subject }</p>
+        						</div>
+      						</div>
+      						</c:forEach>        					
+      					</div>
+    				</div>
+    				<div class="carousel-item">
+      					<div class="cards-wrapper">
+      						<c:forEach items="${knowhow3 }" var="vo">
+      						<div class="card">
+        						<img style="object-fit: cover;" src="${vo.thumbnail }" class="card-img-top">
+        						<div class="card-body">
+          							<p class="card-text">${vo.subject }</p>
+        						</div>
+      						</div>
+      						</c:forEach>      					
+      					</div>
+    				</div>
+  				</div>
+  				<a class="carousel-control-prev" href="#carouselExampleControls2" role="button" data-slide="prev">
+    				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    				<span class="sr-only">이전</span>
+  				</a>
+  				<a class="carousel-control-next" href="#carouselExampleControls2" role="button" data-slide="next">
+    				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+    				<span class="sr-only">다음</span>
+  				</a>
+			</div>
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/common/footer.jspf" %>

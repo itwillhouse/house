@@ -79,10 +79,7 @@
 <head>
 <meta charset="UTF-8">
 <title>오늘의집 - 고객센터</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<%@ include file="/WEB-INF/common/style.jspf"%>
 <style>
   		.community {
   			color: #35C5F0;
@@ -191,7 +188,6 @@
 	}
 	
 	#layout2 .container2 {
-		width: 1280px;
 		margin: auto;
 	}
 	
@@ -211,8 +207,6 @@
 
 	#layout2 .container2 .box2 tr td {
 		display: inline;
-		padding-top: 50px;
-		margin-left: 100px;
 	}
 	
 	
@@ -299,10 +293,11 @@
 	<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 	<div id="layout1">
 		<div class="container1">
-			<div class="box1">
+			<div class="box1 text-center">
 				<span class="span1">질문과 답변</span>
 				<span class="span2">오늘의집 인테리어 고수들과 전문가들에게 조언을 받아보세요.</span><br>
-				<form action="../search" method="get">
+				<div style="display: inline-block">
+					<form action="../search" method="get">
 					<select name="idx" id="idx">
 						<option value="0">제목</option>
 						<option value="1">이름</option>
@@ -310,6 +305,7 @@
 					<input type="text" class="search" name="keyword" id="in">				
 					<input type="hidden" value="검색" id="searcharea">				
 				</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -371,7 +367,7 @@
 								<c:if test="${pvo.endPage >= pvo.totalPage }">
 									<li class="disable2">></li>
 								</c:if>		
-								<input type="button" value="질문하기" onclick="location.href = 'request_write.jsp'" id="requestButton">
+								<input type="button" value="질문하기" onclick="location.href = 'requestWrite.do'" id="requestButton">
 								</ul>
 							</td>
 						</tr>

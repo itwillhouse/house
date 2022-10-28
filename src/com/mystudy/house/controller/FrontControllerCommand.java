@@ -16,6 +16,7 @@ import com.mystudy.house.model.command.GoKnowhowEditCommand;
 import com.mystudy.house.model.command.GoKnowhowWriteCommand;
 import com.mystudy.house.model.command.GoLoginCommand;
 import com.mystudy.house.model.command.GoPartnerRegisterCommand;
+import com.mystudy.house.model.command.GoPictureEditCommand;
 import com.mystudy.house.model.command.GoPictureWriteCommand;
 import com.mystudy.house.model.command.GoPwChangeCommand;
 import com.mystudy.house.model.command.GoPwResetCommand;
@@ -32,6 +33,7 @@ import com.mystudy.house.model.command.KnowhowCommentWriteCommand;
 import com.mystudy.house.model.command.KnowhowDeleteCommand;
 import com.mystudy.house.model.command.KnowhowDetailCommand;
 import com.mystudy.house.model.command.KnowhowEditCommand;
+import com.mystudy.house.model.command.KnowhowImageUploadCommand;
 import com.mystudy.house.model.command.KnowhowLikeCommand;
 import com.mystudy.house.model.command.KnowhowScrapCommand;
 import com.mystudy.house.model.command.KnowhowSearchCommand;
@@ -46,13 +48,17 @@ import com.mystudy.house.model.command.PictureCommentDeleteCommand;
 import com.mystudy.house.model.command.PictureCommentWriteCommand;
 import com.mystudy.house.model.command.PictureDeleteCommand;
 import com.mystudy.house.model.command.PictureDetailCommand;
+import com.mystudy.house.model.command.PictureEditCommand;
+import com.mystudy.house.model.command.PictureImageUploadCommand;
 import com.mystudy.house.model.command.PictureLikeCommand;
 import com.mystudy.house.model.command.PictureScrapCommand;
+import com.mystudy.house.model.command.PictureSearchCommand;
 import com.mystudy.house.model.command.PictureWriteCommand;
 import com.mystudy.house.model.command.PrivacyPolicyCommand;
 import com.mystudy.house.model.command.ProfileImgChangeCommand;
 import com.mystudy.house.model.command.PwChangeCommand;
 import com.mystudy.house.model.command.RequestCommand;
+import com.mystudy.house.model.command.RequestWriteCommand;
 import com.mystudy.house.model.command.SignupCommand;
 import com.mystudy.house.model.command.UsePolicyCommand;
 import com.mystudy.house.model.command.WithdrawCommand;
@@ -120,7 +126,9 @@ public class FrontControllerCommand extends HttpServlet {
 		} else if(com.equals("/knowhowWrite.do")) {
 			command = new KnowhowWriteCommand();
 		} else if(com.equals("/goKnowhowWrite.do")) {
-			command = new GoKnowhowWriteCommand();
+			command = new GoKnowhowWriteCommand();	
+		} else if(com.equals("/knowhowImageUpload.do")) {
+			command = new KnowhowImageUploadCommand();		
 		} else if(com.equals("/knowhowDetail.do")) {
 			command = new KnowhowDetailCommand();
 		} else if(com.equals("/knowhowLike.do")) {
@@ -159,9 +167,9 @@ public class FrontControllerCommand extends HttpServlet {
 		} else if(com.equals("/pictureDelete.do")) {
 			command = new PictureDeleteCommand();
 		} else if(com.equals("/pictureEdit.do")) {
-			//
+			command = new PictureEditCommand();
 		} else if(com.equals("/goPictureEdit.do")) {
-			//
+			command = new GoPictureEditCommand();
 		} else if(com.equals("/pictureCommentWrite.do")) {
 			command = new PictureCommentWriteCommand();
 		} else if(com.equals("/pictureComment2Write.do")) {
@@ -171,10 +179,14 @@ public class FrontControllerCommand extends HttpServlet {
 		} else if(com.equals("/pictureComment2Delete.do")) {
 			command = new PictureComment2DeleteCommand();	
 		} else if(com.equals("/pictureSearch.do")) {
-			//
+			command = new PictureSearchCommand();
+		} else if(com.equals("/pictureImageUpload.do")) {
+			command = new PictureImageUploadCommand();			
 		// Request
 		} else if(com.equals("/request.do")) {
 			command = new RequestCommand();
+		} else if(com.equals("/requestWrite.do")) {
+			command = new RequestWriteCommand();
 		}
 		String path = command.exec(request, response);
 		try {
