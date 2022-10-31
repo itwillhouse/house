@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	<typeAliases>
+		<typeAlias alias="membersVO" type="com.mystudy.house.model.vo.MembersVO"/>
+		<typeAlias alias="partnerVO" type="com.mystudy.house.model.vo.PartnerVO"/>
+		<typeAlias alias="knowhowVO" type="com.mystudy.house.model.vo.KnowhowVO"/>	
+		<typeAlias alias="knowlikeVO" type="com.mystudy.house.model.vo.KnowlikeVO"/>
+		<typeAlias alias="knowscrapVO" type="com.mystudy.house.model.vo.KnowscrapVO"/>	
+		<typeAlias alias="knowcommentVO" type="com.mystudy.house.model.vo.KnowcommentVO"/>				
+		<typeAlias alias="pictureVO" type="com.mystudy.house.model.vo.PictureVO"/>	
+		<typeAlias alias="piclikeVO" type="com.mystudy.house.model.vo.PiclikeVO"/>	
+		<typeAlias alias="picscrapVO" type="com.mystudy.house.model.vo.PicscrapVO"/>	
+		<typeAlias alias="piccommentVO" type="com.mystudy.house.model.vo.PiccommentVO"/>		
+		<typeAlias alias="HouseVO" type="com.mystudy.house.model.vo.HouseVO"/> 
+	 	<typeAlias alias="RequestVO" type="com.mystudy.house.model.vo.RequestVO"/> 
+	 	<typeAlias alias="ReviewsVO" type="com.mystudy.house.model.vo.ReviewsVO"/> 
+	 	<typeAlias alias="ProductInquiryVO" type="com.mystudy.house.model.vo.ProductInquiryVO"/> 
+	 	<typeAlias alias="GogakVO" type="com.mystudy.house.model.vo.GogakVO"/> 
+	 	<typeAlias alias="Gogak_CommentVO" type="com.mystudy.house.model.vo.Gogak_CommentVO"/> 
+	 	<typeAlias alias="Request_comVO" type="com.mystudy.house.model.vo.Request_comVO"/> 	 	
+	</typeAliases>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@192.168.18.10:1521:xe"/>
+        <property name="username" value="house"/>
+        <property name="password" value="house"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="com/mystudy/house/mybatis/mapper.xml"/>
+  </mappers>
+</configuration>

@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="house">
+<!-- MembersDAO -->
+<!-- 로그인 -->
+<select id="login" parameterType="membersVO" resultType="membersVO">
+SELECT * FROM MEMBERS WHERE ID = #{id} AND PW = #{pw}
+</select>
+<!-- 아이디 찾기 -->
+<select id="findId" parameterType="membersVO" resultType="String">
+SELECT ID FROM MEMBERS WHERE NAME = #{name} AND PHONE = #{phone} 
+</select>
+<!-- 회원정보 조회 -->
+<select id="showInfo" parameterType="String" resultType="membersVO">
+SELECT * FROM MEMBERS WHERE ID = #{id}
+</select>
+<!-- 회원정보 수정 -->
+<update id="editInfo" parameterType="membersVO">
+UPDATE MEMBERS SET NAME = #{name}, EMAIL = #{email}, ADDR = #{addr}, ADDR_DETAIL = #{addrDetail}, PHONE = #{phone} WHERE ID = #{id}
+</update>
+<!-- 프로필 이미지 변경 -->
+<update id="changeProfileImg">
+UPDATE MEMBERS SET PROFILE_IMG = #{profileImg} WHERE ID = #{id}
+</update>
+<!-- 비밀번호 변경 -->
+<update id="changepw" parameterType="membersVO">
+UPDATE MEMBERS SET PW = #{pw} WHERE ID = #{id}
+</update>
+<!--  회원가입 -->
+<insert id="signup" parameterType="membersVO">
+INSERT INTO MEMBERS (ID, PW, NAME, EMAIL, ADDR, ADDR_DETAIL, PHONE) VALUES 
+(#{id}, #{pw}, #{name}, #{email}, #{addr}, #{addrDetail}, #{phone})
+</insert>
+<!-- 회원 탈퇴 -->
+<delete id="withdraw" parameterType="String">
+DELETE FROM MEMBERS WHERE ID = #{id}
+</delete>
+<!-- PartnerDAO -->
+<!-- 판매자 신청 -->
+<insert id="registerPartner" parameterType="partnerVO">
+INSERT INTO PARTNER (PARTNER_NUM, ID, COMPANY_NAME, COMPANY_OWNER_NAME, COMPANY_ADDR, COMPANY_ADDR_DETAIL, COMPANY_PHONE, COMPANY_EMAIL, CRN, SHIPPING) VALUES 
+(PARTNER_SEQ.NEXTVAL, #{id}, #{companyName}, #{companyOwnerName}, #{companyAddr}, #{companyAddrDetail}, #{companyPhone}, #{companyEmail}, #{crn}, #{shipping})
+</insert>
+<!-- KnowhowDAO -->
+<!-- 전체 게시글 개수 구하기 -->
+<select id="getTotalKnowhowCount" resultType="int">
+SELECT COUNT(*) AS CNT FROM VW_KNOWHOW
+</select>
+<!-- 카테고리별 전체 게시글 개수 구하기 -->
+<select id="getTotalKnowhowCountbyCategory" parameterType="String" resultType="int">
+SELECT COUNT(*) AS CNT FROM VW_KNOWHOW WHERE CATEGORY = #{category}
+</select>
+<!-- 노하우 전체 조회: 최근인기순 -->
+<select id="showAllKnowhow1" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW
+ORDER BY CURRENT_LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 전체 조회: 역대인기순 -->
+<select id="showAllKnowhow2" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+ORDER BY LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 전체 조회: 최신순 -->
+<select id="showAllKnowhow3" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+ORDER BY REGDATE DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 전체 조회: 과거순 -->
+<select id="showAllKnowhow4" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+ORDER BY REGDATE) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 최근인기순 -->
+<select id="showKnowhow1" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY CURRENT_LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 역대인기순 -->
+<select id="showKnowhow2" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 최신순 -->
+<select id="showKnowhow3" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY REGDATE DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 카테고리별 노하우 조회: 과거순 -->
+<select id="showKnowhow4" parameterType="map" resultType="knowhowVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_KNOWHOW 
+WHERE CATEGORY = #{category}
+ORDER BY REGDATE) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 노하우 작성 -->
+<insert id="writeKnowhow" parameterType="knowhowVO">
+INSERT INTO KNOWHOW
+(KNOWHOW_IDX, ID, SUBJECT, CONTENT, CATEGORY, THUMBNAIL )
+VALUES (KNOWHOW_SEQ.NEXTVAL, #{id}, #{subject}, #{content}, #{category}, #{thumbnail})
+</insert>
+<!-- 노하우 수정 -->
+<update id="editKnowhow" parameterType="knowhowVO">
+UPDATE KNOWHOW SET CATEGORY = #{category}, CONTENT = #{content}, SUBJECT=#{subject} WHERE KNOWHOW_IDX = #{knowhowIdx}
+</update>
+<!-- 노하우 상세 조회 -->
+<select id="showKnowhowDetail" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW WHERE KNOWHOW_IDX = #{idx}
+</select>
+<!-- 노하우 조회수 증가 -->
+<update id="addKnowhowViews" parameterType="String">
+UPDATE KNOWHOW SET VIEWS = (SELECT VIEWS + 1 FROM KNOWHOW WHERE KNOWHOW_IDX = #{idx}) WHERE KNOWHOW_IDX = #{idx}
+</update>
+<!-- 노하우 좋아요 여부 확인 -->
+<select id="confirmknowlike" parameterType="knowlikeVO" resultType="String">
+SELECT LIKE_NUM FROM KNOWLIKE WHERE KNOWHOW_IDX = #{knowhowIdx} AND ID = #{id}
+</select>
+<!-- 노하우 좋아요 -->
+<insert id="likeKnowhow" parameterType="knowlikeVO">
+INSERT INTO KNOWLIKE (LIKE_NUM, KNOWHOW_IDX, ID) VALUES (KNOWLIKE_SEQ.NEXTVAL, #{knowhowIdx}, #{id})
+</insert>
+<!-- 노하우 스크랩 여부 확인 -->
+<select id="confirmknowscrap" parameterType="knowscrapVO" resultType="String">
+SELECT SCRAP_NUM FROM MYSCRAP WHERE POST_IDX = #{knowhowIdx} AND ID = #{id} AND POST_TYPE = 1
+</select>
+<!-- 노하우 스크랩 -->
+<insert id="scrapKnowhow" parameterType="knowscrapVO">
+INSERT INTO MYSCRAP (SCRAP_NUM, POST_IDX, ID, POST_TYPE) VALUES (SCRAP_SEQ.NEXTVAL, #{knowhowIdx}, #{id}, 1)
+</insert>
+<!-- 노하우 스크랩 삭제 -->
+<delete id="deleteKnowhowScrap" parameterType="String">
+DELETE FROM MYSCRAP WHERE SCRAP_NUM = #{num}
+</delete>
+<!-- 노하우 삭제 -->
+<delete id="deleteKnowhow" parameterType="String">
+DELETE FROM KNOWHOW WHERE KNOWHOW_IDX = #{idx}
+</delete>
+<!-- 노하우 댓글 조회 -->
+<select id="showKnowhowComments" parameterType="String" resultType="knowcommentVO">
+SELECT * FROM VW_KNOWCOMMENT WHERE KNOWHOW_IDX = #{idx}
+</select>
+<!-- 노하우 대댓글 조회 -->
+<select id="showKnowhowReply" parameterType="String" resultType="knowcommentVO">
+SELECT * FROM VW_KNOWCOMMENT2 WHERE KNOWHOW_IDX IN (
+SELECT KNOWCOM_IDX FROM KNOWCOMMENT WHERE KNOWHOW_IDX = #{idx})
+</select>
+<!-- 노하우 댓글 작성 -->
+<insert id="writeKnowhowComment" parameterType="knowcommentVO">
+INSERT INTO KNOWCOMMENT (KNOWCOM_IDX, KNOWHOW_IDX, CONTENT, ID)
+ VALUES (KNOWCOMMENT_SEQ.NEXTVAL, #{knowhowIdx}, #{content}, #{id})
+</insert>
+<!-- 노하우 대댓글 작성 -->
+<insert id="writeKnowhowComment2" parameterType="knowcommentVO">
+INSERT INTO KNOWCOMMENT2 (COM_IDX, KNOWCOM_IDX, COMMENTS, ID)
+ VALUES (KNOWCOMMENT2_SEQ.NEXTVAL, #{knowhowIdx}, #{content}, #{id})
+</insert>
+<!-- 노하우 대댓글 삭제 -->
+<delete id="deleteKnowhowComment2" parameterType="String">
+DELETE FROM KNOWCOMMENT2 WHERE COM_IDX = #{idx}
+</delete>
+<!-- 노하우 댓글 삭제 -->
+<delete id="deleteKnowhowComment">
+DELETE FROM KNOWCOMMENT WHERE KNOWCOM_IDX = #{idx}
+</delete>
+<!-- 노하우 제목 검색 -->
+<select id="searchKnowhowbySubject" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW WHERE SUBJECT LIKE #{subject}
+</select>
+<!-- 노하우 내용 검색 -->
+<select id="searchKnowhowbyContent" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW WHERE CONTENT LIKE #{content}
+</select>
+<!-- 노하우 작성자 검색 -->
+<select id="searchKnowhowbyId" parameterType="String" resultType="knowhowVO">
+SELECT * FROM VW_KNOWHOW WHERE ID = #{id}
+</select>
+<!-- PictureDAO -->
+<!-- 사진글 작성 -->
+<insert id="writePicture" parameterType="pictureVO">
+INSERT INTO PICTURE (PICTURE_IDX, ID, CONTENT, RESIDENCE, SPACE, SIZES, STYLE, THUMBNAIL) VALUES 
+(PICTURE_SEQ.NEXTVAL, #{id}, #{content}, #{residence}, #{space}, #{sizes}, #{style}, #{thumbnail})
+</insert>
+<!-- 사진글 조회: 최신순 -->
+<select id="showPicture0" parameterType="map" resultType="int">
+SELECT COUNT(*) FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY REGDATE DESC
+</select>
+<!-- 사진글 조회: 최근 인기순 -->
+<select id="showPicture1" parameterType="map" resultType="int">
+SELECT COUNT(*) FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY CURRENT_LIKE_CNT DESC
+</select>
+<!-- 사진글 조회: 역대 인기순 -->
+<select id="showPicture2" parameterType="map" resultType="int">
+SELECT COUNT(*) FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY LIKE_CNT DESC
+</select>
+<!-- 사진글 페이징 조회: 최신순 -->
+<select id="showPicturePaging0" parameterType="map" resultType="pictureVO">
+SELECT * FROM 
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY REGDATE DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 사진글 페이징 조회: 최근 인기순 -->
+<select id="showPicturePaging1" parameterType="map" resultType="pictureVO">
+SELECT * FROM
+(SELECT ROWNUM R_NUM,
+K.* FROM (SELECT * FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY CURRENT_LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 사진글 페이징 조회: 역대 인기순 -->
+<select id="showPicturePaging2" parameterType="map" resultType="pictureVO">
+SELECT * FROM 
+(SELECT ROWNUM R_NUM, 
+K.* FROM (SELECT * FROM VW_PICTURE
+WHERE RESIDENCE = ${residence} AND SPACE = ${space} AND SIZES = ${sizes} AND STYLE = ${style}
+ORDER BY LIKE_CNT DESC) K
+) WHERE R_NUM BETWEEN #{begin} AND #{end}
+</select>
+<!-- 사진글 상세 조회 -->
+<select id="showPictureDetail" parameterType="String" resultType="pictureVO">
+SELECT PICTURE_IDX, ID, CONTENT, REGDATE, VIEWS, THUMBNAIL, RESIDENCE, SPACE, SIZES, STYLE, SCRAP_CNT, C1_CNT, C2_CNT, LIKE_CNT, PROFILE_IMG, LASTEST_CO_PROFILEIMG, LASTEST_CO_ID, LASTEST_CO_CONTENT FROM VW_PICTURE WHERE PICTURE_IDX = #{idx}
+</select>
+<!-- 사진글 조회수 증가 -->
+<update id="addPictureViews" parameterType="String">
+UPDATE PICTURE SET VIEWS = (SELECT VIEWS + 1 FROM PICTURE WHERE PICTURE_IDX = #{idx}) WHERE PICTURE_IDX = #{idx}
+</update>
+<!-- 사진글 좋아요 여부 확인 -->
+<select id="confirmpiclike" parameterType="piclikeVO" resultType="String">
+SELECT LIKE_NUM FROM PICLIKE WHERE PICTURE_IDX = #{pictureIdx} AND ID = #{id}
+</select>
+<!-- 사진글 좋아요 -->
+<insert id="likePicture" parameterType="piclikeVO">
+INSERT INTO PICLIKE (LIKE_NUM, PICTURE_IDX, ID) VALUES (PICLIKE_SEQ.NEXTVAL, #{pictureIdx}, #{id})
+</insert>
+<!-- 사진글 스크랩 여부 확인 -->
+<select id="confirmpicscrap" parameterType="picscrapVO" resultType="String">
+SELECT SCRAP_NUM FROM MYSCRAP WHERE POST_IDX = #{pictureIdx} AND ID = #{id} AND POST_TYPE = 0
+</select>
+<!-- 사진글 스크랩 -->
+<insert id="scrapPicture" parameterType="picscrapVO">
+INSERT INTO MYSCRAP (SCRAP_NUM, POST_IDX, ID, POST_TYPE) VALUES (SCRAP_SEQ.NEXTVAL, #{pictureIdx}, #{id}, 0)
+</insert>
+<!-- 사진글 스크랩 삭제 -->
+<delete id="deletePictureScrap" parameterType="String">
+DELETE FROM MYSCRAP WHERE SCRAP_NUM = #{num}
+</delete>
+<!-- 사진글 삭제 -->
+<delete id="deletePicture" parameterType="String">
+DELETE FROM PICTURE WHERE PICTURE_IDX = #{idx}
+</delete>
+<!-- 사진글 댓글 조회 -->
+<select id="showPictureComments" parameterType="String" resultType="piccommentVO">
+SELECT * FROM VW_PICCOMMENT WHERE PICTURE_IDX = #{idx}
+</select>
+<!-- 사진글 대댓글 조회 -->
+<select id="showPictureReply" parameterType="String" resultType="piccommentVO">
+SELECT * FROM VW_PICCOMMENT2 WHERE PICTURE_IDX IN (
+SELECT PICCOM_IDX FROM PICCOMMENT WHERE PICTURE_IDX = #{idx})
+</select>
+<!-- 사진글 댓글 작성 -->
+<insert id="writePictureComment" parameterType="piccommentVO">
+INSERT INTO PICCOMMENT (PICCOM_IDX, PICTURE_IDX, CONTENT, ID)
+ VALUES (PICCOMMENT_SEQ.NEXTVAL, #{pictureIdx}, #{content}, #{id})
+</insert>
+<!-- 사진글 대댓글 작성 -->
+<insert id="writePictureComment2" parameterType="piccommentVO">
+INSERT INTO PICCOMMENT2 (COM_IDX, PICCOM_IDX, COMMENTS, ID)
+ VALUES (PICCOMMENT2_SEQ.NEXTVAL, #{pictureIdx}, #{content}, #{id})
+</insert>
+<!-- 사진글 대댓글 삭제 -->
+<delete id="deletePictureComment2" parameterType="String">
+DELETE FROM PICCOMMENT2 WHERE COM_IDX = #{idx}
+</delete>
+<!-- 사진글 댓글 삭제 -->
+<delete id="deletePictureComment">
+DELETE FROM PICCOMMENT WHERE PICCOM_IDX = #{idx}
+</delete>
+<!-- 사진글 수정 -->
+<update id="editPicture" parameterType="pictureVO">
+UPDATE PICTURE SET CONTENT = #{content}, RESIDENCE = #{residence}, STYLE = #{style}, SPACE = #{space}, SIZES = #{sizes} WHERE PICTURE_IDX = #{pictureIdx}
+</update>
+<!-- 사진글 내용 검색 -->
+<select id="searchPicturebyContent" parameterType="String" resultType="pictureVO">
+SELECT * FROM VW_PICTURE WHERE CONTENT LIKE #{content}
+</select>
+<!-- 사진글 작성자 검색 -->
+<select id="searchPicturebyId" parameterType="String" resultType="pictureVO">
+SELECT * FROM VW_PICTURE WHERE ID = #{id}
+</select>
+<!-- 태우님 SQL -->
+
+	<!-- 게시글 입력 -->
+	<insert id="insert_inquiry" parameterType="HouseVO">
+		INSERT INTO INQUIRY
+       	       (INQUIRY_IDX, ID, SUBJECT, REGDATE, COMMENTS, NAME, EMAIL, FILENAME, ORINAME, IP)
+        VALUES (INQ_SEQ.NEXTVAL, 'test01', #{subject}, SYSDATE, #{comments}, #{name}, #{email}, #{fileName}, #{oriName}, #{ip})
+	</insert>
+	
+	<!-- ================================================================= -->
+	
+	
+	<!-- 게시글 번호, 제목, 좋아요, 조회수 조회 -->
+	<!-- 페이지에 해당하는 게시글 조회 request-->
+	<select id="list" resultType="RequestVO"
+			parameterType="map" >
+		SELECT *
+   			  FROM (SELECT ROW_NUMBER() OVER (ORDER BY REQUEST_IDX ASC) AS R_NUM,
+    				 R.* FROM (SELECT *
+      								  FROM REQUEST
+     					  					 ORDER BY REQUEST_IDX DESC
+            					) R  
+      				 ) WHERE R_NUM BETWEEN #{begin} AND #{end}	
+	</select>
+	
+	
+	<!-- 전체 게시글 갯수 조회 -->
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(*) AS CNT FROM REQUEST
+	</select>
+	
+	<insert id="insert_request" parameterType="RequestVO">
+		INSERT INTO REQUEST
+       	       (REQUEST_IDX, ID, SUBJECT, REGDATE, VIEWS, COMMENTS, LIKES, FILENAME, ORINAME, IP)
+        VALUES (REQ_SEQ.NEXTVAL, 1, #{subject}, SYSDATE, #{views}, #{comments}, #{likes}, #{fileName}, #{oriName}, #{ip})
+	</insert>
+	
+	
+	<!-- request 검색 요청 -->
+	<!-- 동적검색 : 제목, 아이디 -->
+	<select id="search" parameterType="map" resultType="RequestVO">
+		SELECT * 
+			FROM REQUEST
+		<choose>
+			<when test="idx == 0">
+				WHERE SUBJECT = #{keyword}
+			</when>
+			<when test="idx == 1">
+				WHERE ID = #{keyword}
+			</when>
+			<otherwise>
+				WHERE 1 = 2
+			</otherwise>
+		</choose> 
+		ORDER BY REQUEST_IDX
+	</select>
+
+	
+	
+	<!-- request 수정 -->
+	<update id="update_request" parameterType="RequestVO">
+		UPDATE REQUEST
+			SET SUBJECT = #{subject},
+				COMMENTS = #{comments},
+				FILENAME = #{fileName}
+		WHERE REQUEST_IDX = #{requestIdx}
+	</update>
+	
+	
+	
+	<delete id="delete_request" parameterType="String">
+		DELETE FROM REQUEST WHERE REQUEST_IDX = #{requestIdx}
+	</delete>
+	
+	
+	
+	
+		<!-- ====== 댓글 데이터 처리 ========== -->
+	<!-- 게시글에 딸린 댓글 데이터 조회 -->
+	<select id="commList" resultType="Request_comVO"
+			parameterType="int">
+		SELECT COM_IDX, REQUEST_IDX, ID, REGDATE, COMMENTS
+        FROM REQUEST_COM
+        WHERE REQUEST_IDX = #{requestIdx}
+        ORDER BY REGDATE DESC
+	</select>
+	
+	
+	<insert id="Request_comment_insert" parameterType="Request_comVO">
+		INSERT INTO REQUEST_COM (COM_IDX, REQUEST_IDX, ID, REGDATE, COMMENTS)
+		VALUES (REQ_COM_SEQ.NEXTVAL,#{requestIdx}, 'test01', SYSDATE, #{comments})
+	</insert>
+	
+	<delete id="delete_request_comment" parameterType="String">
+		DELETE FROM REQUEST_COM WHERE COM_IDX = #{comIdx}
+	</delete>
+	
+	
+	<!-- ================================================================= -->
+	
+	
+	
+	<!-- 페이지에 해당하는 게시글 조회 reviews-->
+	<select id="list2" resultType="ReviewsVO"
+			parameterType="map" >
+		SELECT *
+		  FROM (SELECT ROWNUM R_NUM, R.*
+		          FROM (SELECT *
+		                FROM REVIEWS
+		                ORDER BY IDX DESC
+		                ) R  
+		       ) 
+		 WHERE R_NUM BETWEEN #{begin} AND #{end}	
+	</select>
+	
+	
+	<!--  review 추가 -->
+	<insert id="insert_reviews" parameterType="ReviewsVO">
+		INSERT INTO REVIEWS (IDX, ORDER_NUM, CART_NUM, REGDATE, COMMENTS, STAR, FILENAME, ORINAME, IP)
+		VALUES (REV_SEQ.NEXTVAL,1, 1, SYSDATE, #{comments}, #{star}, #{fileName}, #{oriName}, #{ip})
+	</insert>
+	
+	
+	
+	<!-- 전체 게시글 갯수 조회 -->
+	<select id="totalCount2" resultType="int">
+		SELECT COUNT(*) AS CNT FROM REVIEWS
+	</select>
+	
+	<select id="avg1" resultType="int">
+		SELECT AVG(STAR) AS AVG FROM REVIEWS
+	</select>
+	
+	<delete id="reviews_delete" parameterType="String">
+		DELETE FROM REVIEWS WHERE IDX = #{idx}
+	</delete>
+	
+	<update id="reviews_update" parameterType="ReviewsVO">
+		UPDATE REVIEWS
+			SET IDX = #{idx},
+				REGDATE = SYSDATE,
+				COMMENTS = #{comments},
+				STAR = #{star},
+				FILENAME = #{fileName}
+		WHERE IDX = #{idx}
+	</update>
+	
+	
+	
+	<!-- ================================================================= -->
+	
+		<!-- 페이지에 해당하는 게시글 조회 ProductInquiry-->
+	<select id="list3" resultType="ProductInquiryVO"
+			parameterType="map" >
+		SELECT *
+		  FROM (SELECT ROWNUM R_NUM, R.*
+		          FROM (SELECT *
+		                FROM PRODUCTINQUIRY
+		                ORDER BY PROIN_IDX DESC
+		                ) R  
+		       ) 
+		 WHERE R_NUM BETWEEN #{begin} AND #{end}	
+	</select>
+	
+	<!-- 전체 게시글 갯수 조회 -->
+	<select id="totalCount3" resultType="int">
+		SELECT COUNT(*) AS CNT FROM PRODUCTINQUIRY
+	</select>
+	
+	
+	<!--  insert_productInquiry 추가 -->
+	<insert id="insert_productInquiry" parameterType="ProductInquiryVO">
+		INSERT INTO PRODUCTINQUIRY (PROIN_IDX, PRODUCT_NUM, PARTNER_NUM, REGDATE, COMMENTS, FILENAME, ORINAME, IP)
+		VALUES (PRODUCTINQUIRY_SEQ.NEXTVAL, 1, 1, SYSDATE, #{comments}, #{fileName}, #{oriName}, #{ip})
+	</insert>
+	
+	
+	<delete id="product_inquiry_delete" parameterType="String">
+		DELETE FROM PRODUCTINQUIRY WHERE PROIN_IDX = #{proinIdx}
+	</delete>
+	
+	<update id="product_inquiry_upadte" parameterType="ProductInquiryVO">
+		UPDATE PRODUCTINQUIRY
+			SET PROIN_IDX = #{proinIdx},
+				REGDATE = SYSDATE,
+				COMMENTS = #{comments},
+				ID = #{id},
+				FILENAME = #{fileName}
+		WHERE PROIN_IDX = #{proinIdx}
+	</update>
+	
+	
+	
+
+	<!-- 게시글 1개 조회 -->
+	<select id="one" parameterType="int" resultType="RequestVO">
+		SELECT REQUEST_IDX, SUBJECT, COMMENTS, ID, REGDATE
+        FROM REQUEST
+        WHERE REQUEST_IDX = #{requestIdx}
+	</select>
+	
+
+	<!-- 고객센터 mapper  -->
+	<select id="list4" resultType="GogakVO"
+			parameterType="String" >
+		SELECT INFO FROM GOGAK ORDER BY INFO DESC
+	</select>
+	
+	<!-- 고객센터 해결책 mapper  -->
+	<select id="list5" resultType="Gogak_CommentVO"
+			parameterType="String" >
+		SELECT INFO FROM GOGAK_COMMENT ORDER BY INFO DESC
+	</select>
+</mapper>
