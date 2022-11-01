@@ -11,13 +11,13 @@
 	color: black;
 }
 
-.myupdate {
-	color: #35C5F0;
-	font-weight: bold;
+#mypage, #mysp, #myrv {
+	color: black;
 }
 
-.profile, .myshopping, .myreview {
-	color: black;
+#myupdate	{
+	color: #35C5F0;
+	font-weight: bold;
 }
 
 .pwChange {

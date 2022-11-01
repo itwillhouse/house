@@ -39,7 +39,7 @@ public class SearchController extends HttpServlet {
 			request.setAttribute("search", search);
 			
 			//페이지 전환 : searchList.jsp 페이지로 이동
-			request.getRequestDispatcher("/house/request_search.jsp").forward(request, response);
+			request.getRequestDispatcher("request_search.jsp").forward(request, response);
 		}
 	}
 	

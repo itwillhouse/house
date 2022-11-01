@@ -9,6 +9,42 @@
 <%@ include file="/WEB-INF/common/style.jspf"%>
 <link href="${pageContext.request.contextPath}/summernote/summernote-bs4.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/summernote/summernote-bs4.js"></script>
+  <script>
+  $(document).ready(function() {
+	  $('#summernote').summernote({
+		  height: 300,                 // set editor height
+		  minHeight: null,             // set minimum height of editor
+		  maxHeight: null,             // set maximum height of editor
+		  focus: true,                  // set focus to editable area after initializing summernote
+		  toolbar: [['insert',['picture']]],
+			callbacks: { // 콜백을 사용
+	            // 이미지를 업로드할 경우 이벤트를 발생
+			    onImageUpload: function(files, editor, welEditable) {
+				    sendFile(files[0], this);
+				}
+			}
+	  });
+	});
+  
+  function sendFile(file, editor) {
+		// 파일 전송을 위한 폼생성
+	 	data = new FormData();
+	 	data.append("uploadFile", file);
+	 	$.ajax({ // ajax를 통해 파일 업로드 처리
+	 	 	data : data,
+	 	 	type : "POST",
+	 	 	url : "pictureImageUpload.do",
+	 	 	cache : false,
+	 	 	contentType : false,
+	 	 	processData : false,
+	 	 	success : function(data) { // 처리가 성공할 경우
+	 	 	 	// 에디터에 이미지 출력
+	 			$(editor).summernote('editor.insertImage', data.url);
+	 	 		$("#thumbnail").val(data.url);
+	 		}
+	 	});
+	}
+  </script>
   <style>
   .community {
   	color: #35C5F0;
@@ -17,28 +53,18 @@
   .store {
   	color: black;
   }
-  .picture {
+  .knowhow {
   	color: #35C5F0;
   	font-weight: bold;
   }
-  .home, .knowhow, .qna {
+  .home, .picture, .qna {
   color: black;
   }
-  </style>
-  <script>
-  $(document).ready(function() {
-	  $('#summernote').summernote({
-		  height: 300,                 // set editor height
-		  minHeight: null,             // set minimum height of editor
-		  maxHeight: null,             // set maximum height of editor
-		  focus: true,                  // set focus to editable area after initializing summernote
-		  toolbar: [
-			    // [groupName, [list of button]]
-			  ]
-	  });
-	  
-	});
-  </script>
+  
+  img {
+  	width: 100%;
+  }
+  </style>  
 </head>
 <body>
   <div class="container">
@@ -79,15 +105,8 @@
         		<option value="${vo.sizes }">${m }</option>
         	</c:if>
         </c:forEach>
-      </select>  
-    </div>
-    <div class="row border">
-    <div class="col form-group mt-4 ml-2">
-      <input type="file" class="form-control-file border" name="file">
-      <img class="mt-3" src="../imgs/166592706060596621.png" width="200px">
-    </div>
-    <div class="col">
-    <select class="form-control mt-4 mb-3" id="space" name="space">
+              </select>  
+      <select class="form-control" id="space" name="space">
         <option selected disabled>공간(필수)</option>
         <c:forEach items="${spaceMenu }" var="m" varStatus="status">
         	<c:if test="${vo.sizes == status.index }">
@@ -98,10 +117,12 @@
         	</c:if>
         </c:forEach>
       </select>  
+    </div>
+    <div>
     <textarea class="form-control mb-4" rows="8" id="summernote" name="editordata">${vo.content }</textarea>
     </div>
-    </div>
     <div class="mb-4">
+    <input type="hidden" name="thumbnail" id="thumbnail" value="${vo.thumbnail }">
     <input type="hidden" name="idx" value="${vo.pictureIdx }">
     <button type="submit" class="btn mt-3" id="btn">올리기</button>
     </div>

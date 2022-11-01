@@ -11,7 +11,14 @@
 //페이징 처리를 위한 객체(Paging) 생성 
 	Paging_Reviews p = new Paging_Reviews();
 
-	//1. 전체 게시물 수량 구하기
+	String pro = request.getParameter("productNum");
+	String id = (String) session.getAttribute("id");
+	String orderNum = DAO.findOrderNum(pro, id);	
+	pageContext.setAttribute("orderNum", orderNum);
+	pageContext.setAttribute("pro", pro);
+	
+	//1. 전체 게시물
+	// 수량 구하기
 	p.setTotalRecord(DAO.getTotalCount2());
 	p.setTotalPage();
 	System.out.println("> 전체 게시글 수 : " + p.getTotalRecord());
@@ -132,9 +139,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>모두의집 - 리뷰 및 제품문의</title>
 <%@ include file="WEB-INF/common/style.jspf" %>
 <style>
+
 	#layout1 {
 		width: 100%;
 	}
@@ -228,10 +236,11 @@
 	
 	#layout2 .container2 .box2 {
 		display: block;
-		padding-top: 100px;
+		padding-top: 50px;
 		width: 600px;
 		margin: auto;
 		word-break:break-all;
+		margin-bottom: 80px;
 	}
 	
 	
@@ -333,11 +342,7 @@
   		.community {
   			color: black;
   		}
-  		.home {
-  			color: #35C5F0;
-  			font-weight: bold;
-  		}
-  		.category, .best, .discount {
+  		.home, .category, .best, .discount {
   		color: black;
   		}
   		
@@ -345,27 +350,51 @@
 
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
 
 <div id="layout1">
 	<div class="container1">
+	<c:if test="${empty id }">
+		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+	</c:if>
+	<c:if test="${not empty id }">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+	</c:if>
+	<%@ include file="WEB-INF/common/storeMenu.jspf" %>
 		<div class="box1">
 			<span class="span1">리뷰</span>
-			<input type="button" value="리뷰쓰기" onclick="location.href='review_write.jsp'">
+			<c:if test="${not empty orderNum }">
+				<input type="button" value="리뷰쓰기" onclick="location.href='review_write.do?orderNum=' + <%=orderNum %>" />
+			</c:if>
 			<span class="span2">별점 : <b>${avg }</b> / 5 </span>
+			
 			<c:forEach var="vo" items="${list }">
-				<ul>
-					<li>${vo.idx }번</li>
-					<li>${vo.star }점</li>
-					<li>${vo.orderNum }</li>
-					<li>${vo.cartNum }</li>
-					<div class="comment-message" style="white-space:pre-wrap"><c:out value="${vo.comments }"></c:out></div>
-					<li>${vo.fileName }</li>
-						<input type="button" value="리뷰수정" onclick="location.href='review_modify.jsp?idx=${vo.idx }'" id="but1">
-						<input type="button" value="리뷰삭제" onclick="location.href='review_delete_ok.jsp?idx=${vo.idx }'" id="but1">
-				</ul>
+				<c:if test="${empty vo.idx }">
+					<ul>
+						<li>등록된 리뷰가 없습니다.</li>
+					</ul>
+				</c:if>
+				<c:if test="${not empty vo }">
+					<ul>
+						<li>${vo.rNum }번</li>
+						<li style="font-size: 18px; color: darkorange;"><b>평점 : <b style="font-size: 20px; color: deepskyblue;">${vo.star }</b>&nbsp;점</b></li>
+						<li style="margin-bottom: 10px;"><b>${vo.id }</b></li>
+						<c:if test="${not empty vo.fileName }">
+							<td>
+								<img src="${pageContext.request.contextPath}/requestImage/${vo.fileName }" width="200px" height="200px" />
+							</td>		
+						</c:if>
+						<div class="comment-message" style="white-space:pre-wrap; margin-top: 20px;"><c:out value="${vo.comments }"></c:out></div>
+						<br>
+						<c:if test="${id == vo.id }">
+							<input type="button" value="리뷰수정" onclick="location.href='review_modify.jsp?idx=${vo.idx }'" id="but1">
+							<input type="button" value="리뷰삭제" onclick="location.href='review_delete_ok.jsp?idx=${vo.idx }'" id="but1">
+						</c:if>
+					</ul>
+				</c:if>
 			</c:forEach>
+			
+			
+			
 				<ul class="paging">
 				<%--[이전으로]에 대한 사용여부 처리 --%>
 				<c:if test="${pvo.beginPage == 1 }">
@@ -404,18 +433,31 @@
 <div id="layout2">
 	<div class="container2">
 		<div class="box2">
-			<span>제품 문의</span>
+			<span id="inquiryContent">제품 문의</span>
 			<c:forEach var="vo2" items="${list2 }">
-				<ul>
-					<li>${vo2.proinIdx }</li>
-					<li>${vo2.productNum }</li>
-					<li>${vo2.partnerNum }</li>
-					<li>${vo2.regdate }</li>
-					<div class="comment-message" style="white-space:pre-wrap"><c:out value="${vo2.comments }"></c:out></div>
-					<li>${vo2.fileName }</li>
-					<input type="button" value="제품문의수정" onclick="location.href='product_inquiry_modify.jsp?proinIdx=${vo2.proinIdx }'" id="but2">
-					<input type="button" value="제품문의삭제" onclick="location.href='product_inquiry_delete_ok.jsp?proinIdx=${vo2.proinIdx }'" id="but2">
-				</ul>
+				<c:if test="${empty vo2 }">
+					<ul>
+						<li>등록된 제품문의가 없습니다.</li>
+					</ul>
+				</c:if>
+				<c:if test="${not empty vo2 }">
+					<ul>
+						<li>${vo2.rNum }번</li>
+						<li style="font-size: 18px; margin-bottom: 10px;"><b>${vo2.id }</b></li>
+						<c:if test="${not empty vo2.fileName }">
+							<td>
+								<img src="${pageContext.request.contextPath}/requestImage/${vo2.fileName }" width="200px" height="200px" />
+							</td>		
+						</c:if>
+						<div class="comment-message" style="white-space:pre-wrap; margin-top: 20px;" ><c:out value="${vo2.comments }"></c:out></div>
+						<br>
+						<li>${vo2.regdate.substring(0,10) }</li>
+						<c:if test="${id == vo2.id }">
+							<input type="button" value="제품문의수정" onclick="location.href='product_inquiry_modify.jsp?proinIdx=${vo2.proinIdx }'" id="but2">
+							<input type="button" value="제품문의삭제" onclick="location.href='product_inquiry_delete_ok.jsp?proinIdx=${vo2.proinIdx }'" id="but2">
+						</c:if>
+					</ul>
+				</c:if>
 			</c:forEach>
 			
 			<ul class="paging">
@@ -448,19 +490,17 @@
 				<c:if test="${p2.endPage >= p2.totalPage }">
 					<li class="disable2">></li>
 				</c:if>		
-				<input type="button" value="제품문의" onclick="location='product_inquiry_write.jsp'">
+				<c:if test="${not empty orderNum }">
+					<input type="button" style="float: right;" value="제품문의" onclick="location.href='product_inquiry_write.do?productNum=' + <%=pro %>" >
+				</c:if>
+				
 			</ul>
 		</div>
+		
+
+<%@ include file="WEB-INF/common/footer.jspf" %>
 	</div>
 </div>
 
-
-
-
-
-
-
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 </body>
 </html>

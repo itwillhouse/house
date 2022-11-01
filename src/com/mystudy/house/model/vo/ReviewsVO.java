@@ -2,7 +2,7 @@ package com.mystudy.house.model.vo;
 
 public class ReviewsVO {
 	private String idx, orderNum, cartNum, subject, regdate, views,
-				comments, star, fileName, oriName, ip;
+				comments, star, fileName, oriName, ip, id, rNum;
 	
 	
 
@@ -96,12 +96,33 @@ public class ReviewsVO {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+	
+	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
+
+	public String getrNum() {
+		return rNum;
+	}
+
+	public void setrNum(String rNum) {
+		this.rNum = rNum;
+	}
 
 	@Override
 	public String toString() {
 		return "ReviewsVO [idx=" + idx + ", orderNum=" + orderNum + ", cartNum=" + cartNum + ", subject=" + subject
 				+ ", regdate=" + regdate + ", views=" + views + ", comments=" + comments + ", star=" + star
-				+ ", fileName=" + fileName + ", oriName=" + oriName + ", ip=" + ip + "]";
+				+ ", fileName=" + fileName + ", oriName=" + oriName + ", ip=" + ip + ", id=" + id + ", rNum=" + rNum
+				+ "]";
 	}
 
 

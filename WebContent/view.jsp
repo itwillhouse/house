@@ -6,18 +6,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%-- 전달받은 파라미터 값 bbsIdx, cPage
-	1. 게시글 조회수 1 증가(실습)
-	2. 게시글(bbsIdx) 데이터 조회 후 화면 표시
-	3. 게시글(bbsIdx)에 딸린 댓글이 있으면 화면 표시
---%>
+
 <%
 //파라미터 값 추출(확인)
-	int requestIdx = Integer.parseInt(request.getParameter("requestIdx"));
-	String cPage = request.getParameter("cPage");
-	
 	request.setCharacterEncoding("UTF-8");
+	int requestIdx = Integer.parseInt(request.getParameter("requestIdx"));
+	String views = request.getParameter("views");
+
+	String cPage = request.getParameter("cPage");
+
 	
+	// 조회수 증가
+	String requestIdx2 = request.getParameter("requestIdx");
+	request.setAttribute("requestIdx", requestIdx2);	
+	
+	DAO.REQUESTVIEWS(requestIdx2);
+	int cnt = DAO.requestLikeCnt(requestIdx2);
 	
 	//2. 게시글(bbsIdx) 데이터 조회 후 화면 표시
 	RequestVO vo = DAO.selectOne(requestIdx);
@@ -39,21 +43,25 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 상세</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-  
-  
-  
+<%@ include file="/WEB-INF/common/style.jspf"%>
+
   
 <style>
 
   .community {
-  	color: blue;
+  	color: #35C5F0;
+  	font-weight: bold;
   }
   .store {
   	color: black;
+  }
+  .home, .picture, .knowhow  {
+  color: black;
+  }
+  
+  .qna {
+  color: #35C5F0;
+  font-weight: bold;
   }
   
   #layout1 {
@@ -76,7 +84,7 @@
   
   #layout1 .container1 .subject1 {
     display: block;
-  	font-size: 60px;
+  	font-size: 40px;
   	margin-left: 300px;
   	font-weight: bold;
   }
@@ -86,7 +94,7 @@
   	 display: block;
   	 margin-left: 300px;
   	 font-weight: bold;
-  
+  	 
   }
   
   #layout1 .container1 .regdate1 {
@@ -99,7 +107,7 @@
  
   #layout2 {
   	width: 100%;
-	
+  	margin-top: 10px;
   }
   
   #layout2 .container2 {
@@ -110,7 +118,7 @@
   
   #layout2 .container2 .box2 {
   	margin-left: 300px;
-  	margin-bottom: 10px;
+  	margin-bottom: 50px;
   }
   
   #layout2 .container2 .box2 .comment {
@@ -120,13 +128,12 @@
   
   #layout2 .container2 .box2 table {
   	display: inline-block;
-  	margin-top: 50px;
+  	margin-top: 100px;
   }
   
   #layout2 .container2 input {
   	float: right;
   	margin-right: 3px;
-  	margin-top: 50px;
   	border: none;
   	background-color: deepskyblue;
   	color: white;
@@ -248,14 +255,18 @@
 </script>
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
-
 
 <div style="white-space:pre;"><c:out value="${content}" /></div>
 
 <div id="layout1">
 	<div class="container1">
+	<c:if test="${empty id }">
+		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+	</c:if>
+	<c:if test="${not empty id }">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+	</c:if>
+	<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 		<h6>질문과 답변</h6>
 		<span class="subject1">${vo.subject }</span><br>
 		<span class="id1">${vo.id }</span>
@@ -265,24 +276,29 @@
 <div id="layout2">
 	<div class="container2">
 		<div class="box2">
-			<div class="comment-message" style="white-space:pre-wrap"><c:out value="${vo.comments }"></c:out></div>
-			<span class="file">${vo.ip }</span>
 			<table>
+				<c:if test="${not empty vo.fileName }">
 				<tr>
-					<th>첨부파일</th>
-						<td>
-							<c:if test="${empty vo.fileName }">
-								첨부파일없음
-							</c:if>
-							<c:if test="${not empty vo.fileName }">
-								<a href="download.jsp?filname=${vo.fileName }">${vo.oriName }</a>
-							</c:if>
-						</td>
-					</tr>
-				</table>	
-			<input type="button" value="목록보기" onclick="list_go()">
-			<input type="button" value="삭제" onclick="delete_go()">
-			<input type="button" value="수정" onclick="modify_go()">
+					<td><img src="${pageContext.request.contextPath}/requestImage/${vo.fileName }" width="700px" height="500px" /></td>	
+				</tr>
+				</c:if>
+			</table>	
+			<div class="comment-message" style="white-space:pre-wrap; font-size: 20px; margin-top: 20px; margin-bottom: 50px;"><c:out value="${vo.comments }"></c:out></div>
+			<div>
+			<div style="width: 180px; margin-top: 150px;">좋아요 <%=cnt %> &nbsp; 조회수 ${vo.views }</div>
+				<c:if test="${id != vo.id }">
+					<div style="margin-left: 905px; margin-bottom: 10px; class="pb-2">
+						<button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="location.href='RequestLike.do?requestIdx=${vo.requestIdx}'">
+			    		좋아요
+			  			</button>
+					</div>
+				</c:if>
+				<input type="button" value="목록보기" onclick="list_go()">
+				<c:if test="${id == vo.id }">
+					<input type="button" value="삭제" onclick="delete_go()">
+					<input type="button" value="수정" onclick="modify_go()">
+				</c:if>
+			</div>
 		</div>
 	</div>
 </div>
@@ -301,24 +317,24 @@
 	<div class="container4">
 		<%-- 게시글에 적힌 댓글 표시 영역 --%>
 		<c:forEach var="commVO" items="${c_list }">
-			<div class="comment" >		
-				<form action="request_comment_delete_ok.jsp" method="post">
-					<b>${commVO.id }</b><br>
-					${commVO.comments }<br>
-					<i>${commVO.regdate.substring(0,10) }</i>
-					<input type="submit" value="댓글삭제" id="delete_com">			
-					<!-- 댓글 삭제 후 게시글 상세 페이지로 이동시 사용 목적 -->
-					<input type="hidden" name="comIdx" value="${commVO.comIdx }">				
-				</form>
+			<div class="comment">		
+					<form action="request_comment_delete_ok.jsp" method="post">
+						<b>${commVO.id }</b><br>
+						${commVO.comments }<br>
+						<i>${commVO.regdate.substring(0,10) }</i>
+						<c:if test="${id == commVO.id }">
+							<input type="submit" value="댓글삭제" id="delete_com">			
+							<!-- 댓글 삭제 후 게시글 상세 페이지로 이동시 사용 목적 -->
+							<input type="hidden" name="comIdx" value="${commVO.comIdx }">	
+						</c:if>			
+					</form>
 			</div>
 		</c:forEach>
+		
 	</div>
 </div>
+<div style="width: 1280px; margin: auto; margin-top: 300px;"><%@ include file="/WEB-INF/common/footer.jspf" %></div>
 
-<br><br><br><br><br><br><br><br>
-
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 </body>
 </html>
 

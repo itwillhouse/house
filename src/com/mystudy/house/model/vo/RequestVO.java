@@ -1,8 +1,18 @@
 package com.mystudy.house.model.vo;
 
 public class RequestVO {
-	private String requestIdx, id, subject, regdate, views, comments, likes, fileName, oriName, ip, rNum;
+	private String requestIdx, id, subject, regdate, views, comments, likes, fileName, oriName, ip, rNum, thumbNail, likeCnt, myid;
 	
+	
+	
+	public String getMyid() {
+		return myid;
+	}
+
+	public void setMyid(String myid) {
+		this.myid = myid;
+	}
+
 	public String getrNum() {
 		return rNum;
 	}
@@ -90,12 +100,34 @@ public class RequestVO {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+	
+	
 
+	public String getThumbNail() {
+		return thumbNail;
+	}
+
+	public void setThumbNail(String thumbNail) {
+		this.thumbNail = thumbNail;
+	}
+
+	
+	
+	public String getLikeCnt() {
+		return likeCnt;
+	}
+
+	public void setLikeCnt(String likeCnt) {
+		this.likeCnt = likeCnt;
+	}
+
+	
 	@Override
 	public String toString() {
 		return "RequestVO [requestIdx=" + requestIdx + ", id=" + id + ", subject=" + subject + ", regdate=" + regdate
 				+ ", views=" + views + ", comments=" + comments + ", likes=" + likes + ", fileName=" + fileName
-				+ ", oriName=" + oriName + ", ip=" + ip + "]";
+				+ ", oriName=" + oriName + ", ip=" + ip + ", rNum=" + rNum + ", thumbNail=" + thumbNail + ", likeCnt="
+				+ likeCnt + "]";
 	}
 	
 	
