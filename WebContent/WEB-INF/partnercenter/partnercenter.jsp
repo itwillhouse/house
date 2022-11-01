@@ -173,7 +173,7 @@
 				str +=  "<option value=''>세부 카테고리 선택</option>";
 				$.each(alist, function(index, vo){
 					if (categoryNumber == this.categoryNum){
-						str += "<option value='" + this.categoryDetailNum + "'>" + this.categoryDetail + "</option>";
+						str += "<option value='" + this.categoryDetail + "'>" + this.categoryDetail + "</option>";
 					}
 				});
 				$("#categoryDetail").html(str);
