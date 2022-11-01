@@ -4,9 +4,15 @@ package com.mystudy.house.model.vo;
 public class MyorderlistVO {
 	private String shippingStatus, orderNum, companyName, companyPhone, shipping, 
 					productName, categoryDetail, regdate;
-	private int count, productPrice;
+	private int count, productPrice, productNum;
 	private String imageFile;
-	
+
+	public int getProductNum() {
+		return productNum;
+	}
+	public void setProductNum(int productNum) {
+		this.productNum = productNum;
+	}
 	public String getShippingStatus() {
 		return shippingStatus;
 	}

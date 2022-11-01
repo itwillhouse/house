@@ -38,6 +38,8 @@
 			alert("이름을 입력해주세요");
 		} else if(frm.id.value == "" || frm.id.value == null) {
 			alert("아이디를 입력해주세요");
+		} else if(frm.pw.value == "" || frm.pw.value == null) {
+			alert("비밀번호를 입력해주세요");			
 		} else if(frm.pw.value != frm.pw2.value) {
 			alert("비밀번호가 불일치합니다");
 		} else if(frm.email.value == "" || frm.email.value == null) { 

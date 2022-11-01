@@ -73,8 +73,8 @@
 <div class="mt-3 mb-1">
   <form action="goPictureEdit.do" method="post">
     <div class="form-group form-inline">
-      <select class="form-control mr-2" id="sizes" name="sizes">
-        <option selected disabled>평수</option>
+      <select class="form-control mr-2" id="sizes" name="sizes" required>
+        <option value="" selected disabled>평수</option>
         <c:forEach items="${sizesMenu }" var="m" varStatus="status">
         	<c:if test="${vo.sizes == status.index }">
         		<option value="${vo.sizes }" selected>${m }</option>
@@ -84,8 +84,8 @@
         	</c:if>
         </c:forEach>
       </select>   
-      <select class="form-control mr-2" id="residence" name="residence">
-        <option selected disabled>주거형태</option>
+      <select class="form-control mr-2" id="residence" name="residence" required>
+        <option value="" selected disabled>주거형태</option>
         <c:forEach items="${residenceMenu }" var="m" varStatus="status">
         	<c:if test="${vo.sizes == status.index }">
         		<option value="${vo.sizes }" selected>${m }</option>
@@ -95,8 +95,8 @@
         	</c:if>
         </c:forEach>
       </select>  
-      <select class="form-control" id="style" name="style">
-        <option selected disabled>스타일</option>
+      <select class="form-control" id="style" name="style" required>
+        <option value="" selected disabled>스타일</option>
         <c:forEach items="${styleMenu }" var="m" varStatus="status">
         	<c:if test="${vo.sizes == status.index }">
         		<option value="${vo.sizes }" selected>${m }</option>
@@ -106,8 +106,8 @@
         	</c:if>
         </c:forEach>
               </select>  
-      <select class="form-control" id="space" name="space">
-        <option selected disabled>공간(필수)</option>
+      <select class="form-control" id="space" name="space" required>
+        <option value="" selected disabled>공간(필수)</option>
         <c:forEach items="${spaceMenu }" var="m" varStatus="status">
         	<c:if test="${vo.sizes == status.index }">
         		<option value="${vo.sizes }" selected>${m }</option>

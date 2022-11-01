@@ -48,19 +48,19 @@ window.onload = function() {
             <form class="pt-5 pb-3" action="goPartnerRegister.do" method="post">
             	<div class="form-group text-center">
 					<label for="companyName"><b>회사 이름</b></label>
-					<input type="text" class="form-control w-25 m-auto" id="companyName" placeholder="회사 이름" name="companyName">
+					<input type="text" class="form-control w-25 m-auto" id="companyName" placeholder="회사 이름" name="companyName" required>
     			</div>
 				<div class="form-group text-center">
 					<label for="crn"><b>사업자 등록번호</b></label>
-					<input type="number" class="form-control w-25 m-auto" id="crn" placeholder="사업자 등록번호" name="crn">
+					<input type="number" class="form-control w-25 m-auto" id="crn" placeholder="사업자 등록번호" name="crn" required>
     			</div>
     			<div class="form-group text-center">
     				<label for="companyOwnerName"><b>대표자 이름</b></label>
-    				<input type="text" class="form-control w-25 m-auto" id="companyOwnerName" placeholder="대표자 이름" name="companyOwnerName">
+    				<input type="text" class="form-control w-25 m-auto" id="companyOwnerName" placeholder="대표자 이름" name="companyOwnerName" required>
     			</div>
     			<div class="form-group text-center">
     				<label for="companyEmail"><b>회사 이메일</b></label>
-    				<input type="email" class="form-control w-25 m-auto" id="companyEmail" placeholder="회사 이메일" name="companyEmail">
+    				<input type="email" class="form-control w-25 m-auto" id="companyEmail" placeholder="회사 이메일" name="companyEmail" required>
     			</div>
     			<div class="form-group text-center">
     				<label for="companyAddr"><b>회사 주소</b></label>
@@ -69,7 +69,7 @@ window.onload = function() {
     			</div>
     			<div class="form-group text-center">
     				<label for="companyPhone"><b>회사 전화번호</b></label>
-    				<input type="tel" class="form-control w-25 m-auto" id="companyPhone" placeholder="회사 전화번호" name="companyPhone">
+    				<input type="tel" class="form-control w-25 m-auto" id="companyPhone" placeholder="회사 전화번호" name="companyPhone" required>
     			</div>
     			<div class="form-group text-center">
     				<label for="shipping"><b>배송비</b></label>

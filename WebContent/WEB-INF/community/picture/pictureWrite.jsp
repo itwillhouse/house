@@ -72,8 +72,8 @@
 <div class="mt-3 mb-1">
   <form action="goPictureWrite.do" method="post">
     <div class="form-group form-inline">
-      <select class="form-control mr-2" id="sizes" name="sizes">
-        <option selected disabled>평수</option>
+      <select class="form-control mr-2" id="sizes" name="sizes" required>
+        <option value="" selected disabled>평수</option>
         <option value="0">10평 미만</option>
         <option value="1">10평대</option>
         <option value="2">20평대</option>
@@ -81,8 +81,8 @@
         <option value="4">40평대</option>
         <option value="5">50평 이상</option>
       </select>   
-      <select class="form-control mr-2" id="residence" name="residence">
-        <option selected disabled>주거형태</option>
+      <select class="form-control mr-2" id="residence" name="residence" required>
+        <option value="" selected disabled>주거형태</option>
         <option value="0">원룸오피스텔</option>
         <option value="1">아파트</option>
         <option value="2">빌라연립</option>
@@ -91,8 +91,8 @@
         <option value="5">상업공간</option>
         <option value="6">기타</option>
       </select>  
-      <select class="form-control mr-2" id="style" name="style">
-        <option selected disabled>스타일</option>
+      <select class="form-control mr-2" id="style" name="style" required>
+        <option value="" selected disabled>스타일</option>
         <option value="0">모던</option>
         <option value="1">북유럽</option>
         <option value="2">빈티지</option>
@@ -102,8 +102,8 @@
         <option value="6">한국아시아</option>
         <option value="7">유니크</option>
       </select>  
-      <select class="form-control" id="space" name="space">
-        <option selected disabled>공간(필수)</option>
+      <select class="form-control" id="space" name="space" required>
+        <option value="" selected disabled>공간(필수)</option>
         <option value="0">원룸</option>
         <option value="1">거실</option>
         <option value="2">침실</option>

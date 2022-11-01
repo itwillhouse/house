@@ -32,9 +32,11 @@
     				<div class="dropdown-menu">
       					<a class="dropdown-item" href="profile.do?id=${id }">마이페이지</a>
       					<a class="dropdown-item" href="myshopping.do">나의쇼핑</a>
-      					<a class="dropdown-item" href="partnerRegister.do">판매자 신청</a>
       					<c:if test="${gradeNum == 3 }">
       						<a class="dropdown-item" href="partnercenter.do">판매자 메뉴</a>
+      					</c:if>
+      					<c:if test="${gradeNum != 3 }">
+      						<a class="dropdown-item" href="partnerRegister.do">판매자 신청</a>
       					</c:if>
       					<a class="dropdown-item" href="gogak.jsp">고객센터</a>
       					<a class="dropdown-item" href="logout.do">로그아웃</a>

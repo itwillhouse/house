@@ -211,7 +211,7 @@
 										<img align="left" style="position:relative;" src="${vo.imageFile }" width="100px" height="100px"/>
 										<p style="position:absolute;margin:25px 150px;white-space:nowrap;">
 											<span style="font-size:0.8em;">${vo.companyName }<br></span>
-											<span>${vo.productName }</span>
+											<span><a class="nav-link" href="pdetail.do?productNum=${vo.productNum }">${vo.productName }</a></span>
 										</p>
 										</div>
 									</div>
@@ -235,7 +235,16 @@
 								<div class="row justify-content-between">
 									<div class="col-sm bg-light">
 										<p class="text-center font-weight-bold" style="font-size:0.8em;padding-top:10px;">
-											<span style="color:gray">선결제배송비 ${vo.shipping }원</span><br>
+											<span style="color:gray">선결제배송비 
+											<c:choose>
+                                    			<c:when test="${vo.shipping > vo.productPrice}">
+                                       				3000원
+                                    			</c:when>
+                                    			<c:otherwise>
+                                       				0원
+                                    			</c:otherwise>                                 
+                                 			</c:choose>
+                                			</span><br>
 											<span style="color:darkgray">${vo.companyName }</span> 
 											<span style="color:#35C5F0">${vo.companyPhone }</span>
 										</p>

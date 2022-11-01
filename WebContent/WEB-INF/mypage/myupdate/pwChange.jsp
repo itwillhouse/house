@@ -31,7 +31,9 @@
 </style>
 <script>
 function clickBtn(frm) {
-	if(frm.pw.value != frm.pw2.value) {
+	if(frm.pw.value == "" || frm.pw.value == null) {
+		alert("비밀번호를 입력하세요");
+	} else if(frm.pw.value != frm.pw2.value) {
 		alert("비밀번호 불일치");
 	} else {
 		frm.action = "goPwChange.do";

@@ -107,10 +107,9 @@
 	</tr>
 	<tr>
 		<td style="font-size: 0.9em; color: gray;">
-		<img src="${pageContext.request.contextPath}/img/profileImg/${profileImg }" alt="회원사진" width="25px;" style="border-radius: 50%; aspect-ratio: 1/1;">
+		<img src="${pageContext.request.contextPath}/img/profileImg/${vo.profileImg }" alt="회원사진" width="25px;" style="border-radius: 50%; aspect-ratio: 1/1;">
 		<span>${vo.id}</span>
 		<span>${vo.regdate} ·</span>
-		<span>댓글  ·</span>
 		<span>조회 ${vo.views}</span>
 		</td>
 	</tr>

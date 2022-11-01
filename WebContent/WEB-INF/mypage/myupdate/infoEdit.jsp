@@ -48,8 +48,16 @@ window.onload = function() {
 }
 
 function clickBtn(frm) {
-	frm.action = "goInfoEdit.do";
-	frm.submit();
+	if(frm.name.value == "" || frm.name == null) {
+		alert("이름을 입력해주세요");
+	} else if(frm.email.value == "" || frm.email.value == null) { 
+		alert("이메일을 입력해주세요");
+	} else if(frm.phone.value == "" || frm.phone.value == null) { 
+		alert("전화번호를 입력해주세요");									
+	} else {
+		frm.action = "goInfoEdit.do";
+		frm.submit();
+	}	
 }
 
 function changeValue(obj){
