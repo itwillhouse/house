@@ -13,16 +13,43 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
-
+<%@ include file="/WEB-INF/common/style.jspf"%>
 <script type="text/javascript"> 
 	function a(y){
 	   if (y.defaultValue==y.value) {
 	      y.value = "";
 	   }
 	}
+	
+	function readURL(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+		      document.getElementById('preview').src = e.target.result;
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    document.getElementById('preview').src = "";
+		  }
+	}
 </script>
 
 <style>
+  		.community {
+  			color: #35C5F0;
+  			font-weight: bold;
+  		}
+  		.store {
+  			color: black;
+  		}
+  		.qna {
+  			color: #35C5F0;
+			font-weight: bold;
+  		}
+  		.picture, .home, .knowhow {
+  			color: black;
+  		}
+
 	#layout1 {
 		width: 100%;
 	}
@@ -77,6 +104,11 @@
 		
 	}
 	
+	#layout2 .container2 .box2 form {
+		margin-bottom: 40px;
+	}
+	
+	
 	#layout2 .container2 .box2 form #subject {
 		width: 100%;
 		border: none;
@@ -106,28 +138,25 @@
 	  	background-color: deepskyblue;
 	  	color: white;
 	  	border-radius: 5px;
-	  	padding: 10px 10px;	
+	  	padding: 25px 150px 25px 60px;	
+	  	font-size: 20px;
+	  	font-weight: bold;
   	}
 	
 	
 	
 </style>
 
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
 <style>
 	
 </style>
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
 <div id="layout1">
 	<div class="container1">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+
+	<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 		<div class="box1">
 			<span>질문과 답변 글 작성 가이드</span>
 			<ul>
@@ -145,20 +174,16 @@
 		<div class="box2">
 			<form action="modify_ok.jsp?requestIdx=${vo.requestIdx }" method="post" enctype="multipart/form-data">
 				<input type="text" value="제목을 입력해주세요." name="subject" id="subject" onfocus="a(this)"><br>
-				<textarea name="comments" rows="15" cols="80" title="내용" onfocus="a(this)" style='color: silver; font-weight: bold; font-size: 20px; padding-left : 32px; padding-top: 30px;'>내용을 입력하세요.</textarea><br>
-				<label for="file" style='margin-left: 625px;'>
-  					<div class="btn-upload" style="border: none; background-color: deepskyblue; color: white; border-radius: 5px; padding: 10px 10px;">파일변경</div>
-				</label>
-				<input type="file" name="file" id="file" style="display: none;">
-				
+				<label for="fileName" style="border: none; background-color: deepskyblue; color: white; padding: 20px 120px 20px 50px; border-radius: 5px; margin-top: 10px; font-weight: bold; font-size: 20px;">파일 업로드</label>
+				<input type="file" name="fileName" id="fileName" onchange="readURL(this);" style="display: none;"><br>
+				<img id="preview" style="width: 500px;"/>
+				<textarea id="summernote" name="editordata" rows="15" cols="80" title="내용" onfocus="a(this)" style='color: silver; font-weight: bold; font-size: 20px; padding-left : 32px; padding-top: 30px;'>내용을 입력하세요.</textarea><br>
 				<input type="submit" value="수정완료" name="submit" id="subbut">
 			</form>
 		</div>
+		<%@ include file="WEB-INF/common/footer.jspf" %>
 	</div>
 </div>
-
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 
 </body>
 </html>

@@ -24,13 +24,36 @@ public class GoLoginCommand implements Command {
 		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
+		java.io.PrintWriter out = response.getWriter();
 		
 		if(user != null) {
-			session.setAttribute("id", user.getId());
-			session.setAttribute("profileImg", user.getProfileImg());
-			return "community.do";
+			if("3".equals(user.getGradeNum())) {
+				session.setAttribute("id", user.getId());
+				session.setAttribute("gradeNum", user.getGradeNum());
+				// session.setAttribute("profileImg", user.getProfileImg());
+				
+				out.println("<html><form name='frm' action='partnercenter.do' method='post'>");
+				out.println("</form></html>");
+				out.println("<script>frm.submit();</script>");
+				out.close();
+				
+				return null;
+				
+				// return "partnercenter.do";
+			} else {
+				session.setAttribute("id", user.getId());
+				session.setAttribute("profileImg", user.getProfileImg());
+
+				out.println("<html><form name='frm' action='community.do' method='post'>");
+				out.println("</form></html>");
+				out.println("<script>frm.submit();</script>");
+				out.close();
+				
+				return null;
+
+				// return "community.do";
+			}
 		} else {
-			java.io.PrintWriter out = response.getWriter();
 			out.println("<html><form name='frm' action='login.do' method='post'>");
 			out.println("</form></html>");
 			out.println("<script>alert('로그인 실패하였습니다');frm.submit();</script>");

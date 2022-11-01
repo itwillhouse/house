@@ -11,12 +11,12 @@
 	color: black;
 }
 
-.myupdate {
+#myupdate {
 	color: #35C5F0;
 	font-weight: bold;
 }
 
-.profile, .myshopping, .myreview {
+ #mysp, #myrv, #mypage {
 	color: black;
 }
 

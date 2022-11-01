@@ -7,7 +7,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 
-	String path = "c:/MyStudy/temp";
+String path = "C:/Users/itwill/Downloads/house/WebContent/requestImage";
 	
 	MultipartRequest mr = new MultipartRequest(
 	request, path, (10 * 1024 * 1024),
@@ -17,10 +17,8 @@
 	
 	vo.setRequestIdx(mr.getParameter("requestIdx"));
 	vo.setSubject(mr.getParameter("subject"));
-	vo.setComments(mr.getParameter("comments"));
+	vo.setComments(mr.getParameter("editordata"));
 	vo.setFileName(mr.getParameter("File"));
-	
-	vo.setIp(request.getRemoteAddr());
 	
 	if (mr.getFile("fileName") != null) {
 		vo.setFileName(mr.getFilesystemName("fileName"));

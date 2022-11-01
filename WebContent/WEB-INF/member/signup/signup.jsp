@@ -34,8 +34,16 @@
   	}
 
 	function clickBtn(frm) {
-		if(frm.pw.value != frm.pw2.value) {
-			alert("비밀번호 불일치");
+		if(frm.name.value == "" || frm.name == null) {
+			alert("이름을 입력해주세요");
+		} else if(frm.id.value == "" || frm.id.value == null) {
+			alert("아이디를 입력해주세요");
+		} else if(frm.pw.value != frm.pw2.value) {
+			alert("비밀번호가 불일치합니다");
+		} else if(frm.email.value == "" || frm.email.value == null) { 
+			alert("이메일을 입력해주세요");
+		} else if(frm.phone.value == "" || frm.phone.value == null) { 
+			alert("전화번호를 입력해주세요");									
 		} else {
 			frm.action = "goSignup.do";
 			frm.submit();	
@@ -56,7 +64,7 @@
             <form class="pb-3" method="post">
             	<div class="form-group text-center">
 					<label for="name"><b>이름</b></label>
-					<input type="text" class="form-control w-25 m-auto" id="name" placeholder="이름" name="name" required>
+					<input type="text" class="form-control w-25 m-auto" id="name" placeholder="이름" name="name" >
     			</div>
 				<div class="form-group text-center">
 					<label for="id"><b>아이디</b></label>

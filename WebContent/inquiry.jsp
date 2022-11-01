@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+<%
+	request.setCharacterEncoding("UTF-8");
+	String id = (String) session.getAttribute("id");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>오늘의집 - 이메일 문의</title>
+<%@ include file="/WEB-INF/common/style.jspf"%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -18,12 +23,16 @@
 	font-family: sans-serif;
 }
   .community {
-  	color: deepskyblue;
+	color: #35C5F0;
+	font-weight: bold;
   }
   .store {
   	color: black;
   }
   
+  .home, .picture, .knowhow, .qna {
+  	color: black;  
+  }
   #layout1 {
   	width: 100%;
   	padding-bottom: 20px;
@@ -110,6 +119,7 @@
    	border: 1px solid #f6f7f7;
    	border-radius: 10px;
    	font-size: 15px;
+
    } 
    
    #layout1 .container1 #submit {
@@ -125,6 +135,7 @@
   	border-radius: 10px;
   	margin-top: 20px;
   	font-size: 20px;
+  	margin-bottom: 30px;
    }
    
    #layout1 .container1 #submit:hover {
@@ -134,22 +145,38 @@
   
 </style>
 
-<script>
-	$(document).ready(function () {
-		$("#checkbox").change(function () {
-			 console.log(":: checkbox click 이벤트 발생");
-			
-		});
+<script type="text/javascript"> 
+	function a(y){
+	   if (y.defaultValue==y.value) {
+	      y.value = "";
+	   }
+	}
+	
+	
+	$(document).ready(function(){
+		$("#checkbox").change(function(){
+     	   if($("#checkbox").is(":checked")){
+     		  alert("개인정보 약관 동의 완료");
+       		 }	else{
+            	alert("개인정보 약관 동의 후 이용해주십시오.");
+      		  }
+   		 });
 	});
 </script>
 
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
-<form action="inquiry_ok.jsp" method="post" enctype="multipart/form-data">
+<form action="inquiryWrite.do" method="post" enctype="multipart/form-data" onsubmit="aaa()">
 	<div id="layout1">
 		<div class="container1">	
+		<%@ include file="/WEB-INF/common/style.jspf"%>
+		<c:if test="${empty id }">
+			<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+		</c:if>
+		<c:if test="${not empty id }">
+			<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+		</c:if>
+		<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 				<div class="box1">
 						<span class="span1">이메일 문의하기</span><br>
 						<span class="span2">상품/배송 등 쇼핑 관련 문의는 <b>고객센터</b>에서 요청해주세요.</span><br>
@@ -172,17 +199,17 @@
 							<li>앱 장애 신고는 '시스템 오류 제보'로 선택해 주세요.</li>
 						</ul>
 						<div class="text">
-							<input type="text" name="name" title="이름" value="이름"><br>
-							<input type="text" name="email" title="이메일" value="이메일"><br>
-							<input type="text" name="subject" title="제목" value="제목"><br>
-							<textarea name="comments" rows="10" cols="80" title="내용" ></textarea>
+							<input type="text" name="name" title="이름" value="이름" onfocus="a(this)"><br>
+							<input type="text" name="email" title="이메일" value="이메일" onfocus="a(this)"><br>
+							<input type="text" name="subject" title="제목" value="제목" onfocus="a(this)"><br>
+							<textarea name="comments" rows="10" cols="80" title="내용" onfocus="a(this)"></textarea>
 							<input type="file" name="fileName"> 
 						</div>
 						<div class="file">
 						</div>
 					</div>
 					<div class="box2">
-						<input type="checkbox" name="checkbox" id="checkbox">
+						<input type="checkbox" name="checkbox" id="checkbox" required>
 						<span><b>&nbsp;개인정보 수집 및 이용동의</b></span>
 						<br>
 						<span>1. 수집하는 개인정보 항목 : 이름, 이메일<br>
@@ -194,10 +221,9 @@
 						</span>
 				</div>
 				<input id="submit" type="submit" name="submit" title="제출하기" value="제출하기"><br>
+			<%@ include file="/WEB-INF/common/footer.jspf" %>
 		</div>
 	</div>
 </form>
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 </body>
 </html>

@@ -15,6 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <meta charset="UTF-8">
 <title>리뷰 쓰기</title>
+<%@ include file="/WEB-INF/common/style.jspf"%>
 <style>
 
 	#layout1 {
@@ -58,12 +59,16 @@
 		cursor: pointer;
 	}
 	
+	#layout2 .container2 form {
+		margin-bottom: 100px;
+	}
+	
+	
 	
 	#layout2 .container2 form input {	
  		 color: silver;
  		 border: 3px solid #f0f1f1;
  		 border-radius: 5px;
- 		 margin-top: 20px;
  		 font-size: 18px;
  		 font-weight: bold;
  		 padding: 20px;
@@ -73,8 +78,8 @@
 	}
 	
 	#layout2 .container2 form input:last-child {
-		margin-bottom: 20px;
 		display: inline;
+		padding: 20px 100px 20px 100px;
 	}
 	
 	#layout2 .container2 form input:last-child:hover {
@@ -98,6 +103,11 @@
 	     padding: 20px;
 	}
 	
+	
+	.fileName:hover {
+		opacity: 0.5;
+		cursor: pointer;
+	}
 
 </style>
 <script type="text/javascript"> 
@@ -106,13 +116,31 @@
 	      y.value = "";
 	   }
 	}
+	
+	
+	function readURL(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+		      document.getElementById('preview').src = e.target.result;
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    document.getElementById('preview').src = "";
+		  }
+	}
 </script>
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
 	<div id="layout1">
 		<div class="container1">
+		<c:if test="${empty id }">
+		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+	</c:if>
+	<c:if test="${not empty id }">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+	</c:if>
+	<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 			<div class="box1">
 				<div class="container">
  					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo" 
@@ -158,27 +186,18 @@
 		<div class="container2">
 			<div class="box2">
 				<form action="review_modify_ok.jsp?idx=<%=idx %>" method="post" enctype="multipart/form-data">				
-					<input type="text" value="평점/5" name="star" id="star" onfocus="a(this)" style="color: darkorange;"><br>
+					<input type="text" value="평점을 남겨주세요!(5점 이하)" name="star" id="star" onfocus="a(this)" style="color: darkorange;"><br>
+					<label for="fileName" class="fileName" style="border: none; background-color: #f6f7f7; color: black; padding: 20px 120px 20px 50px; border-radius: 5px; font-weight: bold; font-size: 20px; width: 1113px; margin-left: 83px; text-align:  center; margin-bottom: 30px;">파일 업로드</label>
+					<input type="file" name="fileName" id="fileName" onchange="readURL(this);" style="display: none;">
+					<img id="preview" style="width: 1113px; margin: auto; margin-bottom: 20px; margin-left: 83px;"/>
 					<textarea name="comments" rows="15" cols="80" title="내용" onfocus="a(this)">내용을 입력하세요.</textarea><br>
-					<label for="file">
-  						<div class="btn-upload" style="border: none; background-color: #f0f1f1; color: silver; border-radius: 5px; padding: 20px; font-weight: bold; font-size: 20px; margin-left: 885px;">파일 업로드하기</div>
-					</label>
-					<input type="file" name="fileName" id="file" style="display: none;">
-					<input type="submit" name="submit" value="수정완료">
-				</form>
+					<input type="submit" name="submit" value="수정완료" style="float: right; margin-right: 80px;">
 				</form>
 			</div>
+				
+<%@ include file="WEB-INF/common/footer.jspf" %>
 		</div>
 	</div>
-
-
-
-			
-
-	
-	
-	
-<%@ include file="WEB-INF/common/footer.jspf" %>
 	
 </body>
 </html>

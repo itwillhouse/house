@@ -7,12 +7,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 
 <%
+	request.setCharacterEncoding("UTF-8");	
+
 	String req = request.getParameter("requestIdx");
-	request.setCharacterEncoding("UTF-8");
+	
+	HttpSession session2 = request.getSession();
+	
+	String id = (String) session2.getAttribute("id");
+	
 
 	Request_comVO vo = new Request_comVO();
 	
-	vo.setId(request.getParameter("id"));
+	vo.setId(id);
 	vo.setRequestIdx(request.getParameter("requestIdx"));
 	vo.setComments(request.getParameter("comments"));
 	

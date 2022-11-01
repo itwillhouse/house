@@ -69,7 +69,6 @@ public class PictureCommand implements Command {
 		}
 
 		int result = PictureDAO.showPicture(order, map);
-		System.out.println(result);
 		
 		// 페이징 처리
 		PagingCommunity p = new PagingCommunity();

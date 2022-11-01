@@ -1,19 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%
 	request.setCharacterEncoding("UTF-8");
+	String id = (String) session.getAttribute("id");
+	String requestIdx = request.getParameter("reqestIdx");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>모두의집 - 질문하기</title>
+<%@ include file="/WEB-INF/common/style.jspf"%>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-
+<!-- include summernote css/js -->
+<link href="${pageContext.request.contextPath}/summernote/summernote-bs4.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/summernote/summernote-bs4.js"></script>
 <style>
+
+
+  .community {
+  	color: #35C5F0;
+  	font-weight: bold;
+  }
+  .store {
+  	color: black;
+  }
+  .home, .picture, .knowhow  {
+  color: black;
+  }
+  
+  .qna {
+  color: #35C5F0;
+  font-weight: bold;
+  }
 	#layout1 {
 		width: 100%;
 	}
@@ -83,20 +106,19 @@
 		border: none;
 	}
 	
-	#file {
-		border: none;
-	  	background-color: deepskyblue;
-	  	color: white;
-	  	border-radius: 5px;
-	  	padding: 10px 10px;	
-  	}
+	#fileName {
+		display: none;
+	}
+
   	
   	#layout2 .container2 .box2 #subbut {
 		border: none;
 	  	background-color: deepskyblue;
 	  	color: white;
 	  	border-radius: 5px;
-	  	padding: 10px 10px;	
+	  	padding: 25px 150px 25px 60px;	
+	  	font-size: 20px;
+	  	font-weight: bold;
   	}
   	
   	.btn-upload:hover {
@@ -117,14 +139,37 @@
 	      y.value = "";
 	   }
 	}
+
+	
+	function readURL(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+		      document.getElementById('preview').src = e.target.result;
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    document.getElementById('preview').src = "";
+		  }
+	}
+	
+	
+
 </script>
+
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
 
-<div id="layout1">
+<div id="layout1">	
 	<div class="container1">
+	<%@ include file="/WEB-INF/common/style.jspf"%>
+	<c:if test="${empty id }">
+		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+	</c:if>
+	<c:if test="${not empty id }">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+	</c:if>
+	<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 		<div class="box1">
 			<span>질문과 답변 글 작성 가이드</span>
 			<ul>
@@ -139,22 +184,19 @@
 
 <div id="layout2">
 	<div class="container2">
-		<div class="box2">
-			<form action="request_write_ok.jsp" method="post" enctype="multipart/form-data"><br>
+		<div class="box2" style="margin-bottom: 50px;">
+			<form action="request_write_ok.do" method="post" enctype="multipart/form-data"><br>
 				<input type="text" value="제목을 입력해주세요." name="subject" id="subject" onfocus="a(this)"><br>
-				<textarea name="comments" rows="15" cols="80" title="내용" onfocus="a(this)" style='color: silver; font-weight: bold; font-size: 20px; padding-left : 32px; padding-top: 30px;'>내용을 입력하세요.</textarea><br>
-				<label for="file" style='margin-left: 575px;'>
-  					<div class="btn-upload" style="border: none; background-color: deepskyblue; color: white; border-radius: 5px; padding: 10px 10px;">파일 업로드하기</div>
-				</label>
-				<input type="file" name="file" id="file" style="display: none;">
-				
+				<label for="fileName" style="border: none; background-color: deepskyblue; color: white; padding: 20px 120px 20px 50px; border-radius: 5px; margin-top: 10px; font-weight: bold; font-size: 20px;">파일 업로드</label>
+				<input type="file" name="fileName" id="fileName" onchange="readURL(this);"><br>
+				<img id="preview" style="width: 500px;"/>
+				<textarea id="summernote" name="editordata" rows="15" cols="80" title="내용" onfocus="a(this)" style='color: silver; font-weight: bold; font-size: 20px; padding-left : 32px; padding-top: 30px;'>내용을 입력하세요.</textarea><br>	
 				<input type="submit" value="질문하기" name="submit" id="subbut">
 			</form>
 		</div>
+	<%@ include file="/WEB-INF/common/footer.jspf" %>
 	</div>
 </div>
 
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 </body>
 </html>

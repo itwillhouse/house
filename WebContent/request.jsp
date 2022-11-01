@@ -18,6 +18,10 @@
 	Paging_Request p = new Paging_Request();
 
 	request.setCharacterEncoding("UTF-8");
+	
+	String requestIdx2 = request.getParameter("requestIdx");
+	
+	int cnt = DAO.requestLikeCnt(requestIdx2);
 
 	//1. 전체 게시물 수량 구하기
 	p.setTotalRecord(DAO.getTotalCount());
@@ -79,7 +83,7 @@
 <head>
 <meta charset="UTF-8">
 <title>오늘의집 - 고객센터</title>
-	<%@ include file="/WEB-INF/common/style.jspf"%>
+<%@ include file="/WEB-INF/common/style.jspf"%>
 <style>
   		.community {
   			color: #35C5F0;
@@ -109,12 +113,17 @@
   }
   
   #layout1 .container1 {
+  	width: 100%;
   	margin: auto;
   }
   
    #layout1 .container1 .box1 {
    	width: 100%;
    }
+   
+     #layout1 .container1 .box1 form {
+     	text-align: center;
+     }
    
    #layout1 .container1 .box1 .span1 {
    	display: block;
@@ -146,13 +155,13 @@
    
 
    
-   #layout1 .container1 .box1 #in{
+   #layout1 .container1 .box1 .search{
    	display: inline-block;
    	padding-bottom: 15px;
    	padding-top: 15px;
    	padding-left: 20px;
    	padding-right: 150px;	
-   	color: #a7aaad;
+   	color: silver;
    	border-radius: 10px;
    	border: 2px solid #f0f0f1;
    }
@@ -163,14 +172,16 @@
 	
 	
 	#idx {
+		
+		display: inline;
 		color: #a7aaad;
-		float: left;
 		padding-bottom: 15px;
    		padding-top: 15px;
    		padding-left: 15px;
    		padding-right: 15px;
    		border-radius: 10px;
    		border: 2px solid #f0f0f1;
+   
 	}
 	
 	#searcharea {
@@ -183,12 +194,13 @@
 	}
 	
 	#layout2 {
-		width: 100%;
 		margin-bottom: 30px;
 	}
 	
 	#layout2 .container2 {
+		width: 1100px;
 		margin: auto;
+		margin-bottom: 20px;
 	}
 	
 	#layout2 .container2 .box2 {
@@ -196,23 +208,27 @@
 		margin: auto;
 	}
 	
+	#layout2 .container2 .box2 table {
+		width: 1100px;
+	}
+	
 
 	#layout2 .container2 .box2 tr {
 		display: block;
 		border-bottom: 2px solid #f6f7f7;
-		padding: 30px;
 	}
 	
 	
 
 	#layout2 .container2 .box2 tr td {
-		display: inline;
+		width: 300px;
+		padding: 60px 30px;;
+		text-align: center;
 	}
 	
 	
 	#layout2 .container2 .box2 tr td a {
 		color: deepskyblue;
-		padding: 30px 120px;
 	}
 	
 	
@@ -242,7 +258,6 @@
 		color: white;
 		padding: 4px 7px;
 	}
-	
 	
 	.paging li a {
 		text-decoration: none;
@@ -274,38 +289,38 @@
 	}
 
 </style>
-<script>
-	function view(a) {
-		int in = 0;
-		${a.click == true} {
-			in++;
-			
-		}
+<script type="text/javascript"> 
+	function a(y){
+	   if (y.defaultValue==y.value) {
+	      y.value = "";
+	   }
 	}
-	out.println(in);
 </script>
 
 
 </head>
 <body>
 	<div class="container">
-	<%@ include file="WEB-INF/common/guestMenu.jspf" %>
+	<c:if test="${empty id }">
+		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+	</c:if>
+	<c:if test="${not empty id }">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+	</c:if>
 	<%@ include file="WEB-INF/common/communityMenu.jspf" %>
 	<div id="layout1">
 		<div class="container1">
-			<div class="box1 text-center">
+			<div class="box1">
 				<span class="span1">질문과 답변</span>
 				<span class="span2">오늘의집 인테리어 고수들과 전문가들에게 조언을 받아보세요.</span><br>
-				<div style="display: inline-block">
-					<form action="../search" method="get">
+				<form action="search" method="get">
 					<select name="idx" id="idx">
 						<option value="0">제목</option>
-						<option value="1">이름</option>
+						<option value="1">아이디</option>
 					</select>
-					<input type="text" class="search" name="keyword" id="in">				
+					<input type="text" value="입력" class="search" name="keyword" onfocus="a(this)">				
 					<input type="hidden" value="검색" id="searcharea">				
 				</form>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -321,15 +336,22 @@
 						<c:forEach var="vo" items="${list }">
 							<tr>
 								<td><b>${vo.rNum }</b></td>
+								<c:if test="${not empty vo.fileName }">
+									<td>
+										<img src="${pageContext.request.contextPath}/requestImage/${vo.fileName }" width="150px" height="150px" />
+									</td>		
+								</c:if>
 								<td class="align-left">
 									<a href="view.jsp?requestIdx=${vo.requestIdx }&cPage=${pvo.nowPage}" onclick="view(a)">${vo.subject }</a>
 								</td>
 								<td>${vo.id }</td>
+								<td>조회수 ${vo.views }</td>								
 								<td id="last">${vo.regdate.substring(0,10) }</td>
 							</tr>
 						</c:forEach>
 						</c:otherwise>
 						</c:choose>	
+						
 					</table>
 				</div>
 					
@@ -374,10 +396,8 @@
 					</tfoot>
 				</table>
 			</div>
+			<%@ include file="WEB-INF/common/footer.jspf" %>
 		</div>
-	
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 	</div>
 </body>
 </html>

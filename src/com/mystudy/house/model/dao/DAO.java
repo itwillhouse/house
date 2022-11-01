@@ -1,7 +1,6 @@
 package com.mystudy.house.model.dao;
 
-import java.util.HashMap;
-import java.util.List;
+import java.sql.PreparedStatement;import java.util.HashMap;import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,9 +12,26 @@ import com.mystudy.house.mybatis.DBService;
 import com.mystudy.house.model.vo.GogakVO;
 import com.mystudy.house.model.vo.Gogak_CommentVO;
 import com.mystudy.house.model.vo.HouseVO;
+import com.mystudy.house.model.vo.KnowlikeVO;
 import com.mystudy.house.model.vo.ProductInquiryVO;
+import com.mystudy.house.model.vo.RequestLikeVO;
 
 public class DAO {
+	
+	// orderNum 받아오기
+	public static String findOrderNum(String productNum, String id) {
+		Map<String, String> map = new HashMap<>();
+		map.put("productNum", productNum);
+		map.put("id", id);
+		SqlSession ss = DBService.getFactory().openSession();
+		List<String> arr = ss.selectList("house.findOrderNum", map);
+		String orderNum = null;
+		if(!arr.isEmpty()) {
+			orderNum = arr.get(0);
+		}
+		ss.close();
+		return orderNum;
+	}
 	
 	//게시글 입력
 	// 수정, 삭제, 추가는 오픈세션 true << 자동 커밋 해주는 것이 좋음
@@ -89,14 +105,36 @@ public class DAO {
 		}
 		
 		// request 삭제
-			public static int delete_request_comment(Request_comVO vo) {
-				SqlSession ss = DBService.getFactory().openSession(true);
-				int result = ss.delete("house.delete_request_comment", vo);
-				ss.close();
-				return result;
+		public static int delete_request_comment(Request_comVO vo) {
+			SqlSession ss = DBService.getFactory().openSession(true);
+			int result = ss.delete("house.delete_request_comment", vo);
+			ss.close();
+			return result;
+		}
+		
+			
+		// REQUEST 조회수 증가
+		public static void REQUESTVIEWS(String requestIdx) {
+			SqlSession ss = DBService.getFactory().openSession(true);
+			ss.update("house.REQUESTVIEWS", requestIdx);
+			ss.close();
+		}	
+
+		
+		
+		// request 좋아요
+		public static int likeRequest(RequestLikeVO vo) {
+			SqlSession ss = DBService.getFactory().openSession(true);
+			
+			List<String> list = ss.selectList("house.confirmRequestlike", vo);
+			
+			int result = 0;
+			if(list.isEmpty()) {
+				result = ss.insert("house.likeRequest", vo);
 			}
-		
-		
+			ss.close();
+			return result;
+		}
 		
 	
 	
@@ -130,6 +168,7 @@ public class DAO {
 		return list;
 		
 	}
+	
 	
 	public static List<ReviewsVO> getList2(Map<String, Integer> map) {
 		SqlSession ss = DBService.getFactory().openSession();
@@ -279,7 +318,26 @@ public class DAO {
 		ss.close();
 		return list;
 	}
+	
+	
+	// REQUEST 좋아요 증가
+		public static int requestLikeCnt(String requestIdx) {
+			SqlSession ss = DBService.getFactory().openSession();
+			int cnt = ss.selectOne("house.requestLikeCnt", requestIdx);
+			ss.close();
+			return cnt;
+		}
+		
 }
+
+
+
+
+
+
+
+
+
 
 
 

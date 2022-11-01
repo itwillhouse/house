@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%
 	request.setCharacterEncoding("UTF-8");
+	String id = (String) session.getAttribute("id");
 	
 	GogakVO vo = new GogakVO();
 	Gogak_CommentVO vo2 = new Gogak_CommentVO();
@@ -27,10 +28,7 @@
 <head>
 <meta charset="UTF-8">
 <title>오늘의집 - 고객센터</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<%@ include file="/WEB-INF/common/style.jspf"%>
   
 
 <style>
@@ -40,20 +38,24 @@
 	list-style: none;
 }
   .community {
-  	color: deepskyblue;
+	color: #35C5F0;
+	font-weight: bold;
   }
   .store {
   	color: black;
   }
   
+  .home, .picture, .knowhow, .qna {
+  	color: black;  
+  }
+  
   #layout1 {
   	width: 100%;
-  	height: 400px;
+  	margin-bottom: 450px;
   }
   
   #layout1 .container1 {
   	width: 1280px;
-  	height: 400px;
   	margin: auto;
   }
   
@@ -249,11 +251,15 @@
 </script>
 </head>
 <body>
-<%@ include file="WEB-INF/common/guestMenu.jspf" %>
-<%@ include file="WEB-INF/common/storeMenu.jspf" %>
-
 	<div id="layout1">
 		<div class="container1">
+		<c:if test="${empty id }">
+		<%@ include file="/WEB-INF/common/guestMenu.jspf" %>
+	</c:if>
+	<c:if test="${not empty id }">
+		<%@ include file="/WEB-INF/common/memberMenu.jspf" %>
+	</c:if>
+	<%@ include file="/WEB-INF/common/communityMenu.jspf" %>
 			<div class="box1">
 				<span>무엇을 도와드릴까요?</span>
 				<ul>
@@ -272,7 +278,7 @@
 				</ul>
 				<span class="span2"><i>1670-0876</i></span>
 				<div class="button">
-					<span><a href="inquiry.jsp">이메일 문의하기</a></span>
+					<span><a href="inquiry.do">이메일 문의하기</a></span>
 					<span><input class="but1" type="button" value="이메일 주소 복사하기""></span>
 				</div>
 			</div>
@@ -304,16 +310,11 @@
 						</div>
 					</c:forEach>
 				</ul>
-			</div>			
+			</div>	
 		</div>
 	</div>
 	
+	<div style="width: 1280px; margin: auto;" ><%@ include file="WEB-INF/common/footer.jspf" %></div>
 
-
-
-
-
-
-<%@ include file="WEB-INF/common/footer.jspf" %>
 </body>
 </html>

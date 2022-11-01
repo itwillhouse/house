@@ -6,7 +6,8 @@
     pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String path = "c:/MyStudy/temp";
+
+	String path = "C:/Users/itwill/Downloads/house/WebContent/requestImage";
 	
 	MultipartRequest mr = new MultipartRequest(
 	request, path, (10 * 1024 * 1024),
