@@ -1,10 +1,17 @@
 package com.mystudy.house.model.vo;
 
 public class RequestVO {
-	private String requestIdx, id, subject, regdate, views, comments, likes, fileName, oriName, ip, rNum, thumbNail, likeCnt, myid;
+	private String requestIdx, id, subject, regdate, views, comments, likes;
+	private String fileName, oriName, ip, rNum, thumbNail, likeCnt, myid, profileImg;
 	
-	
-	
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
+
 	public String getMyid() {
 		return myid;
 	}

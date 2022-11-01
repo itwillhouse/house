@@ -184,63 +184,101 @@
 					
 	}
 	
+	
 	// 대표 이미지 / 상세정보 이미지
 	function fileCheck(input) {
-
+	
 		var fileList = input.files;
 		var fileObj = fileList[0];
 		
 		var fileName = fileObj.name;
 		var fileSize = fileObj.size;
 		
-		if (input.id == 'productImg'){
-			
-			// 대표 이미지 최대 용량 10MB
-			var maxSize = 10 * 1024 * 1024;
-			
-			// 파일 이름 표시 처리
-			var pr = 'preview0';
-			$("#productImg").siblings(".custom-file-label").addClass("selected").html(fileName);
-		} else if (input.id == 'productInfoImg'){
-			
-			// 상세 이미지 최대 용량 10MB
-			var maxSize = 10 * 1024 * 1024; 
-			
-			// 파일 이름 표시 처리
-			var pr = 'preview1';
-			$("#productInfoImg").siblings(".custom-file-label").addClass("selected").html(fileName);
-		}
+		var pathPoint = input.value.lastIndexOf('.');
+		var filePoint = input.value.substring(pathPoint+1,input.length);
+		var fileType = filePoint.toLowerCase();
 		
-		// 파일 용량 제한
+		var checkFileType = new Array();
+		checkFileType = ['jpg', 'gif', 'png', 'jpeg'];
 		
-		if(fileSize >= maxSize) {
-			sizeError();
-			return false;
-		}
 		
-		// 파일 preview
-		if (fileList && fileObj) {
-			var reader = new FileReader();
-			reader.readAsDataURL(fileObj);
-			reader.onload = function(e) {
-				document.getElementById(pr).src = e.target.result;
-			};
+		// 파일 확장자 제한
+		if (checkFileType.indexOf(fileType) == -1){
+			if (input.id == 'productImg'){
+				Swal.fire({
+					  icon: 'error',
+					  title: '파일 확장자 오류',
+					  text: '대표 이미지 확장자가 jpeg, jpg, png, gif가 맞는지 확인 후 다시 업로드해주세요.',
+				});
+				document.getElementById("productImg").select();
+				document.section.clear;
+				return false;
+			}
+			if (input.id == 'productInfoImg'){
+				Swal.fire({
+					  icon: 'error',
+					  title: '파일 확장자 오류',
+					  text: '상세 이미지 확장자가 jpeg, jpg, png, gif가 맞는지 확인 후 다시 업로드해주세요.',
+				});
+				document.getElementById("productInfoImg").select();
+				document.section.clear;
+				return false;
+			}
+			
 		} else {
-			document.getElementById(pr).src = "";
-			return false;
+			
+			if (input.id == 'productImg'){
+				
+				// 대표 이미지 최대 용량 10MB
+				var maxSize = 10 * 1024 * 1024;
+				
+				// 파일 이름 표시 처리
+				var pr = 'preview0';
+				$("#productImg").siblings(".custom-file-label").addClass("selected").html(fileName);
+			} else if (input.id == 'productInfoImg'){
+				
+				// 상세 이미지 최대 용량 10MB
+				var maxSize = 10 * 1024 * 1024; 
+				
+				// 파일 이름 표시 처리
+				var pr = 'preview1';
+				$("#productInfoImg").siblings(".custom-file-label").addClass("selected").html(fileName);
+			}
+
+			// 파일 용량 제한
+			if(fileSize >= maxSize) {
+				if (pr == 'preview0'){
+					Swal.fire({
+						  icon: 'error',
+						  title: '파일 용량 초과',
+						  text: '대표 이미지 용량이 10MB 미만인지 확인 후 다시 업로드해주세요.',
+						})
+					return false;
+				}
+				if (pr == 'preview1'){
+					Swal.fire({
+						  icon: 'error',
+						  title: '파일 용량 초과',
+						  text: '상세 이미지 용량이 10MB 미만인지 확인 후 다시 업로드해주세요.',
+					});
+					return false;
+				}
+			} else {
+				// 파일 preview
+				if (fileList && fileObj) {
+					var reader = new FileReader();
+					reader.readAsDataURL(fileObj);
+					reader.onload = function(e) {
+						document.getElementById(pr).src = e.target.result;
+					};
+				} else {
+					document.getElementById(pr).src = "";
+					return false;
+				}
+			}
 		}
-		
-		
-		
 	}
 	
-	function sizeError(){
-		Swal.fire({
-			  icon: 'error',
-			  title: '파일 용량 초과',
-			  text: '확인 후 다시 업로드해주세요.',
-			})
-	}
 	
 	function sendData(tfm) {
 		
@@ -274,11 +312,91 @@
 		if (productPriceVal > 9999999 || productPriceVal < 0){
 			Swal.fire('가격은 0원부터 9999999까지 등록 가능합니다.');
 			return;
-		}else if (stockVal > 9999999 || productPriceVal < 0){
+		}
+		if (stockVal > 9999999 || stockVal < 0){
 			Swal.fire('재고는 0개부터 9999999개까지 등록 가능합니다.');
 			return;
 		}
+		console.log(stockVal);
 
+		var pathPoint1 = $("#productImg")[0].value.lastIndexOf('.');
+		var pathPoint2 = $("#productInfoImg")[0].value.lastIndexOf('.');
+		var filePoint1 = $("#productImg")[0].value.substring(pathPoint1+1,$("#productImg")[0].length);
+		var filePoint2 = $("#productInfoImg")[0].value.substring(pathPoint2+1,$("#productInfoImg")[0].length);
+		var fileType1 = filePoint1.toLowerCase();
+		var fileType2 = filePoint2.toLowerCase();
+		
+		var checkFileType = new Array();
+		checkFileType = ['jpg', 'gif', 'png', 'jpeg'];
+		
+		
+		// 파일 확장자 제한
+		if (checkFileType.indexOf(fileType1) == -1){
+			if ($("#productImg")[0].id == 'productImg'){
+				Swal.fire({
+					  icon: 'error',
+					  title: '파일 확장자 오류',
+					  text: '대표 이미지 확장자가 jpeg, jpg, png, gif가 맞는지 확인 후 다시 업로드해주세요.',
+				});
+				document.getElementById("productImg").select();
+				document.section.clear;
+				return false;
+			}
+		} else if (checkFileType.indexOf(fileType1) == -1){
+			if ($("#productInfoImg")[0].id == 'productInfoImg'){
+				Swal.fire({
+					  icon: 'error',
+					  title: '파일 확장자 오류',
+					  text: '상세 이미지 확장자가 jpeg, jpg, png, gif가 맞는지 확인 후 다시 업로드해주세요.',
+				});
+				document.getElementById("productInfoImg").select();
+				document.section.clear;
+				return false;
+			}	
+		} else {
+			
+			if ($("#productImg")[0].id == 'productImg'){
+				
+				// 대표 이미지 최대 용량 10MB
+				var maxSize = 10 * 1024 * 1024;
+				
+				// 파일 이름 표시 처리
+				var pr = 'preview0';
+				
+			} else if ($("#productInfoImg")[0].id == 'productInfoImg'){
+				
+				// 상세 이미지 최대 용량 10MB
+				var maxSize = 10 * 1024 * 1024; 
+				
+				// 파일 이름 표시 처리
+				var pr = 'preview1';
+			}
+			var fileList1 = $("#productImg")[0].files;
+			var fileList2 = $("#productInfoImg")[0].files;
+			var fileObj1 = fileList1[0];
+			var fileObj2 = fileList2[0];
+			
+			var fileSize1 = fileObj1.size;
+			var fileSize2 = fileObj2.size;
+			// 파일 용량 제한
+			if(fileSize1 >= maxSize) {
+					Swal.fire({
+						  icon: 'error',
+						  title: '파일 용량 초과',
+						  text: '대표 이미지 용량이 10MB 미만인지 확인 후 다시 업로드해주세요.',
+						})
+					return false;
+				
+			} else if(fileSize2 >= maxSize) {
+				Swal.fire({
+					  icon: 'error',
+					  title: '파일 용량 초과',
+					  text: '상세 이미지 용량이 10MB 미만인지 확인 후 다시 업로드해주세요.',
+				});
+				return false;
+			}
+		}
+		
 		// 파일 서버 전송
 		
 	    var productInputList = {
@@ -346,7 +464,7 @@
 	    });
 	    
 	}
-	
+
 	
 </script>
 </body>

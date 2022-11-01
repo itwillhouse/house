@@ -294,7 +294,7 @@ public class FrontControllerCommand extends HttpServlet {
 		}
 
 		String path = command.exec(request, response);
-		if (path == null || path.startsWith("/WEB-INF") ) { 
+		if (path == null || path.endsWith(".jsp") ) { 
 		try {
 			request.getRequestDispatcher(path).forward(request, response);
 		} catch (Exception e) {
@@ -302,7 +302,6 @@ public class FrontControllerCommand extends HttpServlet {
 		} else {
 			PrintWriter out = response.getWriter();
 			out.print(path);
-			// request.getRequestDispatcher(path).forward(request, response);
 		}
 	}
 

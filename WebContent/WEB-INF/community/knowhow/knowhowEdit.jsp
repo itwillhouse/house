@@ -87,8 +87,8 @@ function sendFile(file, editor) {
   <form action="goKnowhowEdit.do" method="post" >
     <div class="form-group form-inline mt-3">
     <label for="cat">카테고리(필수):&nbsp;&nbsp;&nbsp;</label>
-      <select class="form-control" name="category" id="cat">
-        <option selected disabled>선택해주세요</option>
+      <select class="form-control" name="category" id="cat" required>
+        <option value="" selected disabled>선택해주세요</option>
         <c:forEach items="${menu }" var="m" varStatus="status">
         <c:if test="${vo.category == status.index }">
         	<option value=${vo.category } selected>${m }</option>

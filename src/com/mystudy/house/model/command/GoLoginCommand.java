@@ -30,7 +30,7 @@ public class GoLoginCommand implements Command {
 			if("3".equals(user.getGradeNum())) {
 				session.setAttribute("id", user.getId());
 				session.setAttribute("gradeNum", user.getGradeNum());
-				// session.setAttribute("profileImg", user.getProfileImg());
+				session.setAttribute("profileImg", user.getProfileImg());
 				
 				out.println("<html><form name='frm' action='partnercenter.do' method='post'>");
 				out.println("</form></html>");

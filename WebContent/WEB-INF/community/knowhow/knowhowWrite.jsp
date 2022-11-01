@@ -87,8 +87,8 @@ function sendFile(file, editor) {
   <form action="goKnowhowWrite.do" method="post" >
     <div class="form-group form-inline mt-3">
     <label for="category">카테고리(필수):&nbsp;&nbsp;&nbsp;</label>
-      <select class="form-control" name="category" id="category">
-        <option selected disabled>선택해주세요</option>
+      <select class="form-control" name="category" id="category" required>
+        <option value="" selected disabled>선택해주세요</option>
         <option value="0">시공정보</option>
         <option value="1">수납</option>
         <option value="2">꾸미기팁</option>

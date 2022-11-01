@@ -26,8 +26,8 @@
         	</div>
             <form class="pb-3" action="goLogin.do" method="post">
 				<div class="form-group pb-2">
-					<input type="text" class="form-control w-25 m-auto" id="id" placeholder="아이디" name="id">
-      				<input type="password" class="form-control w-25 m-auto" id="pw" placeholder="비밀번호" name="pw">
+					<input type="text" class="form-control w-25 m-auto" id="id" placeholder="아이디" name="id" required>
+      				<input type="password" class="form-control w-25 m-auto" id="pw" placeholder="비밀번호" name="pw" required>
     			</div>
     			<div class="text-center">
     				<button type="submit" class="btn w-25" id="btn">로그인</button>
